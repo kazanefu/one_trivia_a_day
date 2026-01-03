@@ -1,0 +1,16 @@
+# Summary
+
+- [目次](./chapter_1.md)
+- [豆知識集](./access.md)
+  - [for文の意味](./for_1.md)
+  - [セミコロンの意味](./semicolon_2.md)
+  - [Pythonの整数](./int_in_python_3.md)
+  - [言語ごとに命名規則は違う](./name_4.md)
+  - [Pythonでの代入](./variable_in_python_5.md)
+  - [代入続き](./asign_6.md)
+  - [WapLについて](./about_WapL_7.md)
+  - [JavaScriptについて](./about_JS_8.md)
+  - [ポインタと値渡し/参照渡し](./val_ref_9.md)
+  - [ヒープ領域/スタック領域](./heap_stuck_10.md)
+  - [コンパイラとインタプリタ](./language_11.md)
+  - [構造体とクラス](./struct_class_12.md)

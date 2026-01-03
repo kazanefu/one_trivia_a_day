@@ -1,0 +1,732 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>ヒープ領域/スタック領域 - 豆知識集</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/wapl-7ab61934.css">
+        <link rel="stylesheet" href="theme/wapl-rainbow-f888ae4b.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-b252c116.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-97696a45.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">豆知識集</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="今日の豆知識10"><a class="header" href="#今日の豆知識10">今日の豆知識.10</a></h1>
+<p>今日はメモリのヒープ領域とスタック領域についてです。</p>
+<p>まず昨日説明しようと思っていて忘れた配列とポインタについて説明します。&lt;-これあったほうがヒープ領域とスタック領域の利用例がわかりやすい</p>
+<p>C言語で,以下の<code>a</code>という配列と<code>p</code>というポインタのしていることは全く同じです。</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+
+int main(){
+    int a[5] = {1,2,3,4,5};
+    int* p = a; // 配列は(ここはa)は先頭のポインタなのでint* pに代入できる
+
+    printf("a3: %d\n", a[3]); // a3: 4
+    printf("p3: %d\n", p[3]); // p3: 4
+
+    printf("a1: %d\n", *(a + 1)); // a1: 2
+    printf("p1: %d\n", *(p + 1)); // p1: 2
+
+    void* none_type_ptr = (void*)p; // pはint*だが,void*という型無ポインタにキャスト
+    
+    // intは32bit整数なので 32bit = 4byte = sizeof(int) より以下のようになる
+    printf("p2 = none_type_ptr(2 * 4): %d\n", *(int*)(none_type_ptr + 2 * 4)); // p2 = none_type_ptr(2 * 4): 3
+
+    return 0;
+}
+</code></pre>
+<p>このように実は配列って連続したメモリ領域上に値を置いて,その先頭のポインタなんです。
+そして,<code>a[n]</code>は<code>*(a + n)</code>や<code>*(int*)((void*)a + n * sizeof(int))</code>と等価であることがわかると思います。</p>
+<blockquote>
+<p>正確にはClangでコンパイルした時,<code>a</code>の中間言語での型は<code>[5 x i32]</code>であるのに対して<code>p</code>の型は<code>ptr</code>だが<code>a</code>が読み取られるときは毎回先頭のポインタである<code>ptr</code>型に変換されている。
+ちなみに,Rustなどでは<code>let a = [1,2,3,4,5];</code>のようにしたとき中間言語での型は<code>[5 x i32]</code>のまま(正確には最適化とかのために<code>[ 20 x i8</code>)扱われていた配列とポインタは明確に異なる。(ただし,Vec&lt;T&gt;などの可変長配列は内部でポインタを使っている)
+さらにちなむと, WapLではRust的なポインタとは異なる配列とポインタによる配列の両方が存在する。</p>
+</blockquote>
+<p>では今回の本題のヒープ領域とスタック領域についてです。
+メモリは以下のような領域に分けられています。</p>
+<hr>
+<p>テキスト領域</p>
+<hr>
+<p>静的領域</p>
+<hr>
+<p>ヒープ領域<br>
+↓</p>
+<hr>
+<p>↑<br>
+スタック領域</p>
+<hr>
+<p>今日はヒープ領域とスタック領域のみについて説明します。</p>
+<p>ヒープ領域とスタック領域はそれぞれ境界に向かってデータが記憶されていき, その境界以上にデータを記憶しようとするとオーバーフローになります。そのため使わなくなったデータのあるところは解放して,再び他のデータを入れられるようにしていく必要があります。</p>
+<p>ヒープ領域ではメモリの確保と解放をC言語ではプログラマが直接記述します</p>
+<blockquote>
+<p>(他の言語ではコンパイラがそのデータを使っているかを検出するアルゴリズムを使って自動で解放していたり,Rustみたいに所有権の仕組みで所有者がスコープから外れるタイミングで自動で解放しているが、これらも中間言語の段階だったりではメモリの確保と解放が記述されている)</p>
+</blockquote>
+<p>一方, スタック領域は関数に入ったときにメモリが確保されて,関数から抜けるときに自動で解放されます。</p>
+<h2 id="スタック領域について"><a class="header" href="#スタック領域について">スタック領域について</a></h2>
+<p>まず,一般にスタックというデータ構造について説明すると<br>
+|-|-|-|-|-|-|<br>
+のような6個のものを入れることのできる構造があったとしてここに新たに<code>5</code>をいれると<br>
+|5|-|-|-|-|-|<br>
+のようになり,次に<code>3</code>を入れると<br>
+|5|3|-|-|-|-|<br>
+続けて<code>7</code>,<code>6</code>,<code>0</code>を入れると<br>
+|5|3|7|6|0|-|<br>
+のようにデータが積み重ねられていきます(スタック構造ではこの新たにデータを入れる操作をpushと呼ぶ)<br></p>
+<p>そこから取り出す(スタック構造ではデータを取り出す操作をpopと呼ぶ)と<br>
+|5|3|7|6|-|-| =&gt; 0<br>
+|5|3|7|-|-|-| =&gt; 6<br>
+|5|3|-|-|-|-| =&gt; 7<br>
+のようにpopするとあとからpushしたものから取り出されていきます。<br>
+ここからさらに<code>1</code>をpushすると<br>
+|5|3|1|-|-|-|<br>
+のようになります。<br></p>
+<p>メモリのスタック領域ではメモリがスタック構造になっていてメモリの確保がpush、メモリの解放がpopに相当します。
+そして関数に入ったときにスタック領域にデータが保存される変数が作られるたびに<strong>push</strong>つまり<strong>メモリ確保</strong>されて,関数が終わるときにその関数のときにpushされた分をすべて<strong>pop</strong>つまり<strong>メモリ解放</strong>します。
+例えば以下のようなRustのコードを考えてみましょう</p>
+<pre class="playground"><code class="language-rust">fn func_c(y_from_a: i32){
+    let beta = 53;
+    println!("{}",y_from_a + beta);
+}
+
+fn func_b(x_from_main: i32, y_from_a: i32) {
+    let z = 99;
+    let alpha = 12;
+    println!("{}", x_from_main + y_from_a + z + alpha);
+}
+
+fn func_a(x_from_main: i32) {
+    let y = 10;
+    func_b(x_from_main, y);
+    func_c(y);
+}
+
+fn main() {
+    let x = 42;
+    func_a(x);
+    // プロセス終了
+}</code></pre>
+<p>|-|-|-|-|-|-|をスタック領域に見立てたとき<br>
+<code>let x = 42;</code>でまず<code>42</code>がpushされます<br>
+|42|-|-|-|-|-|<br>
+次に<code>func_a</code>が呼ばれてその中で<code>let y = 10;</code>で<code>10</code>がpushされます<br>
+|42|10|-|-|-|-|<br>
+次に<code>func_b</code>が呼ばれてその中で <code>let z = 99; let alpha = 12;</code>により<code>99</code>と<code>12</code>がpushされます<br>
+|42|10|99|12|-|-|<br>
+<code>println!("{}", x_from_main + y_from_a + z + alpha);</code>で和を表示した後何もしていないのでここで<code>func_b</code>は終了です。<br>
+すると<code>func_b</code>で確保された分がpopされて<br>
+|42|10|-|-|-|-|<br>
+となります。<br>
+次に<code>func_a</code>で<code>func_c</code>が呼ばれて,その中で<code>let beta = 53;</code>で<code>53</code>がpushされます<br>
+|42|10|53|-|-|-|<br>
+また<code>func_c</code>が終わった後にその中で確保されていた<code>53</code>がpopされます<br>
+|42|10|-|-|-|-|<br>
+これで<code>func_a</code>も終わったので<code>10</code>もpopされます<br>
+|42|-|-|-|-|-|<br>
+また,これで<code>main</code>も終わったので<code>42</code>もpopされます<br>
+|-|-|-|-|-|-|<br></p>
+<p>スタック領域の状態をまとめると<br>
+|-|-|-|-|-|-|<br>
+|42|-|-|-|-|-|<br>
+|42|10|-|-|-|-|<br>
+|42|10|99|12|-|-|<br>
+|42|10|-|-|-|-|<br>
+|42|10|53|-|-|-|<br>
+|42|10|-|-|-|-|<br>
+|42|-|-|-|-|-|<br>
+|-|-|-|-|-|-|<br>
+のようになります。<br>
+|-|-|-|-|-|-|を例えにすると6個より多くのデータがpushされた時にヒープ領域との間の境界を越えてしまい<strong>スタックオーバーフロー</strong>となります。<br>
+そのため回数の多いループ処理を再帰関数(関数内で自身を呼ぶ関数)で実装すると<strong>スタックオーバーフロー</strong>になります。<br></p>
+<h2 id="ヒープ領域について"><a class="header" href="#ヒープ領域について">ヒープ領域について</a></h2>
+<p>スタック領域についての説明では<code>func_b</code>の中で確保されている<code>z</code>や<code>alpha</code>は<code>func_c</code>が呼ばれるときにはすでに解放されてしまっているので<code>func_c</code>の中では使うことができません。これらを<code>func_a</code>の中で宣言したり,<code>func_b</code>で戻り値として渡すことで<code>func_a</code>の中でも確保するようにすれば解決できますが,前者の解決方法では<code>func_a</code>の中では使わない変数が増えて可読性が下がったり関数の意味が明確に表現されていない状態になってしまいますし,後者の解決方法ではデータのアドレスは<code>func_a</code>のなかで再確保していることで変わってしまっているので参照(ポインタ)を使った操作をしたいときに破綻します。</p>
+<p>このような問題を解決できるのがヒープ領域です。
+ヒープ領域では手動でメモリ確保とメモリ解放を行うため,<code>func_b</code>を抜けても<code>z</code>や<code>alpha</code>を解放しないようにすることができます。</p>
+<p>この後ヒープの説明はメモリ確保/解放を明示的にプログラマが書くC言語を使って説明するので先ほどのスタック領域の説明で使ったRustのコードをCに翻訳したものを一応貼っておきます。</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void func_c(int y_from_a) {
+    int beta = 53;
+    printf("%d\n", y_from_a + beta);
+}
+
+void func_b(int x_from_main, int y_from_a) {
+    int z = 99;
+    int alpha = 12;
+    printf("%d\n", x_from_main + y_from_a + z + alpha);
+}
+
+void func_a(int x_from_main) {
+    int y = 10;
+    func_b(x_from_main, y);
+    func_c(y);
+}
+
+int main(void) {
+    int x = 42;
+    func_a(x);
+    return 0; // プロセス終了
+}
+</code></pre>
+<p>では<code>func_b</code>でヒープ領域にメモリを確保してそれを<code>func_c</code>で使うようにした例を見てみましょう</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void func_c(int* shared_value) {
+    int beta = 53;
+    printf("%d\n", *shared_value + beta);
+}
+
+int* func_b(int x_from_main, int y_from_a) {
+    int z = 99;
+    int alpha = 12;
+
+    // ヒープに確保
+    int* heap_value = (int*)malloc(sizeof(int)); // mallocは引数に確保する領域のサイズを渡して戻り値としてvoid*型(型なしのポインタ)で確保した領域の先頭のポインタを返す
+
+    *heap_value = x_from_main + y_from_a + z + alpha; // ヒープ領域に確保したところに値を記憶する
+    return heap_value; // ポインタを返す
+}
+
+void func_a(int x_from_main) {
+    int y = 10;
+
+    int* value_from_b = func_b(x_from_main, y);
+
+    func_c(value_from_b);
+
+    // ヒープ解放
+    free(value_from_b); // freeはmallocでヒープ領域に確保したものをその先頭のポインタを渡すことで解放する。
+}
+
+int main(void) {
+    int x = 42;
+    func_a(x);
+    return 0;
+}
+</code></pre>
+<p>このようにすることで<code>func_b</code>で作った値をアドレスを移動させることなく<code>func_c</code>でも使うことができている。</p>
+<p>さらに,ヒープ領域はスタック領域に比べて容量も大きいです。</p>
+<p>この説明だけだと“すべてヒープ領域を使ってしまった方が自由な操作ができていいじゃないか“。と思うかもしれませんが,ヒープ領域にも欠点があります。</p>
+<p><strong>ヒープ領域の欠点</strong></p>
+<ul>
+<li>スタック領域を使ったコードと比較して実行速度が遅い。</li>
+<li>ヒープ上に確保した領域のポインタはスタック領域に保持されるのでそのポインタがpopされる前に<code>free</code>で解放するのを忘れるとその領域を一生解放できなくなり(これを<strong>メモリリーク</strong>という)使わないデータが蓄積していってしまい,長い時間動かしているとオーバーフローしてしまう。</li>
+<li>たとえちゃんと解放できていたとしてもメモリが断片化することでオーバフローしてしまうことがある。</li>
+<li>解放済みの領域のポインタなど無効な領域を解放しようとして壊れることがある(<strong>ダングリング</strong>という)</li>
+</ul>
+<p>メモリの断片化を説明すると<br>
+|-|-|-|-|-|-|をヒープ領域に見立てたときに<br>
+42を入れる<br>
+|42|-|-|-|-|-|<br>
+[ 53, 22]という配列を入れる<br>
+|42|53|22|-|-|-|<br>
+13を入れる<br>
+|42|53|22|13|-|-|<br>
+[ 53, 22]のために確保した分を解放する<br>
+|42|-|-|13|-|-|<br>
+ここで,[ 99, 81, 44]のようなサイズが3の配列のためのメモリを確保しようとしても3つ連続した領域は存在しないので空いている場所は3つ以上存在しているにも関わらず<strong>確保に失敗</strong>します。<br>
+スタック領域ではこのようなことは起こりません。<br></p>
+<p>ちなみに<strong>メモリリーク</strong>や<strong>ダングリング</strong>はC以外の言語ではガベージコレクション(以降GC)やRustの所有権/借用/ライフタイムやC++のRAIIなどによって<code>free</code>をプログラマが直接書かないで自動で解放されるようにすることで防いでいます。</p>
+<p>ちなみにGCにもデメリットがあって, GCはそのメモリ領域の参照が使われているかを動的に(実行時に)判断しているため,実行速度がGCなしの言語と比べて遅い傾向にあります。</p>
+<p>Rustの所有権/借用/ライフタイムが画期的と言われる理由はメモリの解放処理はコンパイル時に静的に挿入されるので実行速度を落とさずに安全を実現できるという点ですが,これも欠点としてコンパイルにかかる時間が長くなったり,新しい仕組みなので他の言語を使ってた人は慣れるまでに時間がかかることなどが挙げられます。</p>
+<p>C++のRAIIいつ破棄(解放)されるかを保証するだけで完全に安全と言えるものではありません</p>
+<p>先ほどヒープ領域の説明で使ったCのコードを他の言語で書くとどうなるかも一応書いておきます</p>
+<p><strong>C#</strong>(GCによって管理)</p>
+<pre><code class="language-cs">using System;
+
+class HeapInt
+{
+    public int Value;
+}
+
+class Program
+{
+    static void FuncC(HeapInt sharedValue)
+    {
+        int beta = 53;
+        Console.WriteLine(sharedValue.Value + beta);
+    }
+
+    static HeapInt FuncB(int xFromMain, int yFromA)
+    {
+        int z = 99;
+        int alpha = 12;
+
+        // ヒープに確保（GC管理）
+        return new HeapInt
+        {
+            Value = xFromMain + yFromA + z + alpha
+        };
+    }
+
+    static void FuncA(int xFromMain)
+    {
+        int y = 10;
+
+        HeapInt valueFromB = FuncB(xFromMain, y);
+
+        FuncC(valueFromB);
+
+        // free は書かない
+        // GCが必要になったら回収する
+    }
+
+    static void Main()
+    {
+        int x = 42;
+        FuncA(x);
+    }
+}
+
+</code></pre>
+<p>C#では<strong>new</strong>によってクラスのインスタンスを生成した時にヒープ上に確保されます。(クラスやインスタンスについてはオブジェクト指向のときに解説すると思う)</p>
+<p><strong>Go</strong>(GCによって管理)</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type HeapInt struct {
+    Value int
+}
+
+func funcC(sharedValue *HeapInt) {
+    beta := 53
+    fmt.Println(sharedValue.Value + beta)
+}
+
+func funcB(xFromMain int, yFromA int) *HeapInt {
+    z := 99
+    alpha := 12
+
+    // ヒープに逃がす（エスケープ）
+    return &amp;HeapInt{
+        Value: xFromMain + yFromA + z + alpha,
+    }
+}
+
+func funcA(xFromMain int) {
+    y := 10
+
+    valueFromB := funcB(xFromMain, y)
+
+    funcC(valueFromB)
+
+    // free は書かない（GC 管理）
+}
+
+func main() {
+    x := 42
+    funcA(x)
+}
+</code></pre>
+<p>Goでは構文によってヒープ上に確保するかスタックに確保するかは決まらず,コンパイラが エスケープ解析で決定しています。</p>
+<p><strong>Rust</strong>(所有権/借用によって静的にチェック)</p>
+<pre class="playground"><code class="language-rust">fn func_c(shared_value: &amp;i32) {
+    let beta = 53;
+    println!("{}", *shared_value + beta);
+}
+
+fn func_b(x_from_main: i32, y_from_a: i32) -&gt; Box&lt;i32&gt; {
+    let z = 99;
+    let alpha = 12;
+
+    // ヒープに確保
+    let heap_value = Box::new(x_from_main + y_from_a + z + alpha);
+    heap_value
+}
+
+fn func_a(x_from_main: i32) {
+    let y = 10;
+
+    let value_from_b = func_b(x_from_main, y);
+
+    func_c(&amp;value_from_b); // BoxはスマートポインタでDerefトレイトがついているため&amp;Box&lt;i32&gt;は&amp;i32
+
+    // freeは書かない（スコープ終了時に自動解放）
+}
+
+fn main() {
+    let x = 42;
+    func_a(x);
+}</code></pre>
+<p>このコードのRustでは<code>func_b</code>での<code>heap_value</code>は<code>func_a</code>の<code>value_from_b</code>に所有権を譲渡して,その後<code>func_c</code>の引数に借用を渡して,<code>func_a</code>が終わるときに所有者である<code>value_from_b</code>がいるので自動で解放処理が挿入される。</p>
+<p>ちなみにRustではCみたいに書くこともできはします。</p>
+<pre class="playground"><code class="language-rust">use std::alloc::{alloc, dealloc, Layout};
+
+unsafe fn func_c(shared_value: *mut i32) {
+    let beta = 53;
+    println!("{}", *shared_value + beta);
+}
+
+unsafe fn func_b(x_from_main: i32, y_from_a: i32) -&gt; *mut i32 {
+    let z = 99;
+    let alpha = 12;
+
+    let layout = Layout::new::&lt;i32&gt;();
+    let ptr = alloc(layout) as *mut i32; // Cのmallocに相当
+
+    *ptr = x_from_main + y_from_a + z + alpha;
+    ptr
+}
+
+unsafe fn func_a(x_from_main: i32) {
+    let y = 10;
+
+    let value_from_b = func_b(x_from_main, y);
+    if value_from_b.is_null() {
+        return;
+    }
+
+    func_c(value_from_b);
+
+    let layout = Layout::new::&lt;i32&gt;();
+    dealloc(value_from_b as *mut u8, layout); // Cのfreeに相当
+}
+
+fn main() {
+    unsafe {
+        let x = 42;
+        func_a(x);
+    }
+}</code></pre>
+<p>さらにRcやArcのような参照カウンタ方式での解放ができたりもする(ここでは長くなるので解説しない)</p>
+<p><strong>C++</strong>(RAII)</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;memory&gt;
+
+void func_c(const int* shared_value) {
+    int beta = 53;
+    std::cout &lt;&lt; (*shared_value + beta) &lt;&lt; std::endl;
+}
+
+std::unique_ptr&lt;int&gt; func_b(int x_from_main, int y_from_a) {
+    int z = 99;
+    int alpha = 12;
+
+    // ヒープ確保（RAII）
+    return std::make_unique&lt;int&gt;(x_from_main + y_from_a + z + alpha);
+}
+
+void func_a(int x_from_main) {
+    int y = 10;
+
+    std::unique_ptr&lt;int&gt; value_from_b = func_b(x_from_main, y);
+
+    func_c(value_from_b.get());
+
+    // スコープ終了時に自動で delete (解放)
+}
+
+int main() {
+    int x = 42;
+    func_a(x);
+}
+</code></pre>
+<p>RustがBoxというスマートポインタを使ったようにunique_ptrというスマートポインタを使っている</p>
+<p><strong>ヒープ領域に値が保持されている型</strong>
+RustのVec&lt;T&gt;/StringやC++のvector&lt;T&gt;/stringでは
+内部構造が</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Vec&lt;T&gt; {
+    ptr: *mut T,
+    len: usize,
+    cap: usize,
+}
+<span class="boring">}</span></code></pre>
+<p>のようになっていて
+<code>ptr</code>がCのポインタによる配列であり,配列の値はヒープ上に確保されておりこのポインタはその配列の先頭のポインタである。
+<code>len</code>は要素の数
+<code>cap</code>は確保済みのメモリ領域のサイズ(byte)を要素の型のサイズで割ったもの
+が入っていて<code>String</code>は<code>Vec&lt;char&gt;</code>と同等です。
+C言語で<code>Vec&lt;i32&gt;</code>を再現しようとすると</p>
+<pre><code class="language-c">#include&lt;stdlib.h&gt;
+
+typedef struct c_vec{
+    int* ptr;
+    long len;
+    long cap;
+}c_vec;
+
+c_vec c_vec_new(long cap) {
+    c_vec v;
+    v.len = 0;
+    v.cap = cap;
+
+    if (cap &gt; 0) {
+        v.ptr = (int*)malloc(sizeof(int) * cap); // メモリをヒープ上に確保
+        if (!v.ptr) {
+            perror("malloc failed");
+            exit(1);
+        }
+    } else {
+        v.ptr = NULL;
+    }
+
+    return v;
+}
+
+void c_vec_grow(c_vec* v) {
+    long new_cap = (v-&gt;cap == 0) ? 1 : v-&gt;cap * 2;
+
+    int* new_ptr = (int*)realloc(v-&gt;ptr, sizeof(int) * new_cap);
+    if (!new_ptr) {
+        perror("realloc failed");
+        exit(1);
+    }
+
+    v-&gt;ptr = new_ptr;
+    v-&gt;cap = new_cap;
+}
+
+void c_vec_push(c_vec* v, int value) {
+    if (v-&gt;len == v-&gt;cap) {
+        c_vec_grow(v);
+    }
+
+    v-&gt;ptr[v-&gt;len] = value;
+    v-&gt;len++;
+}
+
+int c_vec_get(c_vec* v, long index) {
+    if (index &lt; 0 || index &gt;= v-&gt;len) {
+        fprintf(stderr, "index out of bounds\n");
+        exit(1);
+    }
+    return v-&gt;ptr[index];
+}
+
+void c_vec_free(c_vec* v) {
+    free(v-&gt;ptr);
+    v-&gt;ptr = NULL;
+    v-&gt;len = 0;
+    v-&gt;cap = 0;
+}
+</code></pre>
+<p>のようにして再現することができます。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="val_ref_9.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="language_11.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="val_ref_9.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="language_11.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/highlight-837a6fa5.min.js"></script>
+        <script src="theme/wapl-a169e50d.js"></script>
+        <script src="theme/wapl-rainbow-f254588b.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

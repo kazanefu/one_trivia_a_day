@@ -1,0 +1,2185 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>豆知識集</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/wapl-7ab61934.css">
+        <link rel="stylesheet" href="theme/wapl-rainbow-f888ae4b.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-b252c116.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-97696a45.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">豆知識集</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="目次"><a class="header" href="#目次">目次</a></h1>
+<ul>
+<li><a href="#今日の豆知識1">for文の意味</a></li>
+<li><a href="#今日の豆知識2">セミコロンの意味</a></li>
+<li><a href="#今日の豆知識3">Pythonの整数</a></li>
+<li><a href="#今日の豆知識4">言語ごとに命名規則は違う</a></li>
+<li><a href="#今日の豆知識5">Pythonでの代入</a></li>
+<li><a href="#今日の豆知識6">代入続き</a></li>
+<li><a href="#今日の豆知識7">WapLについて</a></li>
+<li><a href="#今日の豆知識8">JavaScriptについて</a></li>
+<li><a href="#今日の豆知識9">ポインタと値渡し/参照渡し</a></li>
+<li><a href="#今日の豆知識10">ヒープ領域/スタック領域</a></li>
+<li><a href="#今日の豆知識11">コンパイラとインタプリタ</a></li>
+<li><a href="#今日の豆知識12">構造体とクラス</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="豆知識集"><a href="#豆知識集" class="header">豆知識集</a></h1>
+<ul>
+<li><a href="#今日の豆知識1">for文の意味</a></li>
+<li><a href="#今日の豆知識2">セミコロンの意味</a></li>
+<li><a href="#今日の豆知識3">Pythonの整数</a></li>
+<li><a href="#今日の豆知識4">言語ごとに命名規則は違う</a></li>
+<li><a href="#今日の豆知識5">Pythonでの代入</a></li>
+<li><a href="#今日の豆知識6">代入続き</a></li>
+<li><a href="#今日の豆知識7">WapLについて</a></li>
+<li><a href="#今日の豆知識8">JavaScriptについて</a></li>
+<li><a href="#今日の豆知識9">ポインタと値渡し/参照渡し</a></li>
+<li><a href="#今日の豆知識10">ヒープ領域/スタック領域</a></li>
+<li><a href="#今日の豆知識11">コンパイラとインタプリタ</a></li>
+<li><a href="#今日の豆知識12">構造体とクラス</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識1"><a class="header" href="#今日の豆知識1">今日の豆知識.1</a></h1>
+<p>CやC#の従来型forと、PythonやRustのforは意味が違う</p>
+<ul>
+<li>Cのforは「どう回すか」を書く</li>
+<li>Rust/Pythonのforは「何を回すか」を書く</li>
+</ul>
+<p>C系の</p>
+<pre><code class="language-c">for(int i = 0; i &lt; n; i++)
+{
+  body(i);
+}
+</code></pre>
+<p>は意味的には以下と同等</p>
+<pre><code class="language-c">int i = 0;
+while(i &lt; n)
+{
+  body(i);
+  i++;
+}
+</code></pre>
+<p>一方、PythonやRustの</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>for i in 0..n {
+  body(i);
+}
+<span class="boring">}</span></code></pre>
+<p>は</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut it = IntoIterator::into_iter(0..n);
+loop {
+    match it.next() {
+        Some(x) =&gt; body(x),
+        None =&gt; break,
+    }
+}
+<span class="boring">}</span></code></pre>
+<p>と同等で、イテレータを順に消費しています。</p>
+<p>ちなみに C++ には</p>
+<pre><code class="language-cpp">for (auto x : v)
+{
+  body(x);
+}
+</code></pre>
+<p>という range-based for があり、これは Python や Rust の for と同じ意味を持ちます。</p>
+<p>また C# には</p>
+<pre><code class="language-cs">foreach (var x in v)
+{
+  body(x);
+}
+</code></pre>
+<p>という書き方があり、これも IEnumerable を使ったイテレータベースの for です。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識2"><a class="header" href="#今日の豆知識2">今日の豆知識.2</a></h1>
+<p>セミコロン<code>;</code>の意味</p>
+<p>言語によるセミコロンの有無は文法の違いというより意味論の違いがあります</p>
+<p>セミコロンがある言語の代表例</p>
+<ul>
+<li>C/C++</li>
+<li>C#</li>
+<li>Java</li>
+<li>JavaScript</li>
+<li>Go（※自動挿入ありだが意味はある）</li>
+<li>Rust &lt;- セミコロンの意味が挙動にそのまま出るのでわかりやすい</li>
+</ul>
+<p>セミコロンがあまり意味を持たないorそもそもない言語の代表例</p>
+<ul>
+<li>Python</li>
+<li>Ruby</li>
+<li>Haskell</li>
+<li>Lua</li>
+</ul>
+<p>セミコロンが意味を持つ言語では</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = 10;
+println!("{}",x);
+<span class="boring">}</span></code></pre>
+<p>や</p>
+<pre><code class="language-c">int x = 10;
+printf("%d\n",x);
+</code></pre>
+<p>のように<code>;</code>は<strong>ここで1つの文（statement）が終わる</strong> という意味的な区切りであり,「文」という概念が言語の中心にある
+また,Rustでは<code>;</code>の意味が特に分かりやすく</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = {
+    1
+};
+<span class="boring">}</span></code></pre>
+<p>と</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = {
+    1;
+};
+<span class="boring">}</span></code></pre>
+<p>では意味が異なり,前者は右辺の値は<code>1</code>であるが,後者では<code>()</code>つまり他の言語での<code>void</code>に相当する
+これは<code>;</code>の有無によって<strong>式</strong>であるか<strong>文</strong>であるかの意味付けをしているからであり,前者は<code>1</code>という<strong>式</strong>であり値を持つのに対して後者は**1;**という文であるため値は持たない</p>
+<p><code>;</code>があまり意味を持たない言語も二つに分けられる
+例えばPythonでは文の区切りは<strong>改行</strong>によって行われていてセミコロンは同一行上に複数の文を書くための構文上の糖衣になっている</p>
+<pre><code class="language-python">x = 1; y = 2 # 推奨はされていない
+</code></pre>
+<p>Pythonなどの言語では<code>;</code>はなくとも同じ働きをするもの(改行など)が存在する. ただし</p>
+<pre><code class="language-python">transform = transforms.Compose([
+    transforms.Grayscale(num_output_channels=1),
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+])
+</code></pre>
+<p>のように複数行にわたって一つの文を書くこともあるため改行が文の区切りとしての意味を持たないときもある.</p>
+<p>一方,Haskellのような**式(expression)**中心の言語ではそもそも分の区切りが不要だったりします(僕がHaskell,圏論ともにエアプなので詳しい説明はしないでおきます)
+簡単に言うと</p>
+<pre><code class="language-haskell">putStrLn "A" &gt;&gt; putStrLn "B"
+</code></pre>
+<p>はpythonでの</p>
+<pre><code class="language-python">print('A')
+print('B')
+</code></pre>
+<p>と同じ動作をしますが
+<code>putStrLn "A"</code>も<code>putStrLn "B"</code>も文ではなく式です(詳しくはちゃんと圏論を理解した後にいずれ説明します)</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識3"><a class="header" href="#今日の豆知識3">今日の豆知識.3</a></h1>
+<p>Pythonの整数型は無限精度(ハードウェアが許す限り)</p>
+<p>多くの他の言語は固定ビット幅
+例えばC言語では</p>
+<pre><code class="language-c">int x = 2147483647; // 2^{31} - 1  intは32bit
+x += 1; // オーバーフロー
+</code></pre>
+<p>Rustでは</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut x:i64 = 9223372036854775807; // 2^{63} - 1  i64は64bit
+x += 1; // オーバーフロー
+<span class="boring">}</span></code></pre>
+<p>しかしPythonでは</p>
+<pre><code class="language-python">x = 2147483647
+x += 1 # しっかり2147483648になる
+</code></pre>
+<p>これはPythonが多倍長整数をデフォルトで採用しているからです
+多倍長整数では小さな整数ブロックに分けて配列として保持しています
+わかりやすい例えをすると<code>12345678901234567890</code>は<br><code>[ 7890 ][ 3456 ][ 9012 ][ 5678 ][ 1234 ]</code><br>のように分けられ</p>
+<pre><code class="language-math">12345678901234567890 = 7890 + 3456*10^4 + 9012*10^8 + 5678*10^{12} + 1234*10^{16}
+</code></pre>
+<p>ここではわかりやすくするため4桁ごとに分けているが実際は64bit環境であれば30bitごとのブロックで管理しているらしい</p>
+<p>ちなみに他の言語でも多倍長整数はライブラリとかであったりする</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識4"><a class="header" href="#今日の豆知識4">今日の豆知識.4</a></h1>
+<p>変数や構造体や関数などの命名規則(慣習的なもの)は言語によって結構違う</p>
+<p>区切り方でよくありもの</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>形式</th><th>例</th><th>呼び方</th></tr>
+</thead>
+<tbody>
+<tr><td><code>camelCase</code></td><td><code>myValue</code></td><td>キャメルケース  (ローワーキャメルケース)</td></tr>
+<tr><td><code>PascalCase</code></td><td><code>MyValue</code></td><td>パスカルケース  (アッパーキャメルケース)</td></tr>
+<tr><td><code>snake_case</code></td><td><code>my_value</code></td><td>スネークケース  (ローワースネークケース)</td></tr>
+<tr><td><code>SCREAMING_SNAKE_CASE</code></td><td><code>MAX_SIZE</code></td><td>( アッパースネークケース)</td></tr>
+<tr><td><code>kebab-case</code></td><td><code>my-value</code></td><td>ケバブケース</td></tr>
+</tbody>
+</table>
+</div>
+<p>接頭・接尾記号でよくあるもの</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>記号</th><th>代表的意味</th></tr>
+</thead>
+<tbody>
+<tr><td><code>_name</code></td><td>内部用 / 未使用 / プライベート</td></tr>
+<tr><td><code>__name</code></td><td>特殊用途（予約・マジック）</td></tr>
+<tr><td><code>mName</code></td><td>メンバ変数</td></tr>
+<tr><td><code>IName</code></td><td>インターフェース</td></tr>
+<tr><td><code>T</code></td><td>型パラメータ</td></tr>
+</tbody>
+</table>
+</div>
+<p>代表的な言語での例</p>
+<h2 id="cc"><a class="header" href="#cc">C/C++</a></h2>
+<p>規則</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>対象</th><th>命名</th></tr>
+</thead>
+<tbody>
+<tr><td>変数・関数</td><td><code>snake_case</code></td></tr>
+<tr><td>型・構造体</td><td><code>PascalCase or snake_case</code></td></tr>
+<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
+</tbody>
+</table>
+</div>
+<p><code>_</code>で始めるものの意味</p>
+<pre><code class="language-c">int _internal;      // 慣習的に内部用
+int __reserved;    // 規格上「予約」
+</code></pre>
+<h2 id="c"><a class="header" href="#c">C#</a></h2>
+<p>規則（Microsoft公式）</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>対象</th><th>命名</th></tr>
+</thead>
+<tbody>
+<tr><td>クラス / 構造体</td><td><code>PascalCase</code></td></tr>
+<tr><td>メソッド</td><td><code>PascalCase</code></td></tr>
+<tr><td>ローカル変数</td><td><code>camelCase</code></td></tr>
+<tr><td>private フィールド</td><td><code>_camelCase</code></td></tr>
+</tbody>
+</table>
+</div>
+<pre><code class="language-cs">private int _count;
+public int Count { get; }
+</code></pre>
+<p><code>_</code>で始めるものの意味
+明確に「privateフィールド」
+未使用変数は<code>_</code> 1文字</p>
+<pre><code class="language-cs">var _ = SomeMethod(); // 使わない値
+</code></pre>
+<h2 id="rust"><a class="header" href="#rust">Rust</a></h2>
+<p>規則（rustfmt &amp; lint前提）</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>対象</th><th>命名</th></tr>
+</thead>
+<tbody>
+<tr><td>変数 / 関数</td><td><code>snake_case</code></td></tr>
+<tr><td>型 / トレイト</td><td><code>PascalCase</code></td></tr>
+<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
+<tr><td>ライフタイム</td><td><code>'a</code></td></tr>
+<tr><td><code>_</code> の意味</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let _x = 10;   // 未使用（警告抑制）
+let _ = foo(); // 完全に捨てる
+<span class="boring">}</span></code></pre>
+<h2 id="python"><a class="header" href="#python">Python</a></h2>
+<p>規則（PEP8）</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>対象</th><th>命名</th></tr>
+</thead>
+<tbody>
+<tr><td>変数 / 関数</td><td><code>snake_case</code></td></tr>
+<tr><td>クラス</td><td><code>PascalCase</code></td></tr>
+<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
+<tr><td><code>_</code>の意味</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<pre><code class="language-python">_x        # 内部用
+__x       # 名前マングリング
+__init__  # マジックメソッド
+_, y = func()  # 使わない値
+</code></pre>
+<h2 id="java"><a class="header" href="#java">Java</a></h2>
+<p>規則</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>対象</th><th>命名</th></tr>
+</thead>
+<tbody>
+<tr><td>クラス</td><td><code>PascalCase</code></td></tr>
+<tr><td>メソッド / 変数</td><td><code>camelCase</code></td></tr>
+<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
+<tr><td><code>_</code> の扱い</td><td></td></tr>
+<tr><td>Java 9以降：_ 単体は 予約語</td><td></td></tr>
+<tr><td>基本的に _ は非推奨</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="javascript--typescript"><a class="header" href="#javascript--typescript">JavaScript / TypeScript</a></h2>
+<p>規則</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>対象</th><th>命名</th></tr>
+</thead>
+<tbody>
+<tr><td>変数 / 関数</td><td><code>camelCase</code></td></tr>
+<tr><td>クラス</td><td><code>PascalCase</code></td></tr>
+<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
+<tr><td><code>_</code>の意味</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<pre><code class="language-ts">function f(_unused: number) {}
+</code></pre>
+<p>未使用引数
+ライブラリ内部用</p>
+<h2 id="wapl"><a class="header" href="#wapl">WapL</a></h2>
+<p>ちなみにWapL(僕の言語)では基本的にRustと同じ命名規則に従っています
+また,メソッド的に使う関数に関しては<code>型名_</code>で必ず始めるようにしてます(Iteratorとか頻繁に使うけど長いやつは<code>iter</code>みたいに小文字にして省略したのを使ってる)
+また<code>__</code>に関してはC同様予約語</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識5"><a class="header" href="#今日の豆知識5">今日の豆知識.5</a></h1>
+<p>Python使ってる人多そうなのでPythonの豆知識</p>
+<p>まずは以下のPythonのコードを見てみてください</p>
+<pre><code class="language-python">x = 5
+x = x + 7
+</code></pre>
+<p>これを見たときC言語の以下のコードと同等だと思ったりしてませんか?
+①</p>
+<pre><code class="language-c">int x = 5;
+x = x + 7;
+</code></pre>
+<p>実はこれは意味としては同等ではありません
+同等なコードをわかりやすく書くならば
+②</p>
+<pre><code class="language-c">int x = 5;
+int x = x + 7;
+</code></pre>
+<p>となります。
+まだ, “は?何が違うの?” って思うかもしれないので言語仕様的にこの違いが分かりやすいRustで①と②をそれぞれ書いてみましょう
+①’</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut x = 5;
+x = x + 7;
+<span class="boring">}</span></code></pre>
+<p>②’</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = 5;
+let x = x + 7;
+<span class="boring">}</span></code></pre>
+<p>のようになります
+ここで①’と②’に二つ違いがあることがわかると思います
+一つ目に違いは①’の一行目に<code>mut</code>というキーワードが入っていることです
+<code>mut</code>は“mutable“つまり“可変“を意味します。このキーワードがあるとその変数の値が変更可能になります
+二つ目に違いは二行目に<code>let</code>というキーワードがあるかの違いです
+<code>let</code>はその変数を(ここでは<code>x</code>)を宣言してその変数の値を入れるためのメモリ領域を割り当てます
+つまり<code>let x = 5;</code>を日本語の疑似コードで意味を書くと</p>
+<pre><code>xという変数の値を格納するためにメモリのN番地を割り当てる
+xにはN番地が割り当てられてるのでN番地に5という値を格納する
+</code></pre>
+<p>ということになります
+つまり①は</p>
+<pre><code>右辺: 値(5)
+xという変数の値を格納するためにメモリの N番地 を割り当てる(xの値は書き変え可能) // letの意味
+左辺:xには N番地 が割り当てられている
+左辺でわかった N番地 に,右辺でわかった 値(5) を格納 // ここまでが1行目の処理
+
+右辺:xには N番地 が割り当てられているのでそこの値を読み取る -&gt; 値(5): これに 値(7) を足す -&gt; 値(12)
+左辺:xには N番地 が割り当てられている
+左辺でわかった N番地 に,右辺でわかった 値(12) を格納
+</code></pre>
+<p>一方②は</p>
+<pre><code>右辺: 値(5)
+xという変数の値を格納するためにメモリの N番地 を割り当てる // letの意味
+左辺:xには N番地 が割り当てられている
+左辺でわかった N番地 に,右辺でわかった 値(5) を格納 // ここまでが1行目の処理
+
+右辺:xには N番地 が割り当てられているのでそこの値を読み取る -&gt; 値(5): これに 値(7) を足す -&gt; 値(12)
+xという変数の値を格納するためにメモリの M番地 を割り当てる
+左辺:xには M番地 が割り当てられている
+左辺でわかった M番地 に,右辺でわかった 値(12) を格納 
+</code></pre>
+<p>この通り①では一行目と二行目で x に割り当てられている番地が変わらないのに対して②では x に割り当てられている番地が N から M に変わっています</p>
+<p>これは簡単に示したものでさらに正確に考えると②,②’も最初に書いたPythonのコードとは少し意味が違います
+最初に書いたPythonのコードを正確に日本語の疑似コードで表現するのであれば</p>
+<pre><code>右辺: 値(5) がありこれをとりあえず N番地 に格納する -&gt; N番地
+変数x に対応する番地を 右辺から分かった N番地 とする // ここまでが一行目
+
+右辺: 変数x には N番地 が割り当てられてるのでそこの値を読み取る -&gt; 値(5): これに 値(7)を足す -&gt; 値(12) : 値(12)　をとりあえず M番地 に格納する -&gt; M番地
+変数x に対応する番地を 右辺から分かった M番地 とする
+</code></pre>
+<p>のようになっています
+ちなみに</p>
+<pre><code class="language-python">x = 10
+x = x
+</code></pre>
+<p>のようにしたときは</p>
+<pre><code>右辺: 値(10) がありこれをとりあえず N番地 に格納する -&gt; N番地
+変数x に対応する番地を 右辺から分かった N番地 とする
+
+右辺: 変数x に対応する番地は N番地  -&gt; N番地
+変数x に対応する番地を 右辺から分かった N番地 とする
+</code></pre>
+<p>のようになっています
+つまり</p>
+<pre><code class="language-python">x = 10
+y = x
+</code></pre>
+<p>では<code>x</code>と<code>y</code>の割り当てられている番地は一緒になっているんです</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識6"><a class="header" href="#今日の豆知識6">今日の豆知識.6</a></h1>
+<p>豆知識.5の続きです</p>
+<p>pythonの<code>=</code>の本質は参照渡しです。</p>
+<p>例えば</p>
+<pre><code class="language-python">x = [1,1,2,3]
+y = x
+y.append(5)
+</code></pre>
+<p>みたいにしたとき<code>x</code>,<code>y</code>ともに<code>[1,1,2,3,5]</code>となります
+これは<code>x</code>と<code>y</code>の割り当てられているメモリ上のアドレスが同じであるため<code>y</code>に変更を加えると<code>x</code>にもその変更が反映されます</p>
+<p>ここで</p>
+<pre><code class="language-python">x = 5
+y = x
+y = y + 7
+</code></pre>
+<p>としたときどうなるかを考えてみましょう。先ほどのリストで<code>.append(5)</code>がxに反映されたのであればこれも<code>y = y + 7</code>が<code>x</code>にも反映されて<code>x == 12</code>になってしまっているような気がしてしまうかもしれませんがもちろんそんなことはありません<code>x == 5</code>のままです
+ではこの違いは何なのでしょうか</p>
+<p>違いの正体は 前者の型(list)は<strong>mutable</strong>であり 後者の型(int)は<strong>immutable</strong>であるということです
+豆知識.5でも少し<strong>mutable</strong>という言葉は出てきましたが<strong>immutable</strong>はその逆で<strong>不変</strong>です</p>
+<p>ここで<strong>int</strong>が不変ってほんと?
+だって</p>
+<pre><code class="language-python">x = 5
+x = x + 5
+</code></pre>
+<p>みたいにしたら<code>x</code>の値変わってるじゃん!
+って思うかもしれませんが 豆知識.5 で説明した通りこれは値が変化しているのではなく<code>x</code>に対応するメモリ上のアドレスが変化しているのです.</p>
+<p>一方<strong>list</strong>は値そのものが変化しています</p>
+<p>list:</p>
+<pre><code class="language-python">x = [1,1,2,3] # 値([1,1,2,3])にアドレスが割り振られ,xのアドレスがそのアドレスになる
+y = x # yのアドレスがxのアドレスになる
+y.append(5) # yのアドレスにある値が変化
+</code></pre>
+<p>int:</p>
+<pre><code class="language-python">x = 5 # 値(5)にアドレスが割り振られ,xのアドレスがそのアドレスになる
+y = x # yのアドレスがxのアドレスになる(ここまでは同じ)
+y = y + 7 # 新たに値(12)にアドレスが割り振られ,yのアドレスがそのアドレスになる
+</code></pre>
+<p>このように最終的に<code>x</code>と<code>y</code>のアドレスは前者では一致しているが後者では異なっている</p>
+<p>ちなみにC言語やRust言語では<code>=</code>の本質は値渡しです
+そのため</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut x = 5; // (可変)
+let mut y = x; // この時点でxとyのアドレスが異なる (可変)
+y = y + 5 // yのアドレスは2行目から変化していない
+<span class="boring">}</span></code></pre>
+<p>のようになっています</p>
+<p>さらにちなむと
+C#の<code>class</code>はPython的参照渡しですが<code>stract</code>などは値渡しです</p>
+<p>さらにさらにちなむとここで“参照渡し“と呼んでいるものは正確には<strong>参照の値渡し</strong>であって参照渡しの厳密な定義とは少し異なります。
+厳密な参照渡しは<strong>alias</strong>つまり別名であってこれに該当するのはC++の</p>
+<pre><code class="language-cpp">int x = 5;
+int&amp; y = x;
+</code></pre>
+<p>みたいなやつです</p>
+<p>この違いとしては
+Pythonでは</p>
+<pre><code class="language-python">x = [0,1,2]
+y = x
+y = [4,5,6]
+</code></pre>
+<p>これはxは<code>[0,1,2]</code>のまま
+C++では</p>
+<pre><code class="language-cpp">std::vector&lt;int&gt; x = {0,1,2};
+std::vector&lt;int&gt;&amp; y = x;
+y = {4,5,6};
+</code></pre>
+<p>これはxは<code>{4,5,6}</code>になる
+のような違いがあります</p>
+<p>RustやCではC++みたいにaliasを作ったりできないので
+Rust</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut x = [0,1,2];
+let mut y = &amp;mut x;
+*y = [4,5,6];
+<span class="boring">}</span></code></pre>
+<p>や
+C</p>
+<pre><code class="language-c">int x[3] = {0,1,2};
+int (*y)[3] = &amp;x;
+int tmp[3] = {4,5,6};
+memcpy(*y, tmp, sizeof(tmp));
+</code></pre>
+<p>みたいにしてC++のと同じ結果を得る</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識7"><a class="header" href="#今日の豆知識7">今日の豆知識.7</a></h1>
+<p>ネタのストック0で書き始めてすでにネタ考えるのがめんどくさくなってきてしまったのでこれからしばらく言語の紹介をしていきたいと思います。</p>
+<p>とりあえず今日は<strong>WapL</strong>についてです</p>
+<h2 id="歴史"><a class="header" href="#歴史">歴史?</a></h2>
+<p>WapLはC#で書いたインタプリタから開発がスタート<br>
+↓<br>
+Unityのゲーム内で動かせるインタプリタが作られた<br>
+↓<br>
+C#で書いたインタプリタにUnity版の処理方式を逆輸入&amp;コマンドラインでPythonみたいに対話形式で実行できるものも作られた<br>
+↓<br>
+Rustで書かれたコンパイラが作られた. 文法はインタプリタ版とコンパイラ版で異なるところが結構多い<br></p>
+<h2 id="特徴"><a class="header" href="#特徴">特徴</a></h2>
+<p>インタプリタ/コンパイラ共通の特徴</p>
+<ul>
+<li>ほとんどすべての記述が関数呼び出し形式(ポーランド記法)</li>
+<li>ポインタを直接扱うことが多く,低レベル的な記述ができる</li>
+<li><code>warpto</code>/<code>warptoif</code>/<code>point</code> によるgoto文みたいなものが基本的な制御機構(コンパイラ版では途中からloopifやifが実装されたのでそうじゃない感じが少しあるけど…)</li>
+<li>型明示的</li>
+<li>規模が小さいので覚えることが少ない</li>
+</ul>
+<p>インタプリタ特有</p>
+<ul>
+<li>Unityで使える</li>
+<li>内部的にはすべての型が同じオブジェクトとして扱われている(Python的)</li>
+<li>インタプリタさえインストールすればPythonみたいに簡単に使える</li>
+<li>動的型付け</li>
+</ul>
+<p>コンパイラ特有</p>
+<ul>
+<li>低レベル処理ができたりGCなどのリッチなランタイムを持たなく,LLVMバックエンドであるためかなり高速(C/C++ ,Rustなどと同等かそれ以上)</li>
+<li>C/C++や他のLLVMバッグエンドの言語のライブラリを使ったりリンクをさせることができる</li>
+<li>waplupやwapl-cliのような便利なツールを使うことでバージョン管理やビルドなどが簡単にできる</li>
+<li>WebAssembly対応なのでOSやハードウェアによらないものを作ることができ,Web開発にも使える</li>
+<li>標準ライブラリがある</li>
+<li>複数ファイルでの開発ができる</li>
+<li>静的型付け</li>
+<li>簡易的な所有権の仕組みを取り入れていてコンパイル時にある程度の安全性を担保</li>
+</ul>
+<h2 id="hello-world"><a class="header" href="#hello-world">Hello, world!</a></h2>
+<pre><code class="language-wapl">println("Hello ,world!");
+</code></pre>
+<h2 id="コードの例"><a class="header" href="#コードの例">コードの例</a></h2>
+<p><strong>フィボナッチ数列を求める関数</strong></p>
+<p>インタプリタ版</p>
+<pre><code class="language-wapl">fn fibo(i32 n){;
+    =(a,0,i32);
+    =(b,1,i32);
+    =(i,0,i32);
+    point start;
+    warptoif(!(&lt;(i,n)),break);
+        =(tmp, b,i32);
+        =(b,+(a,b));
+        =(a,tmp);
+        +=(i,1);
+        warpto(start);
+    point break;
+    return a;
+};
+println(fibo(10));
+</code></pre>
+<p>なるべくインタプリタ版の似た記法で書いたコンパイラ版</p>
+<pre><code class="language-wapl">fn fibo(i32 n):i32{;
+    #=(a,0s,i32);
+    #=(b,1s,i32);
+    #=(i,0s,i32);
+    warpto(start)
+    point start;
+    warptoif(&lt;(i,n),inloop,break);
+    point inloop
+        #=(tmp, b,i32);
+        =(b,+(a,b));
+        =(a,tmp);
+        =(i,+(i,1s));
+        warpto(start);
+    point break;
+    return a;
+};
+println(format("%d",fibo(10s)));
+</code></pre>
+<p>コンパイラ版にしかない文法も使ったもの</p>
+<pre><code class="language-wapl">fn fibo(i32 n):i32{
+    #=(a,0s,i32);
+    #=(b,1s,i32);
+    #=(i,0s,i32);
+    loopif:(&lt;(i,n)){
+        #=(tmp, b,i32);
+        =(b,+(a,b));
+        =(a,tmp);
+        =(i,+(i,1s));
+    }
+    return a;
+}
+println(format("%d",fibo(10s)));
+</code></pre>
+<p>参考文献:</p>
+<ul>
+<li><a href="https://github.com/kazanefu/WapL_for_Unity_InGame/blob/main/HowToUse.md">https://github.com/kazanefu/WapL_for_Unity_InGame/blob/main/HowToUse.md</a>  &lt;-インタプリタ版(Unity版)の説明書</li>
+<li><a href="https://github.com/kazanefu/WapL_interpreter/blob/main/HowToUse.md">https://github.com/kazanefu/WapL_interpreter/blob/main/HowToUse.md</a> &lt;-インタプリタ版(コマンドライン版)の説明書</li>
+<li><a href="https://kazanefu.github.io/WapL_Book/">https://kazanefu.github.io/WapL_Book/</a> &lt;-コンパイラ版の説明書</li>
+<li><a href="https://github.com/kazanefu/WapL_for_Unity_InGame/tree/main">https://github.com/kazanefu/WapL_for_Unity_InGame/tree/main</a> &lt;-インタプリタ(Unity版)のソースコードというかUnityのサンプルプロジェクト</li>
+<li><a href="https://github.com/kazanefu/WapL_interpreter/tree/main">https://github.com/kazanefu/WapL_interpreter/tree/main</a> &lt;-インタプリタ(コマンドライン版)のソースコード</li>
+<li><a href="https://github.com/kazanefu/WapL_Compiler/tree/codefixed">https://github.com/kazanefu/WapL_Compiler/tree/codefixed</a> &lt;-コンパイラのソースコード</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識8"><a class="header" href="#今日の豆知識8">今日の豆知識.8</a></h1>
+<p>今日はJavaScript(以降JS)についてです。</p>
+<h2 id="歴史-1"><a class="header" href="#歴史-1">歴史</a></h2>
+<p>開発当初はMochaという名称<br>
+↓<br>
+その後LiveScriptという名称に変わる<br>
+↓<br>
+1995年12月に当時人気だったJavaにあやかってJavaScriptという名前が付けられてNetscape Navigator 2.0に実装されました<br>
+ちなみに“JavaScript“という名称はSun Microsystemsが商標登録していてSun MicrosystemsはOracleに買収されているので現在はOracleが商標権を持ってます<br>
+↓<br>
+ECMAScript標準化されたことでWebブラウザーさえあれば動かせるようになることが期待されたが,拡張機能が条件付きで認められていたためブラウザによって機能に違いがあった<br>
+↓<br>
+jQueryというライブラリでブラウザ間の差が吸収されてJSがより一層普及した<br>
+↓<br>
+Google Chromeが作られてそれにJIT(Just In Time)コンパイラ(実行時コンパイラ)が搭載される<br>
+↓<br>
+どのWebで動く言語JSぐらいしかないけどJSの進化遅いからJSにコンパイルできる言語つくろうぜっていう感じでCoffeeScriptとかが作られる。このようにJSにコンパイルされる言語をaltJSと呼ぶ。このころから<strong>言語→言語</strong>へコンパイルすることを<strong>トランスパイル</strong>と呼ぶようになる。(JSにコンパイルって言葉がわからないかもしれないのでもっと簡単に言うと<strong>新しい言語A</strong>を<strong>JS</strong>へ変換してから実行するみたいなこと)<br>
+↓<br>
+Node.jsが登場したことでWebのフロントエンドだけでなくバックエンドでもJSを使えるようになった<br>
+↓<br>
+JSのライバル的な存在だったFlashがiOSでサポート打ち切ったこともありWebのフロントエンドではJSが一強となった<br>
+↓<br>
+Reactがこの辺りで登場 &lt;- Reactはあとで説明する<br></p>
+<h2 id="特徴-1"><a class="header" href="#特徴-1">特徴</a></h2>
+<ul>
+<li>HTMLに埋め込んで書ける (<script></script> で囲んだ中に書く)</li>
+<li>動的型付け</li>
+<li>JavaScriptエンジンで動く</li>
+<li>GCによってメモリ管理されている</li>
+<li>アロー関数を使って無名関数が使える</li>
+<li><code>==</code>での比較では例えば<code>"10" == 10</code>が<code>true</code>だが<code>===</code>での比較では型の違いも比較されるため<code>"10" === 10</code>は<code>false</code>になる</li>
+<li>プロトタイプチェーンベースのオブジェクト指向プログラミング(以降OOP = オブジェクト指向プログラミング)(C#/C++/JavaなどはクラスベースのOOP)(JSもclassはあとから実装され存在するが内部的にはプロトタイプチェーンであり,糖衣構文に過ぎない)</li>
+<li>JSON(JavaScript Object Notation)(JavaScriptにおけるオブジェクトの表記法に由来するデータ記述言語)がいろんなところで世界標準になっている</li>
+</ul>
+<p>これの例として(あとWebってOSによらずに動作させることができるからその辺が便利だったりしてネイティブで動いてるように見えるものもWebの技術が使われてたりしてWeb系らしくないWebの使い道もある)</p>
+<h2 id="reactについて簡単に"><a class="header" href="#reactについて簡単に">Reactについて簡単に</a></h2>
+<p>超簡単に言うとUI作るのめっちゃ簡単にしたぜ!ってやつ。React自体はhtmlを動的に生成している感じでネイティブではなくWebで動く</p>
+<h3 id="react-nativeについて超簡単に"><a class="header" href="#react-nativeについて超簡単に">React Nativeについて超簡単に</a></h3>
+<p>超簡単に言うとReactをネイティブで使えるようにしました!ってやつ</p>
+<p>なんでこれを紹介したかというとDiscordで使われているからです
+開発は便利だけどパフォーマンス面で問題があるみたいです</p>
+<blockquote>
+<p>Discord’s desktop and mobile clients are built with React &amp; React Native respectively. Using React enables our teams to ship features rapidly across different platforms, yet requires careful attention to performance optimization as there’s less margin for error.</p>
+<p>Initially, we shied away from using React Native on Android due to performance concerns, but recent advances in Android device capabilities and the introduction of Hermes, React Native’s new JavaScript engine, changed the landscape. This led us to transition our Android client to React Native in 2022.</p>
+<p>While the switch came with performance trade-offs (particularly startup times on lower-end devices) we tackled these challenges by cutting our median startup times in half during 2023 – a story we’ll detail in a future post.</p>
+<p>Most recently, we’ve turned our attention to optimizing the things that people use the most, with a particular focus on power users who push Discord’s capabilities to (and sometimes beyond) their limits. If you’re reading this, you’re probably one of ’em!</p>
+</blockquote>
+<p>https://discord.com/blog/supercharging-discord-mobile-our-journey-to-a-faster-app</p>
+<h2 id="typescriptについて"><a class="header" href="#typescriptについて">TypeScriptについて</a></h2>
+<p>歴史のところで</p>
+<blockquote>
+<p>どのWebで動く言語JSぐらいしかないけどJSの進化遅いからJSにコンパイルできる言語つくろうぜっていう感じでCoffeeScriptとかが作られる。このようにJSにコンパイルされる言語をaltJSと呼ぶ。このころから言語→言語へコンパイルすることをトランスパイルと呼ぶようになる。(JSにコンパイルって言葉がわからないかもしれないのでもっと簡単に言うと新しい言語AをJSへ変換してから実行するみたいなこと)
+と書いたところで出てきたJSにコンパイルされる言語として<strong>TypeScript</strong>(以降TS)というものがあります。(これは思想的にJSを置き換えようとするaltJSというよりも既存のJSのコードはすべてコンパイルを通せるのでJSのスーパーセットというほうが正しい)</p>
+</blockquote>
+<p>JSで動くコードはすべてTSでも動きますが,違いとしてはTSは文法としてtype annotation(型注釈)が存在し,JSにコンパイルするときに型の食い違いがあったらエラーを出せます。<br>
+例えば
+JSでは足し算をする関数を以下のように作ったとして,引数に数字ではないものを渡していますが,エラーにはなりません</p>
+<pre><code class="language-js">function add(a, b) {
+  return a + b;
+}
+
+add(1, 2);
+add(1, "2"); // 文字列の2を渡してしまっている
+</code></pre>
+<p>一方TSでは以下のように何の型であるかを定義することができ,このように型注釈をつけていればコンパイル時にエラーを出すことができます。</p>
+<pre><code class="language-ts">function add(a: number, b: number): number {
+  return a + b;
+}
+
+add(1, 2);
+add(1, "2"); // エラー
+</code></pre>
+<pre><code>srcts/main.ts:6:8 - error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+
+6 add(1, "2"); // エラー
+         ~~~
+
+
+Found 1 error in srcts/main.ts:6
+</code></pre>
+<p>プログラミング初めてすぐのときは<strong>エラーなんて出ないで動いてくれた方がいいだろ</strong>と思ってしまう人もいるらしいですが,エラーをコンパイル時に出してくれるというのはつまりミスを実際に動かす前に見つけてくれて,コンパイルを通ったならある程度動作が担保されるわけですし,どこを間違えているかの原因がすぐわかるのでとても大切なことなんです。(Undefined Behavior(以降UB)が多い言語が嫌われる理由)</p>
+<p>さらに型注釈があることはエラーを出せる以外にも大きなメリットが2つあります。</p>
+<ul>
+<li>コードが読みやすくなる</li>
+<li>AIがコード生成/修正しやすい
+　一つ目については,プログラムコードは書かれる時間よりも読まれる時間の方が長いとよく言われ, コードを読みやすく書くことはとても重要であり, 型注釈によってそのコードの意図がより伝わりやすくなります。一応JSでも多くの会社で独自のルールを設けてコメントとして型を書くようにしているらしいですが, TSによって型注釈が文法に組み込まれたことで,書き方も統一されたという点も大きいです。
+　二つ目に関しては最近言われるようになったものです。基本的にAIにコードを書かせるってなったらAI自身にそのコードをチェックさせたりエラーが出たらエラーメッセージを渡すみたいなことをよくやると思います。この時に型注釈やエラーメッセージは定型的かつより具体的な情報であり,AIが精度を高い回答をしやすいです。</li>
+</ul>
+<p>ちなみにTSをコンパイルして生成されるJSのコードは型情報は持ちません。そのため,静的型付けではあるものの,動作しているときはJSとまったく同じ動作をします。</p>
+<h2 id="hello-world-1"><a class="header" href="#hello-world-1">Hello, world!</a></h2>
+<p>JS/TS共通</p>
+<pre><code class="language-js">console.log("Hello, world!");
+</code></pre>
+<h2 id="コード例"><a class="header" href="#コード例">コード例</a></h2>
+<p><strong>フィボナッチ数列の第n項を返す関数</strong>
+JS</p>
+<pre><code class="language-js">function fibo(n) {
+    let a = 0;
+    let b = 1;
+
+    for (let i = 0; i &lt; n; i++) {
+        const tmp = b;
+        b = a + b;
+        a = tmp;
+    }
+
+    return a;
+}
+
+console.log(fibo(10)); 
+</code></pre>
+<p>TS</p>
+<pre><code class="language-ts">function fibo(n: number): number {
+    let a: number = 0;
+    let b: number = 1;
+
+    for (let i: number = 0; i &lt; n; i++) {
+        const tmp: number = b;
+        b = a + b;
+        a = tmp;
+    }
+
+    return a;
+}
+
+console.log(fibo(10));
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識9"><a class="header" href="#今日の豆知識9">今日の豆知識.9</a></h1>
+<p>今日はポインタと値渡し/参照渡しについてです。</p>
+<p>ポインタを理解するために軽くプログラミング言語の仕組みについて説明します。ここではわかりやすいようにRustで書きます。(letや型注釈があるから)</p>
+<p>例えば</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x : i32 = 10;
+<span class="boring">}</span></code></pre>
+<p>みたいなコードでは</p>
+<blockquote>
+<p><code>x</code>という変数を<code>i32</code>(32bitの整数型)で宣言して<code>x</code>に<code>10</code>を代入している
+のように説明されることが多いです。
+ではここでの<strong>宣言</strong>や<strong>代入</strong>って何なのでしょうか?
+端的に言うと</p>
+</blockquote>
+<ul>
+<li>宣言とはメモリ上のアドレスと変数名を結びつけること(メモリ領域を割り当てると言うことも)</li>
+<li>代入とは変数と結びつけられたメモリ上のアドレスに値を書き込むこと
+です。</li>
+</ul>
+<p>ここでメモリ上のアドレスと言っていますが,メモリでは1byte(8bit)ごとに住所のように整数値が割り当てられています。また,この数値を値として保持している<strong>変数</strong>や一時的に保持する<strong>レジスタ</strong>のことを<strong>ポインタ</strong>と呼びます。
+難しく聞こえるかもしれませんが簡単に言うと</p>
+<pre><code>addr = 山梨県_南都留郡....
+</code></pre>
+<p>のようにしたときの<code>addr</code>のことを<code>山梨県_南都留郡....</code>を指す<strong>ポインタ</strong>と呼ぶということです。</p>
+<p>最初の例では
+<code>x</code>という変数名に対して内部でメモリ上のアドレスが結び付けられて,以降<code>x</code>が使われるときは結び付けられたメモリ上のアドレスのところに記録されている値を読み取るようになります。</p>
+<p>中間言語を見るとわかりやすいと思います。
+Rustで</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x : i32 = 10;
+let y : i32 = x;
+<span class="boring">}</span></code></pre>
+<p>みたいに書いたとします。これは以下のような中間言語になります。</p>
+<pre><code class="language-llvm">  %x = alloca i32, align 4
+  store i32 10, ptr %x, align 4
+  %x1 = load i32, ptr %x, align 4
+  %y = alloca i32, align 4
+　store i32 %x1, ptr %y, align 4
+</code></pre>
+<p>(align 4っていうのはi32が32bit つまり4byteであるためついているもで,今は一旦無視してください)</p>
+<p>1行目では<code>alloca i32</code>で<code>i32</code>っていう型でメモリ上の領域を確保(ここは使用済みですよ～って言うようなもん)して,その領域のアドレスを<code>%x</code>に保存しています。ここで<code>%x</code>は<code>alloca i32</code>で確保された領域を指す<strong>ポインタ</strong>であるといえ,　また,同時にこのアドレスがRustでの変数<code>x</code>という名前にコンパイラ(ここではとりあえずRustから中間言語に変換するものという認識で大丈夫です)内部で結び付けられているため,<code>x</code>のアドレスを指す<strong>ポインタ</strong>とも言えます。
+ちなみに,<code>i32</code>という型は値を保持するのに4byte必要なため<code>alloca i32</code>では4byte分の連続した領域を確保して,<code>%x</code>にはその先頭のアドレスが渡されています。</p>
+<p>2行目では<code>store i32 10, ptr %x</code>というのはポインタ<code>%x</code>が指すアドレスに<code>i32</code>という型の<code>10</code>という値を書き込むということをしています。</p>
+<blockquote>
+<p>(ptrというのはポインタ型であることを意味している(pointerの略としてptrと書くことがよくある,integerをintって略すようなもん)。より正確に言うと<code>%x</code>自体もアドレスを値として保持する変数のようなものなので,<code>ptr %x</code>は<code>i32 10</code>が<code>10</code>を<code>i32</code>という型として解釈するということを意味しているように<code>%x</code>を<code>ptr</code>という型として解釈するということを意味している)</p>
+</blockquote>
+<p>3行目では<code>%x</code>が指すアドレスに記録されてる値を<code>i32</code>という型として読み込んでその値を<code>%x1</code>に記録している。ここで<code>%x1</code>は<code>10</code>である。</p>
+<p>4行目では1行目と同様に<code>alloca i32</code>で<code>i32</code>っていう型でメモリ上の領域を確保してそのアドレスを<code>%y</code>に保存</p>
+<p>5行目では2行目同様にポインタ<code>%y</code>が指すアドレスに<code>i32</code>という型で<code>%x1</code>の値(つまり10)を書き込むということをしています</p>
+<p>ではここで以前Pythonの<code>=</code>についてでの説明で出てきた<strong>値渡し</strong>/<strong>広義の参照渡し</strong>/<strong>狭義の参照渡し</strong>について説明しようと思います。</p>
+<p>その前にこの先説明でC/C++を使うので重要な文法について軽く説明します。</p>
+<pre><code class="language-c">int x = 10; // Rustのlet mut x : i32 = 10;に相当する(mutについては以前どこかで軽く説明してあると思うので説明は省略)
+int* ptr_of_x = &amp;x; // &amp;xのように&amp;をつけることでxの値が保持されているアドレスを指すポインタを意味する。またこれをxの参照と呼ぶこともある。int*はint型の値があるアドレスを指すポインタ型のことを意味する
+int y = *ptr_of_x; // *ptr_of_xのように*をつけることでそのポインタが指すアドレスに保持されている値を意味する。ここではptr_of_xの型はint*なのでint型として読まれる。このようにポインタからそのアドレスが指すアドレスに保持されている値を得ることをデリファレンスや参照外しと呼ぶ
+
+int z = 5;
+z = 8; // zの値が保持されているアドレスに8という値を上書き
+</code></pre>
+<p>では本題に戻ります。</p>
+<p><strong>値渡し</strong>とは上の</p>
+<pre><code class="language-c">int x = 10;
+int y = *ptr_of_x;
+</code></pre>
+<p>や</p>
+<pre><code class="language-c">z = 8;
+</code></pre>
+<p>のようにポインタではなく名前通り値を渡すことです。
+この時,<code>x</code>や<code>z</code>のアドレスは右辺の影響を受けません
+そのため</p>
+<pre><code class="language-c">int a = 1;
+int b = a; // これも値渡し
+</code></pre>
+<p>としたときに<code>&amp;a != &amp;b</code>となっています。(!= は not equal)</p>
+<p><strong>広義の参照渡し</strong>(参照の値渡し)とは上の</p>
+<pre><code class="language-c">int* ptr_of_x = &amp;x;
+</code></pre>
+<p>のようなものです。これは<code>ptr_of_x</code>は<code>x</code>の値があるアドレスを値として持っているため</p>
+<pre><code class="language-c">*ptr_of_x = 100;
+</code></pre>
+<p>みたいにすることで<code>x</code>の値も<code>100</code>に書き変えることができます。つまり,<code>*ptr_of_x</code>のようにデリファレンスしたものと<code>x</code>は完全に同等(値が記録されているメモリ上のアドレスまで一致している。つまり<code>&amp;*ptr_of_x == &amp;x</code>)です。
+しかし,これは狭義の参照渡しとは異なります。というのも,<code>int* ptr_of_x = &amp;x;</code>では<code>&amp;x</code>という<strong>参照</strong>という<strong>値</strong>が渡されていると解釈ができるからです。</p>
+<p><strong>狭義の参照渡し</strong>とは広義の参照渡しでの<code>*ptr_of_x</code>と<code>x</code>のような関係をポインタを介さずに作る。つまり別名(alias)を作ることです。
+C言語やRustではこの機能は存在せず(というかC/Rustに限らず多くの言語では存在しない)、C++やFortranやPascalのような一部の言語にのみ存在するものです。
+C++では</p>
+<pre><code class="language-cpp">int x = 10;
+int&amp; y = x;
+</code></pre>
+<p>のようにすることで<code>x</code>と完全に同等な<code>y</code>をポインタを介せずに作ることができます。これが狭義の参照渡しです。</p>
+<p>ちなみに狭義の参照渡しが多くの言語で実装されていない理由としては</p>
+<ul>
+<li>影響の出る範囲がわかりにくい</li>
+<li>UBが多くなる</li>
+<li>最適化が効きにくい</li>
+<li>SSA(Static Single Assignment form)が崩れる</li>
+<li>広義の参照渡しで安全な代替が実現できる (Rustの所有権/借用やSwiftのinoutやC#のref)</li>
+<li>学習コストが高くなる
+などなどが挙げられる。機能は多ければいいというものでもない</li>
+</ul>
+<p>現在はよくないと言われることが多い狭義の参照渡しですが,C++が作られた当時としては,危険とは言えど,C言語との互換性を維持しつつなんでもできてしまうさらに危険なC言語のポインタを使わなくてよいようにできたり,並行処理があまり使われていなかったり,問題点がそこまで認識されていなかったりと,合理的なものだったのです。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識10"><a class="header" href="#今日の豆知識10">今日の豆知識.10</a></h1>
+<p>今日はメモリのヒープ領域とスタック領域についてです。</p>
+<p>まず昨日説明しようと思っていて忘れた配列とポインタについて説明します。&lt;-これあったほうがヒープ領域とスタック領域の利用例がわかりやすい</p>
+<p>C言語で,以下の<code>a</code>という配列と<code>p</code>というポインタのしていることは全く同じです。</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+
+int main(){
+    int a[5] = {1,2,3,4,5};
+    int* p = a; // 配列は(ここはa)は先頭のポインタなのでint* pに代入できる
+
+    printf("a3: %d\n", a[3]); // a3: 4
+    printf("p3: %d\n", p[3]); // p3: 4
+
+    printf("a1: %d\n", *(a + 1)); // a1: 2
+    printf("p1: %d\n", *(p + 1)); // p1: 2
+
+    void* none_type_ptr = (void*)p; // pはint*だが,void*という型無ポインタにキャスト
+    
+    // intは32bit整数なので 32bit = 4byte = sizeof(int) より以下のようになる
+    printf("p2 = none_type_ptr(2 * 4): %d\n", *(int*)(none_type_ptr + 2 * 4)); // p2 = none_type_ptr(2 * 4): 3
+
+    return 0;
+}
+</code></pre>
+<p>このように実は配列って連続したメモリ領域上に値を置いて,その先頭のポインタなんです。
+そして,<code>a[n]</code>は<code>*(a + n)</code>や<code>*(int*)((void*)a + n * sizeof(int))</code>と等価であることがわかると思います。</p>
+<blockquote>
+<p>正確にはClangでコンパイルした時,<code>a</code>の中間言語での型は<code>[5 x i32]</code>であるのに対して<code>p</code>の型は<code>ptr</code>だが<code>a</code>が読み取られるときは毎回先頭のポインタである<code>ptr</code>型に変換されている。
+ちなみに,Rustなどでは<code>let a = [1,2,3,4,5];</code>のようにしたとき中間言語での型は<code>[5 x i32]</code>のまま(正確には最適化とかのために<code>[ 20 x i8</code>)扱われていた配列とポインタは明確に異なる。(ただし,Vec&lt;T&gt;などの可変長配列は内部でポインタを使っている)
+さらにちなむと, WapLではRust的なポインタとは異なる配列とポインタによる配列の両方が存在する。</p>
+</blockquote>
+<p>では今回の本題のヒープ領域とスタック領域についてです。
+メモリは以下のような領域に分けられています。</p>
+<hr>
+<p>テキスト領域</p>
+<hr>
+<p>静的領域</p>
+<hr>
+<p>ヒープ領域<br>
+↓</p>
+<hr>
+<p>↑<br>
+スタック領域</p>
+<hr>
+<p>今日はヒープ領域とスタック領域のみについて説明します。</p>
+<p>ヒープ領域とスタック領域はそれぞれ境界に向かってデータが記憶されていき, その境界以上にデータを記憶しようとするとオーバーフローになります。そのため使わなくなったデータのあるところは解放して,再び他のデータを入れられるようにしていく必要があります。</p>
+<p>ヒープ領域ではメモリの確保と解放をC言語ではプログラマが直接記述します</p>
+<blockquote>
+<p>(他の言語ではコンパイラがそのデータを使っているかを検出するアルゴリズムを使って自動で解放していたり,Rustみたいに所有権の仕組みで所有者がスコープから外れるタイミングで自動で解放しているが、これらも中間言語の段階だったりではメモリの確保と解放が記述されている)</p>
+</blockquote>
+<p>一方, スタック領域は関数に入ったときにメモリが確保されて,関数から抜けるときに自動で解放されます。</p>
+<h2 id="スタック領域について"><a class="header" href="#スタック領域について">スタック領域について</a></h2>
+<p>まず,一般にスタックというデータ構造について説明すると<br>
+|-|-|-|-|-|-|<br>
+のような6個のものを入れることのできる構造があったとしてここに新たに<code>5</code>をいれると<br>
+|5|-|-|-|-|-|<br>
+のようになり,次に<code>3</code>を入れると<br>
+|5|3|-|-|-|-|<br>
+続けて<code>7</code>,<code>6</code>,<code>0</code>を入れると<br>
+|5|3|7|6|0|-|<br>
+のようにデータが積み重ねられていきます(スタック構造ではこの新たにデータを入れる操作をpushと呼ぶ)<br></p>
+<p>そこから取り出す(スタック構造ではデータを取り出す操作をpopと呼ぶ)と<br>
+|5|3|7|6|-|-| =&gt; 0<br>
+|5|3|7|-|-|-| =&gt; 6<br>
+|5|3|-|-|-|-| =&gt; 7<br>
+のようにpopするとあとからpushしたものから取り出されていきます。<br>
+ここからさらに<code>1</code>をpushすると<br>
+|5|3|1|-|-|-|<br>
+のようになります。<br></p>
+<p>メモリのスタック領域ではメモリがスタック構造になっていてメモリの確保がpush、メモリの解放がpopに相当します。
+そして関数に入ったときにスタック領域にデータが保存される変数が作られるたびに<strong>push</strong>つまり<strong>メモリ確保</strong>されて,関数が終わるときにその関数のときにpushされた分をすべて<strong>pop</strong>つまり<strong>メモリ解放</strong>します。
+例えば以下のようなRustのコードを考えてみましょう</p>
+<pre class="playground"><code class="language-rust">fn func_c(y_from_a: i32){
+    let beta = 53;
+    println!("{}",y_from_a + beta);
+}
+
+fn func_b(x_from_main: i32, y_from_a: i32) {
+    let z = 99;
+    let alpha = 12;
+    println!("{}", x_from_main + y_from_a + z + alpha);
+}
+
+fn func_a(x_from_main: i32) {
+    let y = 10;
+    func_b(x_from_main, y);
+    func_c(y);
+}
+
+fn main() {
+    let x = 42;
+    func_a(x);
+    // プロセス終了
+}</code></pre>
+<p>|-|-|-|-|-|-|をスタック領域に見立てたとき<br>
+<code>let x = 42;</code>でまず<code>42</code>がpushされます<br>
+|42|-|-|-|-|-|<br>
+次に<code>func_a</code>が呼ばれてその中で<code>let y = 10;</code>で<code>10</code>がpushされます<br>
+|42|10|-|-|-|-|<br>
+次に<code>func_b</code>が呼ばれてその中で <code>let z = 99; let alpha = 12;</code>により<code>99</code>と<code>12</code>がpushされます<br>
+|42|10|99|12|-|-|<br>
+<code>println!("{}", x_from_main + y_from_a + z + alpha);</code>で和を表示した後何もしていないのでここで<code>func_b</code>は終了です。<br>
+すると<code>func_b</code>で確保された分がpopされて<br>
+|42|10|-|-|-|-|<br>
+となります。<br>
+次に<code>func_a</code>で<code>func_c</code>が呼ばれて,その中で<code>let beta = 53;</code>で<code>53</code>がpushされます<br>
+|42|10|53|-|-|-|<br>
+また<code>func_c</code>が終わった後にその中で確保されていた<code>53</code>がpopされます<br>
+|42|10|-|-|-|-|<br>
+これで<code>func_a</code>も終わったので<code>10</code>もpopされます<br>
+|42|-|-|-|-|-|<br>
+また,これで<code>main</code>も終わったので<code>42</code>もpopされます<br>
+|-|-|-|-|-|-|<br></p>
+<p>スタック領域の状態をまとめると<br>
+|-|-|-|-|-|-|<br>
+|42|-|-|-|-|-|<br>
+|42|10|-|-|-|-|<br>
+|42|10|99|12|-|-|<br>
+|42|10|-|-|-|-|<br>
+|42|10|53|-|-|-|<br>
+|42|10|-|-|-|-|<br>
+|42|-|-|-|-|-|<br>
+|-|-|-|-|-|-|<br>
+のようになります。<br>
+|-|-|-|-|-|-|を例えにすると6個より多くのデータがpushされた時にヒープ領域との間の境界を越えてしまい<strong>スタックオーバーフロー</strong>となります。<br>
+そのため回数の多いループ処理を再帰関数(関数内で自身を呼ぶ関数)で実装すると<strong>スタックオーバーフロー</strong>になります。<br></p>
+<h2 id="ヒープ領域について"><a class="header" href="#ヒープ領域について">ヒープ領域について</a></h2>
+<p>スタック領域についての説明では<code>func_b</code>の中で確保されている<code>z</code>や<code>alpha</code>は<code>func_c</code>が呼ばれるときにはすでに解放されてしまっているので<code>func_c</code>の中では使うことができません。これらを<code>func_a</code>の中で宣言したり,<code>func_b</code>で戻り値として渡すことで<code>func_a</code>の中でも確保するようにすれば解決できますが,前者の解決方法では<code>func_a</code>の中では使わない変数が増えて可読性が下がったり関数の意味が明確に表現されていない状態になってしまいますし,後者の解決方法ではデータのアドレスは<code>func_a</code>のなかで再確保していることで変わってしまっているので参照(ポインタ)を使った操作をしたいときに破綻します。</p>
+<p>このような問題を解決できるのがヒープ領域です。
+ヒープ領域では手動でメモリ確保とメモリ解放を行うため,<code>func_b</code>を抜けても<code>z</code>や<code>alpha</code>を解放しないようにすることができます。</p>
+<p>この後ヒープの説明はメモリ確保/解放を明示的にプログラマが書くC言語を使って説明するので先ほどのスタック領域の説明で使ったRustのコードをCに翻訳したものを一応貼っておきます。</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void func_c(int y_from_a) {
+    int beta = 53;
+    printf("%d\n", y_from_a + beta);
+}
+
+void func_b(int x_from_main, int y_from_a) {
+    int z = 99;
+    int alpha = 12;
+    printf("%d\n", x_from_main + y_from_a + z + alpha);
+}
+
+void func_a(int x_from_main) {
+    int y = 10;
+    func_b(x_from_main, y);
+    func_c(y);
+}
+
+int main(void) {
+    int x = 42;
+    func_a(x);
+    return 0; // プロセス終了
+}
+</code></pre>
+<p>では<code>func_b</code>でヒープ領域にメモリを確保してそれを<code>func_c</code>で使うようにした例を見てみましょう</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void func_c(int* shared_value) {
+    int beta = 53;
+    printf("%d\n", *shared_value + beta);
+}
+
+int* func_b(int x_from_main, int y_from_a) {
+    int z = 99;
+    int alpha = 12;
+
+    // ヒープに確保
+    int* heap_value = (int*)malloc(sizeof(int)); // mallocは引数に確保する領域のサイズを渡して戻り値としてvoid*型(型なしのポインタ)で確保した領域の先頭のポインタを返す
+
+    *heap_value = x_from_main + y_from_a + z + alpha; // ヒープ領域に確保したところに値を記憶する
+    return heap_value; // ポインタを返す
+}
+
+void func_a(int x_from_main) {
+    int y = 10;
+
+    int* value_from_b = func_b(x_from_main, y);
+
+    func_c(value_from_b);
+
+    // ヒープ解放
+    free(value_from_b); // freeはmallocでヒープ領域に確保したものをその先頭のポインタを渡すことで解放する。
+}
+
+int main(void) {
+    int x = 42;
+    func_a(x);
+    return 0;
+}
+</code></pre>
+<p>このようにすることで<code>func_b</code>で作った値をアドレスを移動させることなく<code>func_c</code>でも使うことができている。</p>
+<p>さらに,ヒープ領域はスタック領域に比べて容量も大きいです。</p>
+<p>この説明だけだと“すべてヒープ領域を使ってしまった方が自由な操作ができていいじゃないか“。と思うかもしれませんが,ヒープ領域にも欠点があります。</p>
+<p><strong>ヒープ領域の欠点</strong></p>
+<ul>
+<li>スタック領域を使ったコードと比較して実行速度が遅い。</li>
+<li>ヒープ上に確保した領域のポインタはスタック領域に保持されるのでそのポインタがpopされる前に<code>free</code>で解放するのを忘れるとその領域を一生解放できなくなり(これを<strong>メモリリーク</strong>という)使わないデータが蓄積していってしまい,長い時間動かしているとオーバーフローしてしまう。</li>
+<li>たとえちゃんと解放できていたとしてもメモリが断片化することでオーバフローしてしまうことがある。</li>
+<li>解放済みの領域のポインタなど無効な領域を解放しようとして壊れることがある(<strong>ダングリング</strong>という)</li>
+</ul>
+<p>メモリの断片化を説明すると<br>
+|-|-|-|-|-|-|をヒープ領域に見立てたときに<br>
+42を入れる<br>
+|42|-|-|-|-|-|<br>
+[ 53, 22]という配列を入れる<br>
+|42|53|22|-|-|-|<br>
+13を入れる<br>
+|42|53|22|13|-|-|<br>
+[ 53, 22]のために確保した分を解放する<br>
+|42|-|-|13|-|-|<br>
+ここで,[ 99, 81, 44]のようなサイズが3の配列のためのメモリを確保しようとしても3つ連続した領域は存在しないので空いている場所は3つ以上存在しているにも関わらず<strong>確保に失敗</strong>します。<br>
+スタック領域ではこのようなことは起こりません。<br></p>
+<p>ちなみに<strong>メモリリーク</strong>や<strong>ダングリング</strong>はC以外の言語ではガベージコレクション(以降GC)やRustの所有権/借用/ライフタイムやC++のRAIIなどによって<code>free</code>をプログラマが直接書かないで自動で解放されるようにすることで防いでいます。</p>
+<p>ちなみにGCにもデメリットがあって, GCはそのメモリ領域の参照が使われているかを動的に(実行時に)判断しているため,実行速度がGCなしの言語と比べて遅い傾向にあります。</p>
+<p>Rustの所有権/借用/ライフタイムが画期的と言われる理由はメモリの解放処理はコンパイル時に静的に挿入されるので実行速度を落とさずに安全を実現できるという点ですが,これも欠点としてコンパイルにかかる時間が長くなったり,新しい仕組みなので他の言語を使ってた人は慣れるまでに時間がかかることなどが挙げられます。</p>
+<p>C++のRAIIいつ破棄(解放)されるかを保証するだけで完全に安全と言えるものではありません</p>
+<p>先ほどヒープ領域の説明で使ったCのコードを他の言語で書くとどうなるかも一応書いておきます</p>
+<p><strong>C#</strong>(GCによって管理)</p>
+<pre><code class="language-cs">using System;
+
+class HeapInt
+{
+    public int Value;
+}
+
+class Program
+{
+    static void FuncC(HeapInt sharedValue)
+    {
+        int beta = 53;
+        Console.WriteLine(sharedValue.Value + beta);
+    }
+
+    static HeapInt FuncB(int xFromMain, int yFromA)
+    {
+        int z = 99;
+        int alpha = 12;
+
+        // ヒープに確保（GC管理）
+        return new HeapInt
+        {
+            Value = xFromMain + yFromA + z + alpha
+        };
+    }
+
+    static void FuncA(int xFromMain)
+    {
+        int y = 10;
+
+        HeapInt valueFromB = FuncB(xFromMain, y);
+
+        FuncC(valueFromB);
+
+        // free は書かない
+        // GCが必要になったら回収する
+    }
+
+    static void Main()
+    {
+        int x = 42;
+        FuncA(x);
+    }
+}
+
+</code></pre>
+<p>C#では<strong>new</strong>によってクラスのインスタンスを生成した時にヒープ上に確保されます。(クラスやインスタンスについてはオブジェクト指向のときに解説すると思う)</p>
+<p><strong>Go</strong>(GCによって管理)</p>
+<pre><code class="language-go">package main
+
+import "fmt"
+
+type HeapInt struct {
+    Value int
+}
+
+func funcC(sharedValue *HeapInt) {
+    beta := 53
+    fmt.Println(sharedValue.Value + beta)
+}
+
+func funcB(xFromMain int, yFromA int) *HeapInt {
+    z := 99
+    alpha := 12
+
+    // ヒープに逃がす（エスケープ）
+    return &amp;HeapInt{
+        Value: xFromMain + yFromA + z + alpha,
+    }
+}
+
+func funcA(xFromMain int) {
+    y := 10
+
+    valueFromB := funcB(xFromMain, y)
+
+    funcC(valueFromB)
+
+    // free は書かない（GC 管理）
+}
+
+func main() {
+    x := 42
+    funcA(x)
+}
+</code></pre>
+<p>Goでは構文によってヒープ上に確保するかスタックに確保するかは決まらず,コンパイラが エスケープ解析で決定しています。</p>
+<p><strong>Rust</strong>(所有権/借用によって静的にチェック)</p>
+<pre class="playground"><code class="language-rust">fn func_c(shared_value: &amp;i32) {
+    let beta = 53;
+    println!("{}", *shared_value + beta);
+}
+
+fn func_b(x_from_main: i32, y_from_a: i32) -&gt; Box&lt;i32&gt; {
+    let z = 99;
+    let alpha = 12;
+
+    // ヒープに確保
+    let heap_value = Box::new(x_from_main + y_from_a + z + alpha);
+    heap_value
+}
+
+fn func_a(x_from_main: i32) {
+    let y = 10;
+
+    let value_from_b = func_b(x_from_main, y);
+
+    func_c(&amp;value_from_b); // BoxはスマートポインタでDerefトレイトがついているため&amp;Box&lt;i32&gt;は&amp;i32
+
+    // freeは書かない（スコープ終了時に自動解放）
+}
+
+fn main() {
+    let x = 42;
+    func_a(x);
+}</code></pre>
+<p>このコードのRustでは<code>func_b</code>での<code>heap_value</code>は<code>func_a</code>の<code>value_from_b</code>に所有権を譲渡して,その後<code>func_c</code>の引数に借用を渡して,<code>func_a</code>が終わるときに所有者である<code>value_from_b</code>がいるので自動で解放処理が挿入される。</p>
+<p>ちなみにRustではCみたいに書くこともできはします。</p>
+<pre class="playground"><code class="language-rust">use std::alloc::{alloc, dealloc, Layout};
+
+unsafe fn func_c(shared_value: *mut i32) {
+    let beta = 53;
+    println!("{}", *shared_value + beta);
+}
+
+unsafe fn func_b(x_from_main: i32, y_from_a: i32) -&gt; *mut i32 {
+    let z = 99;
+    let alpha = 12;
+
+    let layout = Layout::new::&lt;i32&gt;();
+    let ptr = alloc(layout) as *mut i32; // Cのmallocに相当
+
+    *ptr = x_from_main + y_from_a + z + alpha;
+    ptr
+}
+
+unsafe fn func_a(x_from_main: i32) {
+    let y = 10;
+
+    let value_from_b = func_b(x_from_main, y);
+    if value_from_b.is_null() {
+        return;
+    }
+
+    func_c(value_from_b);
+
+    let layout = Layout::new::&lt;i32&gt;();
+    dealloc(value_from_b as *mut u8, layout); // Cのfreeに相当
+}
+
+fn main() {
+    unsafe {
+        let x = 42;
+        func_a(x);
+    }
+}</code></pre>
+<p>さらにRcやArcのような参照カウンタ方式での解放ができたりもする(ここでは長くなるので解説しない)</p>
+<p><strong>C++</strong>(RAII)</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;memory&gt;
+
+void func_c(const int* shared_value) {
+    int beta = 53;
+    std::cout &lt;&lt; (*shared_value + beta) &lt;&lt; std::endl;
+}
+
+std::unique_ptr&lt;int&gt; func_b(int x_from_main, int y_from_a) {
+    int z = 99;
+    int alpha = 12;
+
+    // ヒープ確保（RAII）
+    return std::make_unique&lt;int&gt;(x_from_main + y_from_a + z + alpha);
+}
+
+void func_a(int x_from_main) {
+    int y = 10;
+
+    std::unique_ptr&lt;int&gt; value_from_b = func_b(x_from_main, y);
+
+    func_c(value_from_b.get());
+
+    // スコープ終了時に自動で delete (解放)
+}
+
+int main() {
+    int x = 42;
+    func_a(x);
+}
+</code></pre>
+<p>RustがBoxというスマートポインタを使ったようにunique_ptrというスマートポインタを使っている</p>
+<p><strong>ヒープ領域に値が保持されている型</strong>
+RustのVec&lt;T&gt;/StringやC++のvector&lt;T&gt;/stringでは
+内部構造が</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Vec&lt;T&gt; {
+    ptr: *mut T,
+    len: usize,
+    cap: usize,
+}
+<span class="boring">}</span></code></pre>
+<p>のようになっていて
+<code>ptr</code>がCのポインタによる配列であり,配列の値はヒープ上に確保されておりこのポインタはその配列の先頭のポインタである。
+<code>len</code>は要素の数
+<code>cap</code>は確保済みのメモリ領域のサイズ(byte)を要素の型のサイズで割ったもの
+が入っていて<code>String</code>は<code>Vec&lt;char&gt;</code>と同等です。
+C言語で<code>Vec&lt;i32&gt;</code>を再現しようとすると</p>
+<pre><code class="language-c">#include&lt;stdlib.h&gt;
+
+typedef struct c_vec{
+    int* ptr;
+    long len;
+    long cap;
+}c_vec;
+
+c_vec c_vec_new(long cap) {
+    c_vec v;
+    v.len = 0;
+    v.cap = cap;
+
+    if (cap &gt; 0) {
+        v.ptr = (int*)malloc(sizeof(int) * cap); // メモリをヒープ上に確保
+        if (!v.ptr) {
+            perror("malloc failed");
+            exit(1);
+        }
+    } else {
+        v.ptr = NULL;
+    }
+
+    return v;
+}
+
+void c_vec_grow(c_vec* v) {
+    long new_cap = (v-&gt;cap == 0) ? 1 : v-&gt;cap * 2;
+
+    int* new_ptr = (int*)realloc(v-&gt;ptr, sizeof(int) * new_cap);
+    if (!new_ptr) {
+        perror("realloc failed");
+        exit(1);
+    }
+
+    v-&gt;ptr = new_ptr;
+    v-&gt;cap = new_cap;
+}
+
+void c_vec_push(c_vec* v, int value) {
+    if (v-&gt;len == v-&gt;cap) {
+        c_vec_grow(v);
+    }
+
+    v-&gt;ptr[v-&gt;len] = value;
+    v-&gt;len++;
+}
+
+int c_vec_get(c_vec* v, long index) {
+    if (index &lt; 0 || index &gt;= v-&gt;len) {
+        fprintf(stderr, "index out of bounds\n");
+        exit(1);
+    }
+    return v-&gt;ptr[index];
+}
+
+void c_vec_free(c_vec* v) {
+    free(v-&gt;ptr);
+    v-&gt;ptr = NULL;
+    v-&gt;len = 0;
+    v-&gt;cap = 0;
+}
+</code></pre>
+<p>のようにして再現することができます。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識11"><a class="header" href="#今日の豆知識11">今日の豆知識.11</a></h1>
+<p>インタプリタとコンパイラについてです</p>
+<p>簡単に言うと
+インタプリタ = コードの解釈をしてその都度実行する
+コンパイラ = コードを他の言語(多くの場合翻訳先は機械語で実行可能ファイルを生成する)</p>
+<p>Pythonの公式実装であるCPythonなんかは典型的なインタプリタ言語で,pythonというインタプリタが.pyファイルを一文ずつ解釈&amp;実行をしていてCPython自体はC言語で作られている。</p>
+<p>一方典型的なコンパイラ言語としてはC言語などが挙げられ,gccやClangといったコンパイラによって.cファイルから実行可能ファイル(Windowsでは.exeファイルなど)を生成します。</p>
+<p>有名な言語のインタプリタやコンパイラのソースコードは巨大で解説するのが大変なのでWapLのインタプリタとコンパイラのソースコードの一部を見ながら説明していきます。</p>
+<p>以下のように<code>start</code>関数を呼んで<code>println</code>で<code>Hello, world!</code>を表示するプログラムを考えます。</p>
+<pre><code class="language-wapl">fn start(){;
+    println("Hello, world!");
+};
+start();
+</code></pre>
+<p><strong>WapLインタプリタ(C#製)</strong></p>
+<p>まずWapLのコードを文字列として受け取ってすべて<code>;</code>で分割&amp;トリムする
+この段階で</p>
+<pre><code>["fn start(){" , "println("Hello, world!")" , "}" , "start()"]
+</code></pre>
+<p>のような文字列の配列になっている</p>
+<p>次に<code>"fn "</code>というキーワードをもとに関数の定義が書かれているかを探す
+<code>fn start(){</code>を見つける</p>
+<pre><code class="language-cs">class Function
+{
+    public List&lt;(string Type, string Name)&gt; Parameters = new List&lt;(string, string)&gt;(); // 引数
+    public List&lt;string&gt; Body = new List&lt;string&gt;(); // 関数の本体
+}
+</code></pre>
+<p>のような型で関数を表す型を作って<code>Dictionary&lt;string, Function&gt; functions = new Dictionary&lt;string, Function&gt;();</code>のように関数名をカギにして登録されている<code>Function</code>を読み取ることができるようにしてあるので</p>
+<pre><code class="language-cs">functions["start"] = new Function{Parameters =new List&lt;(string,string)&gt;, Body = new List&lt;string&gt;(){"println(\"Hello, world!\")"}}
+</code></pre>
+<p>のようにして記録する。
+次に
+<code>"start()"</code>を読み取って先ほど記録した<code>start</code>関数の<code>Body</code>にあるコードを読み取っていって
+<code>"println("Hello, world!")"</code>を読み取って
+<code>"Hello, world!"</code>を評価してC#で作った型の<code>record StringValue(string Data) : VariableValue;</code>で<code>StringValue("Hello, world!")</code>を作る
+C#の関数である<code>Console.WriteLine</code>を使って<code>Hello, world!</code>が出力される。
+ちなみにどの行を読むかは<code>["fn start(){" , "println("Hello, world!")" , "}" , "start()"]</code>の配列をfor文で<code>i</code>をインクリメントしながら回してもし<code>if</code>や<code>while</code>みたいなものが来たらその<code>i</code>を直接書き換えることで読む場所を指定しています。
+また,メモリは<code>Memory vmemory = new Memory { memory = new VariableValue[10000], emptyArea = new List&lt;EmptyArea&gt;() };</code>のような配列で再現しています。</p>
+<p>これだけ読んで“そういうことか!“ってはならないと思いますが, インタプリタの実装の特徴を正確さを欠きますが端的にまとめると<strong>コンピュータの再現</strong>といえるでしょう
+コンピュータが機械語を実行しているのと同じようにソースコードを既存の言語で作った疑似的なコンピュータで逐次実行しているようなものです。</p>
+<p><strong>WapLコンパイラ(Rust製)</strong>
+コンパイラではまず先ほどのコードを単語レベルに分解して配列にします(これをトークン列という) これはさっき<code>;</code>で区切ったのと同じようなことでこっちの方が後で作ったので実装がより本格的になっているだけでインタプリタとコンパイラの違いとは関係ありません</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>0:Fn
+1:Ident("start")
+2:Lsep(LParen)
+3:Rsep(RParen)
+4:Lsep(LBrace)
+5:Semicolon
+6:Ident("println")
+7:Lsep(LParen)
+8:StringLiteral("Hello, world!")
+9:Rsep(RParen)
+10:Semicolon
+11:Rsep(RBrace)
+12:Semicolon
+13:Ident("start")
+14:Lsep(LParen)
+15:Rsep(RParen)
+16:Semicolon
+<span class="boring">}</span></code></pre>
+<p>こんな感じになっています。
+これに構造を持たせて</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>0:Function(Function {
+    name: "start",
+    return_type: Ident("void"),
+    args: [],
+    body: [
+      Stmt {
+        expr: Call {
+            name: "println",
+            args: [String("Hello, world!")]
+        }
+      }
+    ]
+})
+1:Function(Function {
+    name: "toplevel_child.0",
+    return_type: Ident("void"),
+    args: [],
+    body: [
+      Stmt {
+        expr: Call {
+            name: "start",
+            args: []
+        }
+      }
+    ]
+})
+<span class="boring">}</span></code></pre>
+<p>のように抽象構文木(abstract syntax tree以降AST)というものを作る(この段階もインタプリタとコンパイラの違いの本質ではなく私がコンパイラをあとに作ったため実装が本格的になっているだけです。)</p>
+<p>このASTをもとに</p>
+<pre><code class="language-llvm">; ModuleID = 'wapl_module'
+source_filename = "wapl_module"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+@str_0 = private unnamed_addr constant [14 x i8] c"Hello, world!\00", align 1
+@println_fmt_1 = private unnamed_addr constant [4 x i8] c"%s\0A\00", align 1
+
+declare i64 @strtol(ptr, ptr, i32)
+
+declare double @atof(ptr)
+
+declare i32 @printf(ptr, ...)
+
+declare i32 @sprintf(ptr, ptr, ...)
+
+declare ptr @realloc(ptr, i64)
+
+declare ptr @malloc(i64)
+
+declare void @free(ptr)
+
+declare i32 @scanf(ptr, ...)
+
+define void @start() {
+entry:
+  %printf = call i32 (ptr, ...) @printf(ptr @println_fmt_1, ptr @str_0)
+  ret void
+}
+
+define void @toplevel_child.0() {
+entry:
+  call void @start()
+  ret void
+}
+
+define i32 @main(i32 %argc, ptr %argv) {
+entry:
+  call void @toplevel_child.0()
+  ret i32 0
+}
+</code></pre>
+<p>のような中間言語を生成する。
+またさらにこの中間言語に対しても同じようにして今度は機械語(実行可能ファイル)を作る</p>
+<p>このようにコンパイラの本質は
+言語から言語(機械語)への翻訳です。</p>
+<p>長くなったのでもう一度まとめると</p>
+<p><strong>インタプリタ</strong>:</p>
+<ul>
+<li>解釈しながら実行(=高級なコンピュータをソフトウェアで再現/仮想マシン(Virtual Machine)を実装した実行エンジン)</li>
+<li>CPU : 機械語 = インタプリタ : 高級言語</li>
+<li>コンピュータを直接的に動かしているわけではない(間にソフトウェアをはさむ)ため実行速度が遅くなりがち</li>
+<li>仮想マシンがOS差を吸収するので実行環境さえ用意していればたいていどのOSでも動くソースコードを配布することができる</li>
+<li>実行してみないとエラーが出ない</li>
+</ul>
+<p><strong>コンパイラ</strong>:</p>
+<ul>
+<li>事前に別の言語へ翻訳(多くの場合機械語へ)</li>
+<li>機械語を生成するものは実行速度は速い傾向にある</li>
+<li>その言語のための実行環境を用意する必要がない</li>
+<li>実行前にエラーを出せる</li>
+</ul>
+<p>有名な言語を分類していくと</p>
+<p>純粋なインタプリタ</p>
+<ul>
+<li>Python(CPython)</li>
+<li>JS(昔の)</li>
+<li>Ruby(昔の)</li>
+</ul>
+<p>純粋なコンパイラ</p>
+<ul>
+<li>C/C++</li>
+<li>Rust</li>
+<li>Zig</li>
+<li>Go</li>
+</ul>
+<p>ハイブリッド(バイトコードや中間言語へのコンパイル + 仮想マシン  (+  JITコンパイラ))</p>
+<ul>
+<li>JS(現代の)</li>
+<li>C#</li>
+<li>Java</li>
+<li>Kotlin</li>
+</ul>
+<p>トランスパイル(高級言語-&gt;高級言語の翻訳をするコンパイラ)</p>
+<ul>
+<li>TS</li>
+</ul>
+<p>一応<strong>JIT(Just In Time)コンパイラ</strong>と<strong>AOT(Ahead Of Time)コンパイラ</strong>の違いも説明しておきます</p>
+<p>AOTは実行前にコンパイルして実行可能ファイルを作るもの</p>
+<p>JITは実行時に機械語に翻訳して実行するもの</p>
+<p>C#やJavaやKotlinはAOT + JITになっている</p>
+<p>これらの言語ではAOTのときにバイトコードを生成してそれを実行ファイル内に格納して,実行時にバイトコードからネイティブコード(機械語)を生成して実行する</p>
+<p><strong>AOT + JIT の利点</strong></p>
+<ul>
+<li>起動前にエラーを潰せる</li>
+<li>実行時情報を使って最適化できる</li>
+<li>CPU差分をJITに任せられる</li>
+</ul>
+<p>ちなみに現代のJSでは
+ソースコードをASTやバイトコードにするのも実行時に行っています</p>
+<p>ちなみにインタプリタだとPythonみたいに対話型で実行することができたりします。
+WapLインタプリタで対話モードで実行している様子</p>
+<pre><code>PS C:\Users\hayate\wapl_projects&gt; wli
+対話形式で開始します:exit();すると終了します
+
+&gt;&gt;println("Hello, world!");
+Hello, world!
+&gt;&gt;fn add(i32 a,i32 b):i32{;return +(a,b);};
+&gt;&gt;println(add(3,2));
+5
+&gt;&gt;fn mul(i32 a,i32 b):i32{;return *(a,b);};
+&gt;&gt;println(add(5,mul(6,7)));
+47
+&gt;&gt;=(x,10,i32);
+&gt;&gt;println(x);
+10
+&gt;&gt;exit();
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識12"><a class="header" href="#今日の豆知識12">今日の豆知識.12</a></h1>
+<p>構造体とクラス</p>
+<p>まずは<strong>構造体</strong>
+百聞は一見に如かずということでとりあえず使っている例を見てみましょう
+C++では</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt; // これは一旦無視でいい
+
+using namespace std; // これも一旦無視でいい
+
+// Personという構造体を定義
+struct Person{
+    // ---データ構造---
+    // ここにある要素をフィールドという
+    string name;
+    int age;
+};
+
+int main(){
+    Person hayate = {"Hayate",19};
+    cout &lt;&lt;format("name: {}, age: {}",hayate.name,hayate.age)&lt;&lt;endl; // '.'でフィールドにアクセス
+    return 0;
+}
+</code></pre>
+<pre><code>name: Hayate, age: 19
+</code></pre>
+<p>このように<code>struct</code>というキーワードで<code>Person</code>という構造体を<code>{string, int}</code>という構造であることを定義して<code>Person</code>を型のようにして扱うことができるようになる。また,<code>.</code>を使ってフィールドにアクセスすることもできる
+C++では構造体に関数を組み込むこともできて,このような関数を<strong>メソッド</strong>と呼ぶ</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+struct Person{
+    // ---データ構造---
+    string name;
+    int age;
+
+    // ---関数(メソッド)---
+    string say_hello(){
+        string hello = format("Hello!, I'm {}", this-&gt;name); // thisは自身のポインタ(もしhayate.say_hello()で呼んだら this == &amp;hayate)
+        cout &lt;&lt; hello &lt;&lt; endl;
+        return hello;
+    }
+};
+
+int main(){
+    Person hayate = {"Hayate",19};
+    cout &lt;&lt;format("name: {}, age: {}",hayate.name,hayate.age)&lt;&lt;endl;
+    hayate.say_hello(); // フィールドと同じように'.'でアクセス
+
+    return 0;
+}
+</code></pre>
+<pre><code>name: Hayate, age: 19
+Hello!, I'm Hayate
+</code></pre>
+<p>基本的に構造体はデータ構造で値型</p>
+<p>構造体が意味的に<strong>値</strong>であるのに対してクラスは<strong>主体</strong>があることが重要で,値とそのふるまいがセットで,外からのアクセスは制限するようになっていることが多い。
+C++では実装上はフィールドとメソッドがデフォルトで<code>public</code>か<code>private</code>かの違いでしかないが,意味的には上記のような違いがあるので一応使い分けは意識した方がいいと思う。(C#とかだとstructとclassは実装上もっと大きな違いがあったりもする)
+先ほどstructでPersonと全く同じものをclassで作ると</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+class Person{
+    // ---データ構造---
+public: // デフォルトでprivateだが,publicにするとstructと実装上全く同じ
+    string name;
+    int age;
+
+    // ---関数(メソッド)---
+    string say_hello(){
+        string hello = format("Hello!, I'm {}", this-&gt;name);
+        cout &lt;&lt; hello &lt;&lt; endl;
+        return hello;
+    }
+};
+
+int main(){
+    Person hayate = {"Hayate",19};
+    cout &lt;&lt;format("name: {}, age: {}",hayate.name,hayate.age)&lt;&lt;endl;
+    hayate.say_hello();
+
+    return 0;
+}
+</code></pre>
+<p>となる。</p>
+<p>また, classらしい書き方にすると</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+class Person{
+    // ---データ構造---
+public: 
+    string name;
+    int age;
+
+    // ---関数(メソッド)---
+    string say_hello(){
+        string hello = format("Hello!, I'm {}", this-&gt;name);
+        cout &lt;&lt; hello &lt;&lt; endl;
+        return hello;
+    }
+};
+
+int main(){
+    Person* hayate = new Person{"Hayate",19}; // newでヒープ上にPersonのデータを記録して, そのポインタで管理
+    cout &lt;&lt;format("name: {}, age: {}",hayate-&gt;name,hayate-&gt;age)&lt;&lt;endl;
+    hayate-&gt;say_hello();
+
+    return 0;
+}
+</code></pre>
+<p>のようにポインタで管理することでそのインスタンスの同一性は値の一致ではなく主体としての一致(つまりポインタの一致)で決まるようにできる。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+class Person{
+    // ---データ構造---
+public: 
+    string name;
+    int age;
+
+    // ---関数(メソッド)---
+    string say_hello(){
+        string hello = format("Hello!, I'm {}", this-&gt;name);
+        cout &lt;&lt; hello &lt;&lt; endl;
+        return hello;
+    }
+};
+
+bool Person_eq(Person p1,Person p2){
+    return (p1.name == p2.name &amp;&amp; p1.age == p2.age);
+}
+
+int main(){
+    Person* hayate = new Person{"Hayate",19};
+    Person* hayate2 = new Person{"Hayate",19};
+
+    Person hayate3 = Person{"Hayate",19};
+    Person hayate4 = Person{"Hayate",19};
+
+    cout&lt;&lt; ((hayate == hayate2)? "true":"false")&lt;&lt; endl;
+    cout&lt;&lt; (Person_eq(hayate3,hayate4)? "true":"false")&lt;&lt; endl;
+
+    return 0;
+}
+</code></pre>
+<pre><code>false
+true
+</code></pre>
+<p>このようにclass的に扱う場合は<code>hayate == hayate2</code>が<code>false</code>になることを期待し,struct的に扱う場合は<code>hayate3</code>と<code>hayate4</code>が等しいように扱いたいときである。</p>
+<p>ここで<code>public</code>や<code>private</code>について説明していなかったので説明する
+publicはclass(or struct)の外からもアクセスできる
+privateはclass(or struct)の外からはアクセスできず,内側からしかアクセスできないようにする</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+class Person
+{
+    // ---データ構造---
+private:
+    int id; // get_idやset_idを介さないとidに外から触れることはできない
+
+public:
+    string name;
+    int age;
+
+    // ---関数(メソッド)---
+    string say_hello()
+    {
+        string hello = format("Hello!, I'm {}", this-&gt;name);
+        cout &lt;&lt; hello &lt;&lt; endl;
+        return hello;
+    }
+    Person(int id, string name, int age) : id(id), name(name), age(age) {}; // コンストラクタ
+    // 外からidを取得するにはpublicにあるメソッドを使う必要がある
+    int get_id()
+    {
+        return this-&gt;id;
+    }
+    // 外からidを設定するにはpublicにあるメソッドを使う必要がある
+    void set_id(int new_id)
+    {
+        this-&gt;id = new_id;
+    }
+};
+
+bool Person_eq(Person p1, Person p2)
+{
+    return (p1.name == p2.name &amp;&amp; p1.age == p2.age);
+}
+
+int main()
+{
+    Person *hayate = new Person(1234, "Hayate", 19);
+
+    cout &lt;&lt; hayate-&gt;age &lt;&lt; endl; // ageはpublicなのでどこからでもアクセスできる
+    // cout&lt;&lt; hayate-&gt;id&lt;&lt;endl;  // &lt;- これをするとエラー idはprivateフィールド
+    cout &lt;&lt; hayate-&gt;get_id() &lt;&lt; endl;
+    
+
+    hayate-&gt;set_id(5678);
+    // hayate-&gt;id = 5678; // &lt;- これもエラー idはprivateフィールド
+    cout &lt;&lt; hayate-&gt;get_id() &lt;&lt; endl;
+
+    return 0;
+}
+</code></pre>
+<p>structとclassが明確に違うC#の例も示す
+<strong>struct</strong></p>
+<pre><code class="language-cs">using System;
+using System.Collections.Generic;
+
+struct Person
+{
+    private int id { set; get; }
+    public string name;
+    public int age;
+    public Person Clone()
+    {
+        return new Person(this.id,this.name,this.age);
+    }
+
+    // コンストラクタ
+    public Person(int newId,string newName,int newAge)
+    {
+        id = newId;
+        name = newName;
+        age = newAge;
+
+    }
+
+    // idはprivateなのでgetterとsetterを設定してここからアクセスするようにする
+    public int Id
+    {
+        get { return id; }
+        set { id = value; }
+    }
+}
+class Program
+{
+    // エントリーポイント
+    static void Main()
+    {
+        Person hayate = new Person(1234,"Hayate",19);
+        Person hayate2 = hayate;
+        hayate2.age = 200;
+        Console.WriteLine(hayate.age.ToString() + "\n" + hayate2.age.ToString());
+    }
+}
+</code></pre>
+<p><strong>class</strong></p>
+<pre><code class="language-cs">using System;
+using System.Collections.Generic;
+
+class Person
+{
+    private int id { set; get; }
+    public string name;
+    public int age;
+    public Person Clone()
+    {
+        return new Person(this.id,this.name,this.age);
+    }
+
+    // コンストラクタ
+    public Person(int newId,string newName,int newAge)
+    {
+        id = newId;
+        name = newName;
+        age = newAge;
+
+    }
+
+    // idはprivateなのでgetterとsetterを設定してここからアクセスするようにする
+    public int Id
+    {
+        get { return id; }
+        set { id = value; }
+    }
+}
+class Program
+{
+    // エントリーポイント
+    static void Main()
+    {
+        Person hayate = new Person(1234,"Hayate",19);
+        Person hayate2 = hayate;
+        hayate2.age = 200;
+        Console.WriteLine(hayate.age.ToString() + "\n" + hayate2.age.ToString());
+    }
+}
+</code></pre>
+<p>コード自体は<code>struct</code>って書いたか<code>class</code>って書いたかの違いしかありません。
+ではこれで実行結果にどのような違いが生じるのでしょうか
+<strong>struct</strong></p>
+<pre><code>19
+200
+</code></pre>
+<p><strong>class</strong></p>
+<pre><code>200
+200
+</code></pre>
+<p>見ての通り<code>hayate2.age = 200;</code>が<code>struct</code>では<code>hayate</code>に反映されませんが<code>class</code>では反映されます。これは<code>struct</code>は値渡しで,<code>class</code>は参照渡し(広義の)だからです。
+さらに,<code>struct</code>は値がスタック上に置かれているのに対して<code>class</code>はヒープ上に置かれています。</p>
+<p><code>class</code>でも<code>struct</code>みたいに値渡しのようにするためにはメソッドに作った<code>Clone</code>(先ほどのコードにもすでに書いてある)のようなものを使います。</p>
+<pre><code class="language-cs">using System;
+using System.Collections.Generic;
+
+class Person
+{
+    private int id { set; get; }
+    public string name;
+    public int age;
+    public Person Clone()
+    {
+        return new Person(this.id,this.name,this.age);
+    }
+
+    // コンストラクタ
+    public Person(int newId,string newName,int newAge)
+    {
+        id = newId;
+        name = newName;
+        age = newAge;
+
+    }
+
+    // idはprivateなのでgetterとsetterを設定してここからアクセスするようにする
+    public int Id
+    {
+        get { return id; }
+        set { id = value; }
+    }
+}
+class Program
+{
+    static void Main()
+    {
+        Person hayate = new Person(1234,"Hayate",19);
+        Person hayate2 = hayate.Clone(); // ここをCloneにした
+        hayate2.age = 200;
+        Console.WriteLine(hayate.age.ToString() + "\n" + hayate2.age.ToString());
+    }
+}
+</code></pre>
+<pre><code>19
+200
+</code></pre>
+<p>逆に<code>struct</code>を<code>class</code>的に参照渡しするなら<code>ref</code>を使う</p>
+<pre><code class="language-cs">using System;
+using System.Collections.Generic;
+
+struct Person
+{
+    private int id { set; get; }
+    public string name;
+    public int age;
+    public Person Clone()
+    {
+        return new Person(this.id,this.name,this.age);
+    }
+
+    // コンストラクタ
+    public Person(int newId,string newName,int newAge)
+    {
+        id = newId;
+        name = newName;
+        age = newAge;
+
+    }
+
+    // idはprivateなのでgetterとsetterを設定してここからアクセスするようにする
+    public int Id
+    {
+        get { return id; }
+        set { id = value; }
+    }
+}
+class Program
+{
+    static void Main()
+    {
+        Person hayate = new Person(1234,"Hayate",19);
+        ref Person hayate2 = ref hayate; // refで渡す
+        hayate2.age = 200;
+        Console.WriteLine(hayate.age.ToString() + "\n" + hayate2.age.ToString());
+    }
+}
+</code></pre>
+<pre><code>200
+200
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/highlight-837a6fa5.min.js"></script>
+        <script src="theme/wapl-a169e50d.js"></script>
+        <script src="theme/wapl-rainbow-f254588b.js"></script>
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>
