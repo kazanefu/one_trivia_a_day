@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-bff69f66.js";
+            window.path_to_searchindex_js = "searchindex-17e29bd5.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-9aa226c3.js"></script>
@@ -369,7 +369,12 @@ switch (ink) {
 <p>説明が足りなかったかもと思うところの補足</p>
 <p>カプセル化は,前回説明した<code>public</code>/<code>private</code>とかかわりが深く,今回の例ではC#ので,<code>RedInk</code>や<code>BlueInk</code>の<code>color</code>は取得専用でクラスの外からは<code>getter</code>を使っての取得のみが許されていて書き変えや直接の取得はできないようになっていることなどが該当する。これにより予期しない<code>color</code>の変更を防ぐことができる。</p>
 <p>継承とは, 継承元のクラスにあるふるまいを継承先に実装することを強制することで共通のものとして扱えるようにすることであり,ここでは<code>Pen</code>を継承するものに<code>Write</code>を実装することを強制することでボールペンも万年筆もペンとして扱えるようにしている。</p>
-<p>ポリモーフィズムについては,<code>pen.Write(input);</code>だけで条件分岐を使わずにいろんなペンのでの出力ができるようになっていることがいい例だろう</p>
+<p>ポリモーフィズムについては,<code>pen.Write(input);</code>だけで条件分岐を使わずにいろんなペンのでの出力ができるようになっていることがいい例だろう<br>
+“もしペンがボールペンだったら-&gt;こう書く”<br>
+“もしペンが万年筆だったら-&gt;こう書く”<br>
+のようにする必要がなく<br>
+“<strong>ボールペンで書く</strong>” や “<strong>万年筆で書く</strong>”<br>
+のような意味で書けるので現実世界との乖離が少ない<br></p>
 
                     </main>
 
