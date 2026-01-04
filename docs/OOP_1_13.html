@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>for文の意味 - 豆知識集</title>
+        <title>オブジェクト指向:前半 - 豆知識集</title>
 
 
         <!-- Custom HTML head -->
@@ -176,71 +176,209 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="今日の豆知識1"><a class="header" href="#今日の豆知識1">今日の豆知識.1</a></h1>
-<p>CやC#の従来型forと、PythonやRustのforは意味が違う</p>
+                        <h1 id="今日の豆知識13"><a class="header" href="#今日の豆知識13">今日の豆知識.13</a></h1>
+<p>今日はオブジェクト指向プログラミング(Object Oriented Programming以降OOP)についての前半です。今回はかつてOOPがどのような方法でどのような問題を解決したのかについて説明し, 次回はOOPの問題点と現代のOOPはかつてのからどのように変化したのか,また, 他のパラダイム(OOP以前からある手続き型や最近話題の関数型や現代最も使われているであろうマルチパラダイムの言語など)についても軽くせつめいします。</p>
+<p>OOPを一言で説明するなら“<strong>状態を持つモノ(Object)中心で記述するプログラミングパラダイム</strong>“</p>
+<p>オブジェクトとは何か? -&gt; データ + ふるまい(メソッド)</p>
+<p>OOPが解決しようとした問題</p>
+<ol>
+<li>大規模化によるコードの把握困難(スパゲッティコードの発生)
 <ul>
-<li>Cのforは「どう回すか」を書く</li>
-<li>Rust/Pythonのforは「何を回すか」を書く</li>
+<li>プログラムが大きくなると、どこでどのデータが書き換えられたか追跡できなくなり、修正が別の場所に予期せぬ影響が出る</li>
 </ul>
-<p>C系の</p>
-<pre><code class="language-c">for(int i = 0; i &lt; n; i++)
+</li>
+<li>データと処理の乖離
+<ul>
+<li>同じデータ構造を複数の関数が勝手に操作できてしまう</li>
+</ul>
+</li>
+<li>再利用の難しさ
+<ul>
+<li>似たような機能を作るときも、コードをコピー＆ペーストして一部を書き換えるしかなく、修正が必要な際に関係箇所すべてを直す手間や修正忘れの可能性</li>
+</ul>
+</li>
+<li>現実世界との乖離
+<ul>
+<li>現実の概念が,コード上ではただの変数と関数の集まりになり,直感的に理解しにくかった</li>
+</ul>
+</li>
+</ol>
+<p>これに対するOOPのアプローチ</p>
+<ul>
+<li><strong>カプセル化</strong>: データとそれを操作する関数（メソッド）を一つにまとめ、外部から直接触らせない。</li>
+<li><strong>継承</strong>: 既存のクラスの機能を引き継いで、新しいクラスを作る。</li>
+<li><strong>ポリモーフィズム</strong>: 異なるオブジェクトに対して、同じ名前のメソッドで異なる振る舞いをさせる。</li>
+</ul>
+<p>とりあえずC#でOOPを使って書いたコードを見てみましょう</p>
+<p>このプログラムはペンを使って入力した文字を色付きや斜体で出力するものです。</p>
+<pre><code class="language-cs">using System;
+using System.Collections.Generic;
+
+// ペンの抽象クラス
+abstract class Pen
 {
-  body(i);
+    public abstract void Write(string input);
 }
-</code></pre>
-<p>は意味的には以下と同等</p>
-<pre><code class="language-c">int i = 0;
-while(i &lt; n)
+// ペンを継承してボールペンクラスを作る
+class BallPen : Pen
 {
-  body(i);
-  i++;
-}
-</code></pre>
-<p>一方、PythonやRustの</p>
-<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>for i in 0..n {
-  body(i);
-}
-<span class="boring">}</span></code></pre>
-<p>は</p>
-<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let mut it = IntoIterator::into_iter(0..n);
-loop {
-    match it.next() {
-        Some(x) =&gt; body(x),
-        None =&gt; break,
+    public required Ink ink;
+    public override void Write(string input)
+    {
+        Console.WriteLine(ink.Color + input + "\u001b[0m"); // inkの色で出力
     }
 }
-<span class="boring">}</span></code></pre>
-<p>と同等で、イテレータを順に消費しています。</p>
-<p>ちなみに C++ には</p>
-<pre><code class="language-cpp">for (auto x : v)
+// ペンを継承して万年筆クラスを作る
+class FountainPen : Pen
 {
-  body(x);
+    public required Ink ink;
+    public override void Write(string input)
+    {
+        Console.WriteLine(ink.Color + "\u001b[3m" + input + "\u001b[23m" + "\u001b[0m"); // inkの色で斜体で出力
+    }
+}
+// インクの抽象クラス
+abstract class Ink
+{
+    abstract public string Color { get; }
+}
+// インクを継承して赤インククラスを作る
+class RedInk : Ink
+{
+    string color = "\x1b[31m"; // 赤色
+    public override string Color
+    {
+        get { return color; }
+    }
+}
+// インクを継承して青インククラスを作る
+class BlueInk : Ink
+{
+    string color = "\u001b[34m"; // 青色
+    public override string Color
+    {
+        get { return color; }
+    }
+}
+class Writer
+{
+    public void WriteWithPen(Pen pen)
+    {
+        string input = Console.ReadLine()?.Trim() ?? ""; // 入力でCtrl + Zとかを押されたときには空文字にする
+        pen.Write(input);
+    }
+}
+class Program
+{
+    static void Main()
+    {
+        Pen redBallPen = new BallPen { ink = new RedInk() };
+        Pen blueFountainPen = new FountainPen { ink = new BlueInk() };
+        Writer writer = new Writer();
+        writer.WriteWithPen(redBallPen);
+        writer.WriteWithPen(blueFountainPen);
+    }
 }
 </code></pre>
-<p>という range-based for があり、これは Python や Rust の for と同じ意味を持ちます。</p>
-<p>また C# には</p>
-<pre><code class="language-cs">foreach (var x in v)
-{
-  body(x);
+<p>これだけを見ても何が良くてこんなコードを書いているのかわからないかもしれませんが, 手続き型のC言語でコードと比較すると良さがわかると思います。</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+// ペンの種類を列挙
+typedef enum {
+    PEN_BALL,
+    PEN_FOUNTAIN
+} PenType;
+// インクの種類を列挙
+typedef enum {
+    INK_RED,
+    INK_BLUE
+} InkType;
+// インクの種類とペンの種類でペンを定義
+typedef struct {
+    PenType pen;
+    InkType ink;
+} Pen;
+// インクの色にあった文字列を返す
+const char* ink_color(InkType ink) {
+    // インクの種類によって分岐
+    switch (ink) {
+        case INK_RED:  return "\x1b[31m";
+        case INK_BLUE: return "\x1b[34m";
+        default:       return "\x1b[0m";
+    }
+}
+// ペンの種類によって出力
+void pen_write(Pen* pen, const char* input) {
+    const char* color = ink_color(pen-&gt;ink);
+
+    // ペンの種類によって分岐
+    switch (pen-&gt;pen) {
+        case PEN_BALL:
+            printf("%s%s\x1b[0m\n", color, input);
+            break;
+
+        case PEN_FOUNTAIN:
+            printf("%s\x1b[3m%s\x1b[23m\x1b[0m\n", color, input);
+            break;
+    }
+}
+
+void write_with_pen(Pen pen){
+    char input[1000];
+    scanf("%s1000",input);
+    pen_write(&amp;pen, input);
+}
+
+int main() {
+    Pen red_ball = { PEN_BALL, INK_RED };
+    Pen blue_fountain = { PEN_FOUNTAIN, INK_BLUE };
+    char input[1000];
+    write_with_pen(red_ball);
+    write_with_pen(blue_fountain);
 }
 </code></pre>
-<p>という書き方があり、これも IEnumerable を使ったイテレータベースの for です。</p>
+<p>例えば<strong>インク</strong>に<strong>黒</strong>を,<strong>ペン</strong>に<strong>斜体+太字の筆</strong>を追加したいときを考えます。</p>
+<p>C言語の場合は<code>pen_write</code>の中の条件分岐</p>
+<pre><code class="language-c">// ペンの種類によって分岐
+switch (pen-&gt;pen) {
+    case PEN_BALL:
+        printf("%s%s\x1b[0m\n", color, input);
+        break;
+
+    case PEN_FOUNTAIN:
+        printf("%s\x1b[3m%s\x1b[23m\x1b[0m\n", color, input);
+        break;
+}
+</code></pre>
+<p>に新たに<strong>筆</strong>だった時の分岐を</p>
+<p>また<code>ink_color</code>の中の条件分岐</p>
+<pre><code class="language-c">// インクの種類によって分岐
+switch (ink) {
+    case INK_RED:  return "\x1b[31m";
+    case INK_BLUE: return "\x1b[34m";
+    default:       return "\x1b[0m";
+}
+</code></pre>
+<p>の中に<strong>黒</strong>だった時の分岐を新たに作る必要があります。</p>
+<p>このように,新しいものを追加するときに<code>pen_write</code>や<code>ink_color</code>といった既存の関数の中身に変更を加える必要があり,<strong>ボールペン</strong>や<strong>青色インク</strong>のように既に動作が保証されているものの動作にかかわる場所を変更することになるので,既存のものを壊してしまう可能性があります。この例は単純なので大きな問題にはなりませんが,規模が大きくなると小さな変更でコード全体が壊れてしまうこともあり,さらに,壊れたときの原因の特定も大変です。</p>
+<p>一方、C#でOOPに基づいて作る場合は</p>
+<p><strong>筆</strong>のクラスをボールペンや万年筆同様に<strong>Pen</strong>という抽象クラスを継承する形で作る。</p>
+<p><strong>黒色インク</strong>のクラスを赤色インクや青色インク同様に<strong>Ink</strong>という抽象クラスを継承して作る。</p>
+<p>これだけでよく,既存のコードには一切変更を加える必要がありません。そのため変更に強いと言えます。</p>
+<p>さらにC#では<code>Write</code>という振る舞い(関数(メソッド))が<code>Pen</code>というデータに紐づいている一方,C言語での<code>pen_write</code>は頑張って<code>pen_</code>と名前に付けることで関連性を表現していますが,結びつきはC#のよりも圧倒的に弱いです。</p>
+<p>説明が足りなかったかもと思うところの補足</p>
+<p>カプセル化は,前回説明した<code>public</code>/<code>private</code>とかかわりが深く,今回の例ではC#ので,<code>RedInk</code>や<code>BlueInk</code>の<code>color</code>は取得専用でクラスの外からは<code>getter</code>を使っての取得のみが許されていて書き変えや直接の取得はできないようになっていることなどが該当する。これにより予期しない<code>color</code>の変更を防ぐことができる。</p>
+<p>継承とは, 継承元のクラスにあるふるまいを継承先に実装することを強制することで共通のものとして扱えるようにすることであり,ここでは<code>Pen</code>を継承するものに<code>Write</code>を実装することを強制することでボールペンも万年筆もペンとして扱えるようにしている。</p>
+<p>ポリモーフィズムについては,<code>pen.Write(input);</code>だけで条件分岐を使わずにいろんなペンのでの出力ができるようになっていることがいい例だろう</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="access.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="struct_class_12.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="semicolon_2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -248,13 +386,10 @@ loop {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="access.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="struct_class_12.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="semicolon_2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>

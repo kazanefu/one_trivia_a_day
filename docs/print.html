@@ -38,10 +38,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-b252c116.js";
+            window.path_to_searchindex_js = "searchindex-bff69f66.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-97696a45.js"></script>
+        <script src="toc-9aa226c3.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -191,6 +191,7 @@
 <li><a href="#今日の豆知識10">ヒープ領域/スタック領域</a></li>
 <li><a href="#今日の豆知識11">コンパイラとインタプリタ</a></li>
 <li><a href="#今日の豆知識12">構造体とクラス</a></li>
+<li><a href="#今日の豆知識13">オブジェクト指向:前半</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="豆知識集"><a href="#豆知識集" class="header">豆知識集</a></h1>
@@ -207,6 +208,7 @@
 <li><a href="#今日の豆知識10">ヒープ領域/スタック領域</a></li>
 <li><a href="#今日の豆知識11">コンパイラとインタプリタ</a></li>
 <li><a href="#今日の豆知識12">構造体とクラス</a></li>
+<li><a href="#今日の豆知識13">オブジェクト指向:前半</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="今日の豆知識1"><a class="header" href="#今日の豆知識1">今日の豆知識.1</a></h1>
@@ -2129,6 +2131,201 @@ class Program
 <pre><code>200
 200
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識13"><a class="header" href="#今日の豆知識13">今日の豆知識.13</a></h1>
+<p>今日はオブジェクト指向プログラミング(Object Oriented Programming以降OOP)についての前半です。今回はかつてOOPがどのような方法でどのような問題を解決したのかについて説明し, 次回はOOPの問題点と現代のOOPはかつてのからどのように変化したのか,また, 他のパラダイム(OOP以前からある手続き型や最近話題の関数型や現代最も使われているであろうマルチパラダイムの言語など)についても軽くせつめいします。</p>
+<p>OOPを一言で説明するなら“<strong>状態を持つモノ(Object)中心で記述するプログラミングパラダイム</strong>“</p>
+<p>オブジェクトとは何か? -&gt; データ + ふるまい(メソッド)</p>
+<p>OOPが解決しようとした問題</p>
+<ol>
+<li>大規模化によるコードの把握困難(スパゲッティコードの発生)
+<ul>
+<li>プログラムが大きくなると、どこでどのデータが書き換えられたか追跡できなくなり、修正が別の場所に予期せぬ影響が出る</li>
+</ul>
+</li>
+<li>データと処理の乖離
+<ul>
+<li>同じデータ構造を複数の関数が勝手に操作できてしまう</li>
+</ul>
+</li>
+<li>再利用の難しさ
+<ul>
+<li>似たような機能を作るときも、コードをコピー＆ペーストして一部を書き換えるしかなく、修正が必要な際に関係箇所すべてを直す手間や修正忘れの可能性</li>
+</ul>
+</li>
+<li>現実世界との乖離
+<ul>
+<li>現実の概念が,コード上ではただの変数と関数の集まりになり,直感的に理解しにくかった</li>
+</ul>
+</li>
+</ol>
+<p>これに対するOOPのアプローチ</p>
+<ul>
+<li><strong>カプセル化</strong>: データとそれを操作する関数（メソッド）を一つにまとめ、外部から直接触らせない。</li>
+<li><strong>継承</strong>: 既存のクラスの機能を引き継いで、新しいクラスを作る。</li>
+<li><strong>ポリモーフィズム</strong>: 異なるオブジェクトに対して、同じ名前のメソッドで異なる振る舞いをさせる。</li>
+</ul>
+<p>とりあえずC#でOOPを使って書いたコードを見てみましょう</p>
+<p>このプログラムはペンを使って入力した文字を色付きや斜体で出力するものです。</p>
+<pre><code class="language-cs">using System;
+using System.Collections.Generic;
+
+// ペンの抽象クラス
+abstract class Pen
+{
+    public abstract void Write(string input);
+}
+// ペンを継承してボールペンクラスを作る
+class BallPen : Pen
+{
+    public required Ink ink;
+    public override void Write(string input)
+    {
+        Console.WriteLine(ink.Color + input + "\u001b[0m"); // inkの色で出力
+    }
+}
+// ペンを継承して万年筆クラスを作る
+class FountainPen : Pen
+{
+    public required Ink ink;
+    public override void Write(string input)
+    {
+        Console.WriteLine(ink.Color + "\u001b[3m" + input + "\u001b[23m" + "\u001b[0m"); // inkの色で斜体で出力
+    }
+}
+// インクの抽象クラス
+abstract class Ink
+{
+    abstract public string Color { get; }
+}
+// インクを継承して赤インククラスを作る
+class RedInk : Ink
+{
+    string color = "\x1b[31m"; // 赤色
+    public override string Color
+    {
+        get { return color; }
+    }
+}
+// インクを継承して青インククラスを作る
+class BlueInk : Ink
+{
+    string color = "\u001b[34m"; // 青色
+    public override string Color
+    {
+        get { return color; }
+    }
+}
+class Writer
+{
+    public void WriteWithPen(Pen pen)
+    {
+        string input = Console.ReadLine()?.Trim() ?? ""; // 入力でCtrl + Zとかを押されたときには空文字にする
+        pen.Write(input);
+    }
+}
+class Program
+{
+    static void Main()
+    {
+        Pen redBallPen = new BallPen { ink = new RedInk() };
+        Pen blueFountainPen = new FountainPen { ink = new BlueInk() };
+        Writer writer = new Writer();
+        writer.WriteWithPen(redBallPen);
+        writer.WriteWithPen(blueFountainPen);
+    }
+}
+</code></pre>
+<p>これだけを見ても何が良くてこんなコードを書いているのかわからないかもしれませんが, 手続き型のC言語でコードと比較すると良さがわかると思います。</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+// ペンの種類を列挙
+typedef enum {
+    PEN_BALL,
+    PEN_FOUNTAIN
+} PenType;
+// インクの種類を列挙
+typedef enum {
+    INK_RED,
+    INK_BLUE
+} InkType;
+// インクの種類とペンの種類でペンを定義
+typedef struct {
+    PenType pen;
+    InkType ink;
+} Pen;
+// インクの色にあった文字列を返す
+const char* ink_color(InkType ink) {
+    // インクの種類によって分岐
+    switch (ink) {
+        case INK_RED:  return "\x1b[31m";
+        case INK_BLUE: return "\x1b[34m";
+        default:       return "\x1b[0m";
+    }
+}
+// ペンの種類によって出力
+void pen_write(Pen* pen, const char* input) {
+    const char* color = ink_color(pen-&gt;ink);
+
+    // ペンの種類によって分岐
+    switch (pen-&gt;pen) {
+        case PEN_BALL:
+            printf("%s%s\x1b[0m\n", color, input);
+            break;
+
+        case PEN_FOUNTAIN:
+            printf("%s\x1b[3m%s\x1b[23m\x1b[0m\n", color, input);
+            break;
+    }
+}
+
+void write_with_pen(Pen pen){
+    char input[1000];
+    scanf("%s1000",input);
+    pen_write(&amp;pen, input);
+}
+
+int main() {
+    Pen red_ball = { PEN_BALL, INK_RED };
+    Pen blue_fountain = { PEN_FOUNTAIN, INK_BLUE };
+    char input[1000];
+    write_with_pen(red_ball);
+    write_with_pen(blue_fountain);
+}
+</code></pre>
+<p>例えば<strong>インク</strong>に<strong>黒</strong>を,<strong>ペン</strong>に<strong>斜体+太字の筆</strong>を追加したいときを考えます。</p>
+<p>C言語の場合は<code>pen_write</code>の中の条件分岐</p>
+<pre><code class="language-c">// ペンの種類によって分岐
+switch (pen-&gt;pen) {
+    case PEN_BALL:
+        printf("%s%s\x1b[0m\n", color, input);
+        break;
+
+    case PEN_FOUNTAIN:
+        printf("%s\x1b[3m%s\x1b[23m\x1b[0m\n", color, input);
+        break;
+}
+</code></pre>
+<p>に新たに<strong>筆</strong>だった時の分岐を</p>
+<p>また<code>ink_color</code>の中の条件分岐</p>
+<pre><code class="language-c">// インクの種類によって分岐
+switch (ink) {
+    case INK_RED:  return "\x1b[31m";
+    case INK_BLUE: return "\x1b[34m";
+    default:       return "\x1b[0m";
+}
+</code></pre>
+<p>の中に<strong>黒</strong>だった時の分岐を新たに作る必要があります。</p>
+<p>このように,新しいものを追加するときに<code>pen_write</code>や<code>ink_color</code>といった既存の関数の中身に変更を加える必要があり,<strong>ボールペン</strong>や<strong>青色インク</strong>のように既に動作が保証されているものの動作にかかわる場所を変更することになるので,既存のものを壊してしまう可能性があります。この例は単純なので大きな問題にはなりませんが,規模が大きくなると小さな変更でコード全体が壊れてしまうこともあり,さらに,壊れたときの原因の特定も大変です。</p>
+<p>一方、C#でOOPに基づいて作る場合は</p>
+<p><strong>筆</strong>のクラスをボールペンや万年筆同様に<strong>Pen</strong>という抽象クラスを継承する形で作る。</p>
+<p><strong>黒色インク</strong>のクラスを赤色インクや青色インク同様に<strong>Ink</strong>という抽象クラスを継承して作る。</p>
+<p>これだけでよく,既存のコードには一切変更を加える必要がありません。そのため変更に強いと言えます。</p>
+<p>さらにC#では<code>Write</code>という振る舞い(関数(メソッド))が<code>Pen</code>というデータに紐づいている一方,C言語での<code>pen_write</code>は頑張って<code>pen_</code>と名前に付けることで関連性を表現していますが,結びつきはC#のよりも圧倒的に弱いです。</p>
+<p>説明が足りなかったかもと思うところの補足</p>
+<p>カプセル化は,前回説明した<code>public</code>/<code>private</code>とかかわりが深く,今回の例ではC#ので,<code>RedInk</code>や<code>BlueInk</code>の<code>color</code>は取得専用でクラスの外からは<code>getter</code>を使っての取得のみが許されていて書き変えや直接の取得はできないようになっていることなどが該当する。これにより予期しない<code>color</code>の変更を防ぐことができる。</p>
+<p>継承とは, 継承元のクラスにあるふるまいを継承先に実装することを強制することで共通のものとして扱えるようにすることであり,ここでは<code>Pen</code>を継承するものに<code>Write</code>を実装することを強制することでボールペンも万年筆もペンとして扱えるようにしている。</p>
+<p>ポリモーフィズムについては,<code>pen.Write(input);</code>だけで条件分岐を使わずにいろんなペンのでの出力ができるようになっていることがいい例だろう</p>
 
                     </main>
 
