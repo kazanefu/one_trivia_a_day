@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Pythonでの代入 - 豆知識集</title>
+        <title>オブジェクト指向:後半 - 豆知識集</title>
 
 
         <!-- Custom HTML head -->
@@ -176,108 +176,407 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="今日の豆知識5"><a class="header" href="#今日の豆知識5">今日の豆知識.5</a></h1>
-<p>Python使ってる人多そうなのでPythonの豆知識</p>
-<p>まずは以下のPythonのコードを見てみてください</p>
-<pre><code class="language-python">x = 5
-x = x + 7
-</code></pre>
-<p>これを見たときC言語の以下のコードと同等だと思ったりしてませんか?
-①</p>
-<pre><code class="language-c">int x = 5;
-x = x + 7;
-</code></pre>
-<p>実はこれは意味としては同等ではありません
-同等なコードをわかりやすく書くならば
-②</p>
-<pre><code class="language-c">int x = 5;
-int x = x + 7;
-</code></pre>
-<p>となります。
-まだ, “は?何が違うの?” って思うかもしれないので言語仕様的にこの違いが分かりやすいRustで①と②をそれぞれ書いてみましょう
-①’</p>
-<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let mut x = 5;
-x = x + 7;
-<span class="boring">}</span></code></pre>
-<p>②’</p>
-<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let x = 5;
-let x = x + 7;
-<span class="boring">}</span></code></pre>
-<p>のようになります
-ここで①’と②’に二つ違いがあることがわかると思います
-一つ目に違いは①’の一行目に<code>mut</code>というキーワードが入っていることです
-<code>mut</code>は“mutable“つまり“可変“を意味します。このキーワードがあるとその変数の値が変更可能になります
-二つ目に違いは二行目に<code>let</code>というキーワードがあるかの違いです
-<code>let</code>はその変数を(ここでは<code>x</code>)を宣言してその変数の値を入れるためのメモリ領域を割り当てます
-つまり<code>let x = 5;</code>を日本語の疑似コードで意味を書くと</p>
-<pre><code>xという変数の値を格納するためにメモリのN番地を割り当てる
-xにはN番地が割り当てられてるのでN番地に5という値を格納する
-</code></pre>
-<p>ということになります
-つまり①は</p>
-<pre><code>右辺: 値(5)
-xという変数の値を格納するためにメモリの N番地 を割り当てる(xの値は書き変え可能) // letの意味
-左辺:xには N番地 が割り当てられている
-左辺でわかった N番地 に,右辺でわかった 値(5) を格納 // ここまでが1行目の処理
+                        <h1 id="今日の豆知識14"><a class="header" href="#今日の豆知識14">今日の豆知識.14</a></h1>
+<p>何日か遅れてすいません。今日はOOPの後半です。前半で言い忘れましたが、ここで話しているのはクラスベースオブジェクト指向であり、プロトタイプチェーンベース（JavaScriptなど）については、いずれ説明します。</p>
+<p>前回のC#のコードをもう一回見てみましょう</p>
+<pre><code class="language-cs">using System;
+using System.Collections.Generic;
 
-右辺:xには N番地 が割り当てられているのでそこの値を読み取る -&gt; 値(5): これに 値(7) を足す -&gt; 値(12)
-左辺:xには N番地 が割り当てられている
-左辺でわかった N番地 に,右辺でわかった 値(12) を格納
+// ペンの抽象クラス
+abstract class Pen
+{
+    public abstract void Write(string input);
+}
+// ペンを継承してボールペンクラスを作る
+class BallPen : Pen
+{
+    public required Ink ink;
+    public override void Write(string input)
+    {
+        Console.WriteLine(ink.Color + input + "\u001b[0m"); // inkの色で出力
+    }
+}
+// ペンを継承して万年筆クラスを作る
+class FountainPen : Pen
+{
+    public required Ink ink;
+    public override void Write(string input)
+    {
+        Console.WriteLine(ink.Color + "\u001b[3m" + input + "\u001b[23m" + "\u001b[0m"); // inkの色で斜体で出力
+    }
+}
+// インクの抽象クラス
+abstract class Ink
+{
+    abstract public string Color { get; }
+}
+// インクを継承して赤インククラスを作る
+class RedInk : Ink
+{
+    string color = "\x1b[31m"; // 赤色
+    public override string Color
+    {
+        get { return color; }
+    }
+}
+// インクを継承して青インククラスを作る
+class BlueInk : Ink
+{
+    string color = "\u001b[34m"; // 青色
+    public override string Color
+    {
+        get { return color; }
+    }
+}
+class Writer
+{
+    public void WriteWithPen(Pen pen)
+    {
+        string input = Console.ReadLine()?.Trim() ?? ""; // 入力でCtrl + Zとかを押されたときには空文字にする
+        pen.Write(input);
+    }
+}
+class Program
+{
+    static void Main()
+    {
+        Pen redBallPen = new BallPen { ink = new RedInk() };
+        Pen blueFountainPen = new FountainPen { ink = new BlueInk() };
+        Writer writer = new Writer();
+        writer.WriteWithPen(redBallPen);
+        writer.WriteWithPen(blueFountainPen);
+    }
+}
 </code></pre>
-<p>一方②は</p>
-<pre><code>右辺: 値(5)
-xという変数の値を格納するためにメモリの N番地 を割り当てる // letの意味
-左辺:xには N番地 が割り当てられている
-左辺でわかった N番地 に,右辺でわかった 値(5) を格納 // ここまでが1行目の処理
+<p>この例では確かにペンの中に{ボールペン,万年筆}が分類されることや,インクに{赤インク,青インク}が分類される現実世界の階層を的確に表現できています。しかし,現実の世界をすべて綺麗なツリー構造(親子関係)で表現するのは非常に困難です。</p>
+<h3 id="1-継承による分類の限界"><a class="header" href="#1-継承による分類の限界">1. 継承による分類の限界</a></h3>
+<p>例えば、新しく「空飛ぶペン」を追加したいとします。</p>
+<p>C#などの伝統的な強い継承を持つ言語で書こうとすると、以下のような問題に直面します。</p>
+<pre><code class="language-cs">// 「空飛ぶ」という機能を持たせたい
+abstract class FlyingObject {
+    public void Fly() =&gt; Console.WriteLine("空を飛ぶ");
+}
 
-右辺:xには N番地 が割り当てられているのでそこの値を読み取る -&gt; 値(5): これに 値(7) を足す -&gt; 値(12)
-xという変数の値を格納するためにメモリの M番地 を割り当てる
-左辺:xには M番地 が割り当てられている
-左辺でわかった M番地 に,右辺でわかった 値(12) を格納 
+// ペンを継承すると空を飛べない
+class FlyingPen : Pen {
+    // PenのWriteは持っているが、FlyingObjectのFlyは持てない (多重継承禁止)
+}
 </code></pre>
-<p>この通り①では一行目と二行目で x に割り当てられている番地が変わらないのに対して②では x に割り当てられている番地が N から M に変わっています</p>
-<p>これは簡単に示したものでさらに正確に考えると②,②’も最初に書いたPythonのコードとは少し意味が違います
-最初に書いたPythonのコードを正確に日本語の疑似コードで表現するのであれば</p>
-<pre><code>右辺: 値(5) がありこれをとりあえず N番地 に格納する -&gt; N番地
-変数x に対応する番地を 右辺から分かった N番地 とする // ここまでが一行目
+<p>「AはBである（継承）」という関係(is-aの関係)に縛られると、**「ペンであり、かつ空飛ぶ道具でもある」**ような存在を表現する際に、どちらを親にするか迷ったり、同じコードを両方にコピーして書く必要が出てきます。これが「継承」による密結合の欠点です。</p>
+<p>継承には他にも、実務上で直面する厄介な弱点があります：</p>
+<ul>
+<li><strong>カプセル化の破壊</strong>: 子クラスは親クラスの内部実装に依存しがちです。親クラスで「利便性のために」基底メソッドを少し変更しただけで、それを前提に組んでいた数十の子クラスが一斉に壊れる（<strong>基底クラスの脆弱性</strong>）という悪夢が起こります。</li>
+<li><strong>不要な機能の露出（APIの汚染）</strong>: 親クラスにあるメソッドはすべて子クラスに引き継がれます。例えば「ペン」を継承して「万年筆」を作ったとき、親の「ペン」に「分解する」というメソッドがあった場合、それが万年筆に不要であっても、外からは「万年筆.分解する()」が見えてしまいます。</li>
+<li><strong>神クラス（God Class）の温床</strong>: 共通機能を親に集約しすぎた結果、あらゆる機能を知り尽くした巨大なクラスが誕生し、保守不能になることがよくあります。</li>
+</ul>
+<p>また、ゲーム開発などでは、モノ中心のOOPよりも、データと機能を完全に分離する<strong>ECS (Entity Component System)</strong> という手法が、パフォーマンス（特にCPUキャッシュ効率）の面で圧倒的に有利な場合もあります。</p>
+<h3 id="2-インターフェースの合成-composition-over-inheritance"><a class="header" href="#2-インターフェースの合成-composition-over-inheritance">2. インターフェースの合成 (Composition over Inheritance)</a></h3>
+<p>現代の設計では、継承よりも<strong>インターフェースの合成(Composition)</strong>、つまり「どんな機能を持っているか（Has-aの関係）」を組み合わせる手法が主流です。</p>
+<p>先ほどの「空飛ぶペン」の問題を、C#の<strong>インターフェース</strong>を使って解決してみましょう。インターフェースとは、クラスに「この能力を持っています」という約束事（契約）をさせる仕組みです。</p>
+<pre><code class="language-cs">//=============インターフェイスを使う==============
+// 「飛ぶ能力（FlyingObject）」を定義
+interface FlyingObject
+{
+    void Fly();
+}
+// 「書く能力（Pen）」を定義
+interface Pen
+{
+    void Write(string input);
+}
+// FlyingObjectとPen、両方の能力を組み合わせて持つクラス
+class FlyingPen : FlyingObject, Pen 
+{
+    public required Ink ink;
+    public void Fly() =&gt; Console.WriteLine("空を飛ぶ");
+    public void Write(string input)
+    {
+        Console.WriteLine(ink.Color + input + "\u001b[0m"); 
+    }
+}
+class FlyingSomethings : FlyingObject // FlyingObjectを実装している
+{
+    public void Fly() =&gt; Console.WriteLine("空を飛ぶ");
+}
+</code></pre>
+<p>このようにインターフェースを使えば、多重継承の制限に縛られず、必要な機能をパズルのように組み合わせることができます。</p>
+<p>コンポジション（合成）が現代の設計で強く推奨されるのには、単なる「多重継承の回避」以上の、より積極的な理由があります：</p>
+<ul>
+<li><strong>「血統（何であるか）」から「能力（何ができるか）」への転換</strong>: 継承は「ペンの家系に生まれたから書ける」という固定的な考え方ですが、コンポジションは「書く能力を持っているから書ける」と考えます。この**アジリティ（俊敏性）**により、開発の後半で「実は空も飛べるようにしたい」となっても、家系図を書き換えることなく能力を追加できます。</li>
+<li><strong>レガシー負債の排除（ゴリラとバナナの問題）</strong>: 継承では、バナナ（一つの機能）が欲しいだけなのに、それを抱えたゴリラ（巨大な親クラス）と、さらにその背後のジャングル（親が依存している大量のコード）まで強制的に付いてきてしまいます。コンポジションなら必要な部品だけを選べるため、プログラムが重くなりません。</li>
+<li><strong>実行時の柔軟性</strong>: 継承は一度決めたら変えられませんが、コンポジションは「中身のエンジン（部品）」を実行中に入れ替えることができます。</li>
+</ul>
+<pre><code class="language-cs">// メリットの例：実行時に性格（挙動）を差し替える
+var normalPen = new FlyingPen { ink = new BlueInk() };
+// 実行中に「飛ぶ」時のエンジンを別のものに差し替えるといったことが容易
+</code></pre>
+<p>一方、<strong>コンポジションにも現実的な「面倒くささ」というトレードオフがあります</strong>：</p>
+<ul>
+<li><strong>記述量の増加（ボイラープレート）</strong>: 継承なら親のメソッドをそのまま使えますが、コンポジションでは「内部の部品を呼び出すだけのコード（委譲）」を一つずつ律儀に書く必要があります。</li>
+<li><strong>配線の複雑化</strong>: 小さな部品に分かれすぎると、それらをどこでどう組み立てるか（依存する部品を外から渡す作業など）のためのコードが別途必要になり、全体の構造が見えにくくなることがあります。</li>
+</ul>
+<pre><code class="language-cs">// デメリットの例：自分では何もせず、中の部品に丸投げするだけのコードが増える
+class HeavyObject : ISubFeature {
+    private readonly SubFeature _sub = new();
+    public void DoSomething() =&gt; _sub.DoSomething(); // これが100個あると辛い
+}
+</code></pre>
+<p><strong>Rust</strong>や<strong>Go</strong>などの新しい言語では、このコンポジションの考え方がさらに徹底されており、伝統的な「クラス継承」という仕組みそのものが存在しません。その代わりに「トレイト（Trait）」や「インターフェース」という仕組みで機能を合成します。
+Rustの例</p>
+<pre class="playground"><code class="language-rust">// traitはインターフェイスみたいなもの
+// FlyingObjectは空を飛ぶことができる
+trait FlyingObject {
+    fn fly(&amp;self);
+}
+// Penは文章を書くことができる
+trait Pen {
+    fn write(&amp;self, input: &amp;str);
+}
+#[derive(Clone)]
+struct FlyingPen {
+    ink: Ink,
+}
+// FlyingPenに飛ぶ能力を付与
+impl FlyingObject for FlyingPen {
+    fn fly(&amp;self) {
+        println!("I can fly!");
+    }
+}
+// FlyingPenに書く能力を付与
+impl Pen for FlyingPen {
+    fn write(&amp;self, input: &amp;str) {
+        println!("{}{}\u{001b}[0m", self.ink.color(), input);
+    }
+}
+#[derive(Clone)]
+struct BallPen {
+    ink: Ink,
+}
+// BallPenに書く能力を付与
+impl Pen for BallPen {
+    fn write(&amp;self, input: &amp;str) {
+        println!("{}{}\u{001b}[0m", self.ink.color(), input);
+    }
+}
+#[derive(Clone)]
+struct FountainPen {
+    ink: Ink,
+}
+// FountainPenに書く能力を付与
+impl Pen for FountainPen {
+    fn write(&amp;self, input: &amp;str) {
+        println!(
+            "{}\u{001b}[3m{}\u{001b}[23m\u{001b}[0m",
+            self.ink.color(),
+            input
+        );
+    }
+}
+#[derive(Clone)]
+enum Ink {
+    Red,
+    Blue,
+    Green,
+}
+// Inkは色を表す
+impl Ink {
+    fn color(&amp;self) -&gt; &amp;str {
+        match self {
+            Ink::Red =&gt; "\u{001b}[31m",
+            Ink::Blue =&gt; "\u{001b}[34m",
+            Ink::Green =&gt; "\u{001b}[32m",
+        }
+    }
+}
+// Writerはペンを持っている
+struct Writer {
+    pen: Option&lt;Box&lt;dyn Pen&gt;&gt;,
+}
+// Writerにペンを設定したり、文章を書くことができる
+impl Writer {
+    // 新しいWriterを作る
+    fn new() -&gt; Writer {
+        Writer { pen: None }
+    }
+    // 新しいWriterを作る
+    fn new_with_pen(pen: Box&lt;dyn Pen&gt;) -&gt; Writer {
+        Writer { pen: Some(pen) }
+    }
+    // 文章を書く
+    fn write(&amp;self) {
+        let mut input = String::new();
+        std::io::stdin().read_line(&amp;mut input).unwrap();
+        input = input.trim().to_string();
+        match self.pen {
+            Some(ref pen) =&gt; pen.write(&amp;input),
+            None =&gt; println!("Pen is not set"),
+        }
+    }
+    // ペンを設定する
+    fn set_pen(&amp;mut self, pen: Box&lt;dyn Pen&gt;) {
+        self.pen = Some(pen);
+    }
+}
+fn main() {
+    let flying_pen = FlyingPen { ink: Ink::Blue };
+    let mut writer = Writer::new_with_pen(Box::new(flying_pen.clone()));
+    writer.write();
+    writer.set_pen(Box::new(BallPen { ink: Ink::Red }));
+    writer.write();
+    writer.set_pen(Box::new(FountainPen { ink: Ink::Green }));
+    writer.write();
+    flying_pen.fly();
+    let mut writet2 = Writer::new();
+    writet2.write();
+    writet2.set_pen(Box::new(BallPen { ink: Ink::Red }));
+    writet2.write();
+}</code></pre>
+<p>Goの例</p>
+<pre><code class="language-go">package main
 
-右辺: 変数x には N番地 が割り当てられてるのでそこの値を読み取る -&gt; 値(5): これに 値(7)を足す -&gt; 値(12) : 値(12)　をとりあえず M番地 に格納する -&gt; M番地
-変数x に対応する番地を 右辺から分かった M番地 とする
-</code></pre>
-<p>のようになっています
-ちなみに</p>
-<pre><code class="language-python">x = 10
-x = x
-</code></pre>
-<p>のようにしたときは</p>
-<pre><code>右辺: 値(10) がありこれをとりあえず N番地 に格納する -&gt; N番地
-変数x に対応する番地を 右辺から分かった N番地 とする
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
 
-右辺: 変数x に対応する番地は N番地  -&gt; N番地
-変数x に対応する番地を 右辺から分かった N番地 とする
+// FlyingObject インターフェース
+type FlyingObject interface {
+	Fly()
+}
+
+// Pen インターフェース
+type Pen interface {
+	Write(input string)
+}
+
+// Ink 型 (Rustのenumに相当)
+type Ink int
+
+const (
+	Red Ink = iota
+	Blue
+	Green
+)
+
+func (i Ink) Color() string {
+	switch i {
+	case Red:
+		return "\033[31m"
+	case Blue:
+		return "\033[34m"
+	case Green:
+		return "\033[32m"
+	default:
+		return "\033[0m"
+	}
+}
+
+// FlyingPen 構造体
+type FlyingPen struct {
+	Ink Ink
+}
+
+// FlyingObject インターフェースの実装
+func (p FlyingPen) Fly() {
+	fmt.Println("I can fly!")
+}
+
+// Pen インターフェースの実装
+func (p FlyingPen) Write(input string) {
+	fmt.Printf("%s%s\033[0m\n", p.Ink.Color(), input)
+}
+
+// BallPen 構造体
+type BallPen struct {
+	Ink Ink
+}
+
+func (p BallPen) Write(input string) {
+	fmt.Printf("%s%s\033[0m\n", p.Ink.Color(), input)
+}
+
+// FountainPen 構造体
+type FountainPen struct {
+	Ink Ink
+}
+
+func (p FountainPen) Write(input string) {
+	// イタリック (\033[3m) を適用
+	fmt.Printf("%s\033[3m%s\033[23m\033[0m\n", p.Ink.Color(), input)
+}
+
+// Writer 構造体 (Penインターフェースを保持)
+type Writer struct {
+	pen Pen
+}
+
+func (w *Writer) SetPen(p Pen) {
+	w.pen = p
+}
+
+func (w *Writer) Write() {
+	if w.pen == nil {
+		fmt.Println("Pen is not set")
+		return
+	}
+
+	reader := bufio.NewReader(os.Stdin)
+	input, _ := reader.ReadString('\n')
+	input = strings.TrimSpace(input)
+	w.pen.Write(input)
+}
+
+func main() {
+	flyingPen := FlyingPen{Ink: Blue}
+	writer := Writer{pen: flyingPen} // インターフェースなので直接渡せる
+
+	// 1. FlyingPenで書く
+	writer.Write()
+
+	// 2. BallPenに持ち替えて書く
+	writer.SetPen(BallPen{Ink: Red})
+	writer.Write()
+
+	// 3. FountainPenに持ち替えて書く
+	writer.SetPen(FountainPen{Ink: Green})
+	writer.Write()
+
+	// 4. 飛ぶ機能を呼び出す
+	flyingPen.Fly()
+
+	// 5. 空のWriter
+	writer2 := Writer{}
+	writer2.Write()
+	writer2.SetPen(BallPen{Ink: Red})
+	writer2.Write()
+}
 </code></pre>
-<p>のようになっています
-つまり</p>
-<pre><code class="language-python">x = 10
-y = x
+<p>このように、現代の設計は「大きな親クラスからすべてを引き継ぐ」構造から、**「小さな機能をパズルのように組み合わせて新しいモノを作る」**方向へシフトしました。これにより、不要な依存関係を断ち切り、変更に強い柔軟なプログラムを書けるようになります。</p>
+<h3 id="3-関数型プログラミングがなぜ注目されているのか"><a class="header" href="#3-関数型プログラミングがなぜ注目されているのか">3. 関数型プログラミングがなぜ注目されているのか</a></h3>
+<p>OOPが「状態をモノの中に隠す」のに対し、関数型は<strong>状態を変えず（不変）、データの変換に集中する</strong>考え方です。</p>
+<p>最近これが再評価されている最大の理由は、<strong>マルチコアCPUへの対応</strong>です。
+「どこからでも書き換えられるデータ」があると、複数の処理が同時に触った時にデータが壊れます。しかし、関数型のように「データは書き換えず、常に新しいデータを作る」なら、その心配がなくなります。</p>
+<pre><code class="language-cs">// OOP的な書き方 (状態を書き換える)
+var list = new List&lt;int&gt; { 1, 2, 3 };
+for(int i = 0; i &lt; list.Count; i++) list[i] *= 2; // 元のデータを上書き
+
+// 関数型的な書き方 (C# LINQ: 新しいデータを作る)
+var newList = list.Select(x =&gt; x * 2).ToList(); // 元のデータは壊さない
 </code></pre>
-<p>では<code>x</code>と<code>y</code>の割り当てられている番地は一緒になっているんです</p>
+<p>現在のプログラミングは、「全体的な設計はオブジェクト指向（モノの整理）で行い、実行するロジックは関数型（データの安全な変換）で書く」という、いいとこ取りの<strong>マルチパラダイム</strong>が主流になっています。</p>
+<p>このように、「やり方（ループの回し方）」ではなく「何が欲しいか（2倍にしたリスト）」を記述するスタイルを**宣言的（Declarative）**と呼びます。計算の途中で外の値を書き換えない（<strong>副作用</strong>がない）ため、プログラムの動作が非常に予測しやすくなり、バグを減らすことができます。</p>
+<p>「どれか一つの言語や手法が正解」ではなく、それぞれの得意分野を知って使い分けるのが、現代のエンジニアにとって重要なスキルと言えるでしょう。</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="name_4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="OOP_1_13.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="asign_6.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -285,13 +584,10 @@ y = x
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="name_4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="OOP_1_13.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="asign_6.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>
