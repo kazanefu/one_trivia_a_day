@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>言語ごとに命名規則は違う - 豆知識集</title>
+        <title>イテレータ - 豆知識集</title>
 
 
         <!-- Custom HTML head -->
@@ -176,173 +176,283 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="今日の豆知識4"><a class="header" href="#今日の豆知識4">今日の豆知識.4</a></h1>
-<p>変数や構造体や関数などの命名規則(慣習的なもの)は言語によって結構違う</p>
-<p>区切り方でよくありもの</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>形式</th><th>例</th><th>呼び方</th></tr>
-</thead>
-<tbody>
-<tr><td><code>camelCase</code></td><td><code>myValue</code></td><td>キャメルケース  (ローワーキャメルケース)</td></tr>
-<tr><td><code>PascalCase</code></td><td><code>MyValue</code></td><td>パスカルケース  (アッパーキャメルケース)</td></tr>
-<tr><td><code>snake_case</code></td><td><code>my_value</code></td><td>スネークケース  (ローワースネークケース)</td></tr>
-<tr><td><code>SCREAMING_SNAKE_CASE</code></td><td><code>MAX_SIZE</code></td><td>( アッパースネークケース)</td></tr>
-<tr><td><code>kebab-case</code></td><td><code>my-value</code></td><td>ケバブケース</td></tr>
-</tbody>
-</table>
-</div>
-<p>接頭・接尾記号でよくあるもの</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>記号</th><th>代表的意味</th></tr>
-</thead>
-<tbody>
-<tr><td><code>_name</code></td><td>内部用 / 未使用 / プライベート</td></tr>
-<tr><td><code>__name</code></td><td>特殊用途（予約・マジック）</td></tr>
-<tr><td><code>mName</code></td><td>メンバ変数</td></tr>
-<tr><td><code>IName</code></td><td>インターフェース</td></tr>
-<tr><td><code>T</code></td><td>型パラメータ</td></tr>
-</tbody>
-</table>
-</div>
-<p>代表的な言語での例</p>
-<h2 id="cc"><a class="header" href="#cc">C/C++</a></h2>
-<p>規則</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>対象</th><th>命名</th></tr>
-</thead>
-<tbody>
-<tr><td>変数・関数</td><td><code>snake_case</code></td></tr>
-<tr><td>型・構造体</td><td><code>PascalCase or snake_case</code></td></tr>
-<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
-</tbody>
-</table>
-</div>
-<p><code>_</code>で始めるものの意味</p>
-<pre><code class="language-c">int _internal;      // 慣習的に内部用
-int __reserved;    // 規格上「予約」
+                        <h1 id="今日の豆知識15"><a class="header" href="#今日の豆知識15">今日の豆知識.15</a></h1>
+<p>今日はイテレータについて説明します。</p>
+<p>イテレータは、配列などのコレクションに順にアクセスするためのものです。多くの場合<code>next()</code>メソッドを呼び出すことで次の要素にアクセスできます。</p>
+<p>今日は主にRustを使って説明するので前提にしたいRustの構文を一つだけ先に説明しておきます。</p>
+<h3 id="rustの構文"><a class="header" href="#rustの構文">Rustの構文</a></h3>
+<p>Rustには<code>Option</code>という型があります。これは値が存在するか、または存在しないかを表す型です。つまり<code>Option</code>は<code>Some(value)</code>または<code>None</code>の2つの場合があります。
+Option型に対して<code>.unwarp()</code>を呼び出すと、<code>Some(value)</code>の場合は<code>value</code>を返し、<code>None</code>の場合はパニック(プログラムを停止)を起こします。Rustでは<code>.next()</code>メソッドの戻り値は<code>Option&lt;T&gt;</code>なので、<code>.unwrap()</code>を呼び出すことで値を取得できます。</p>
+<pre class="playground"><code class="language-rust">fn main(){
+    let option:Option&lt;i32&gt; = Some(1);
+    println!("{}", option.unwrap()); // 1を表示する
+    let option:Option&lt;i32&gt; = None;
+    println!("{}", option.unwrap()); // Noneなのでパニックを起こす
+}</code></pre>
+<pre><code>1
+thread 'main' panicked at 'called `Option::unwrap()` on a `None` value', src/main.rs:4:24
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
-<h2 id="c"><a class="header" href="#c">C#</a></h2>
-<p>規則（Microsoft公式）</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>対象</th><th>命名</th></tr>
-</thead>
-<tbody>
-<tr><td>クラス / 構造体</td><td><code>PascalCase</code></td></tr>
-<tr><td>メソッド</td><td><code>PascalCase</code></td></tr>
-<tr><td>ローカル変数</td><td><code>camelCase</code></td></tr>
-<tr><td>private フィールド</td><td><code>_camelCase</code></td></tr>
-</tbody>
-</table>
-</div>
-<pre><code class="language-cs">private int _count;
-public int Count { get; }
+<h2 id="本題"><a class="header" href="#本題">本題</a></h2>
+<p>では本題に戻ります。</p>
+<p>とりあえずイテレータはどんな感じのものなのか見てみましょう。</p>
+<pre class="playground"><code class="language-rust">fn main(){
+    // こんな感じで消費していきながら順にアクセスできる
+    let mut iter = (1..=5).into_iter(); // イテレータを作成
+    println!("{}", iter.next().unwrap()); // 1を表示する
+    println!("{}", iter.next().unwrap()); // 2を表示する
+    println!("{}", iter.next().unwrap()); // 3を表示する
+    println!("{}", iter.next().unwrap()); // 4を表示する
+    println!("{}", iter.next().unwrap()); // 5を表示する
+    println!("{}", iter.next().unwrap()); // Noneなのでパニックを起こす
+}</code></pre>
+<pre><code>1
+2
+3
+4
+5
+thread 'main' panicked at 'called `Option::unwrap()` on a `None` value', src/main.rs:6:24
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
-<p><code>_</code>で始めるものの意味
-明確に「privateフィールド」
-未使用変数は<code>_</code> 1文字</p>
-<pre><code class="language-cs">var _ = SomeMethod(); // 使わない値
+<p>こんな感じで順にアクセスしていき全てに到達したら<code>None</code>を返します。</p>
+<p>この時どのようなことが起こっているのかというと</p>
+<pre><code>| 1 | 2 | 3 | 4 | 5 |--| // こういうデータがあって
+
+以下の↑はポインタだとして
+.next()を呼び出すと
+| 1 | 2 | 3 | 4 | 5 |--|
+ ↑
+最初はここから読む
+Some(&amp;1)を返す(&amp;は参照を表す。つまり返しているのは↑の場所(ポインタ))
+読む場所を一つ進める
+| 1 | 2 | 3 | 4 | 5 |--|
+      ↑
+
+もう一度.next()を呼び出すと
+Some(&amp;2)を返す
+読む場所を一つ進める
+| 1 | 2 | 3 | 4 | 5 |--|
+          ↑
+
+これを繰り返して最終的に5を取り出した後
+| 1 | 2 | 3 | 4 | 5 |--|
+                      ↑
+このように何もない場所を指すようになる
+こうなると値がないのでNoneを返す
 </code></pre>
-<h2 id="rust"><a class="header" href="#rust">Rust</a></h2>
-<p>規則（rustfmt &amp; lint前提）</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>対象</th><th>命名</th></tr>
-</thead>
-<tbody>
-<tr><td>変数 / 関数</td><td><code>snake_case</code></td></tr>
-<tr><td>型 / トレイト</td><td><code>PascalCase</code></td></tr>
-<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
-<tr><td>ライフタイム</td><td><code>'a</code></td></tr>
-<tr><td><code>_</code> の意味</td><td></td></tr>
-</tbody>
-</table>
-</div>
+<p>こんな感じのことが起こっています。</p>
+<p>ではわかりやすいように<code>↑</code>をポインタではなく配列のインデックスとして自分でイテレータみたいなものを作ってみましょう。</p>
+<pre class="playground"><code class="language-rust">// データとインデックスを持った構造体をイテレータとして使う
+struct MyIterator&lt;'a, T&gt; {
+    data: &amp;'a [T],
+    index: usize,
+}
+// MyIteratorにメソッドと関連関数を定義していく
+impl&lt;'a, T&gt; MyIterator&lt;'a, T&gt; {
+    // dataから新しくMyIteratorを生成する
+    fn new(data: &amp;'a [T]) -&gt; Self {
+        Self { data, index: 0 }
+    }
+
+    // nextメソッドを定義する
+    fn next(&amp;mut self) -&gt; Option&lt;&amp;T&gt; {
+        // indexがデータの長さ以上になったらNoneを返す
+        if self.index &gt;= self.data.len() {
+            None
+        } else {
+            // indexの場所の値を返す
+            let value = &amp;self.data[self.index];
+            // indexを一つ進める
+            self.index += 1;
+            // Someで包んで返す
+            Some(value)
+        }
+    }
+}
+
+fn main() {
+    let data = [1, 2, 3, 4, 5];
+    let mut iter = MyIterator::new(&amp;data);
+    println!("{}", iter.next().unwrap());
+    println!("{}", iter.next().unwrap());
+    println!("{}", iter.next().unwrap());
+    println!("{}", iter.next().unwrap());
+    println!("{}", iter.next().unwrap());
+    println!("{}", iter.next().unwrap());
+}</code></pre>
+<pre><code>1
+2
+3
+4
+5
+
+thread 'main' (81220) panicked at src/main.rs:37:32:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<h3 id="課題-実際に自分で書いてみた方が理解が深まると思うので皆さんがいつも使っている言語でイテレータを作ってみましょう"><a class="header" href="#課題-実際に自分で書いてみた方が理解が深まると思うので皆さんがいつも使っている言語でイテレータを作ってみましょう">課題: 実際に自分で書いてみた方が理解が深まると思うので皆さんがいつも使っている言語でイテレータを作ってみましょう</a></h3>
+<p>超マイナーな言語とかでなければレビューします。これに返信する形でも構いませんし, 個チャや質問boxに送っていただいても構いません。</p>
+<h3 id="発展"><a class="header" href="#発展">発展</a></h3>
+<p>Rustでは<code>Iterator</code>トレイトを実装することで本物のイテレータを自分で作ることができます。</p>
+<p>先ほど作ってみた<code>MyIterator</code>に<code>Iterator</code>トレイトを実装することで本物のイテレータとして扱うことができます。以下のように<code>impl Iterator for MyIterator</code>を実装することで可能です。</p>
 <pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let _x = 10;   // 未使用（警告抑制）
-let _ = foo(); // 完全に捨てる
+</span>// データとインデックスを持った構造体をイテレータとして使う
+struct MyIterator&lt;'a, T&gt; {
+    data: &amp;'a [T],
+    index: usize,
+}
+impl&lt;'a, T&gt; MyIterator&lt;'a, T&gt; {
+    fn new(data: &amp;'a [T]) -&gt; Self {
+        Self { data, index: 0 }
+    }
+}
+// MyIteratorにIteratorトレイトを実装する
+impl&lt;'a, T&gt; Iterator for MyIterator&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+    // nextメソッドを定義する
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        // indexがデータの長さ以上になったらNoneを返す
+        if self.index &gt;= self.data.len() {
+            None
+        } else {
+            // indexの場所の値を返す
+            let value = &amp;self.data[self.index];
+            // indexを一つ進める
+            self.index += 1;
+            // Someで包んで返す
+            Some(value)
+        }
+    }
+}
 <span class="boring">}</span></code></pre>
-<h2 id="python"><a class="header" href="#python">Python</a></h2>
-<p>規則（PEP8）</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>対象</th><th>命名</th></tr>
-</thead>
-<tbody>
-<tr><td>変数 / 関数</td><td><code>snake_case</code></td></tr>
-<tr><td>クラス</td><td><code>PascalCase</code></td></tr>
-<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
-<tr><td><code>_</code>の意味</td><td></td></tr>
-</tbody>
-</table>
-</div>
-<pre><code class="language-python">_x        # 内部用
-__x       # 名前マングリング
-__init__  # マジックメソッド
-_, y = func()  # 使わない値
-</code></pre>
-<h2 id="java"><a class="header" href="#java">Java</a></h2>
-<p>規則</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>対象</th><th>命名</th></tr>
-</thead>
-<tbody>
-<tr><td>クラス</td><td><code>PascalCase</code></td></tr>
-<tr><td>メソッド / 変数</td><td><code>camelCase</code></td></tr>
-<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
-<tr><td><code>_</code> の扱い</td><td></td></tr>
-<tr><td>Java 9以降：_ 単体は 予約語</td><td></td></tr>
-<tr><td>基本的に _ は非推奨</td><td></td></tr>
-</tbody>
-</table>
-</div>
-<h2 id="javascript--typescript"><a class="header" href="#javascript--typescript">JavaScript / TypeScript</a></h2>
-<p>規則</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>対象</th><th>命名</th></tr>
-</thead>
-<tbody>
-<tr><td>変数 / 関数</td><td><code>camelCase</code></td></tr>
-<tr><td>クラス</td><td><code>PascalCase</code></td></tr>
-<tr><td>定数</td><td><code>SCREAMING_SNAKE_CASE</code></td></tr>
-<tr><td><code>_</code>の意味</td><td></td></tr>
-</tbody>
-</table>
-</div>
-<pre><code class="language-ts">function f(_unused: number) {}
-</code></pre>
-<p>未使用引数
-ライブラリ内部用</p>
-<h2 id="wapl"><a class="header" href="#wapl">WapL</a></h2>
-<p>ちなみにWapL(僕の言語)では基本的にRustと同じ命名規則に従っています
-また,メソッド的に使う関数に関しては<code>型名_</code>で必ず始めるようにしてます(Iteratorとか頻繁に使うけど長いやつは<code>iter</code>みたいに小文字にして省略したのを使ってる)
-また<code>__</code>に関してはC同様予約語</p>
+<p>こうすることで</p>
+<pre class="playground"><code class="language-rust">fn main() {
+    let data = [1, 2, 3, 4, 5];
+    let iter = MyIterator::new(&amp;data);
+    iter.for_each(|x| println!("{}", x));
+}</code></pre>
+<p>のようにして<code>for_each</code>や<code>map</code>のようなイテレータメソッドを呼び出すことができますし,Rustではfor文は内部的にはイテレータが使われているのでfor文に渡すこともできます。</p>
+<pre class="playground"><code class="language-rust">fn main() {
+    let data = [1, 2, 3, 4, 5];
+    for x in MyIterator::new(&amp;data) {
+        println!("{}", x);
+    }
+}</code></pre>
+<p>のようにしてfor文を書くことができます。</p>
+<p>上ではポインタを使わずに配列とインデックスでイテレータを作りましたが, 本格的なイテレータはポインタを使ったもので以下のような感じです。</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::marker::PhantomData;
+
+struct MyIterator&lt;'a, T&gt; {
+    // *const T は「不変の生ポインタ」。指し示す先の値を変更できない。
+    ptr: *const T,
+    // イテレーションの終了地点を指すポインタ
+    end: *const T,
+    // PhantomData は「実際には持っていないが、論理的に持っている」ことをコンパイラに伝える。
+    // ここでは「ライフタイム 'a の参照（&amp;'a T）を持っている」と伝え、安全性を確保している。
+    _marker: PhantomData&lt;&amp;'a T&gt;,
+}
+
+impl&lt;'a, T&gt; MyIterator&lt;'a, T&gt; {
+    fn new(slice: &amp;'a [T]) -&gt; Self {
+        let ptr = slice.as_ptr(); // 配列の先頭ポインタを取得
+        let len = slice.len();
+        // 終了地点（先頭ポインタ + 長さ）を計算。unsafeが必要。
+        let end = unsafe { ptr.add(len) };
+        Self {
+            ptr,
+            end,
+            _marker: PhantomData,
+        }
+    }
+}
+
+// Iterator トレイトの実装
+impl&lt;'a, T&gt; Iterator for MyIterator&lt;'a, T&gt; {
+    // このイテレータが返す型を指定
+    type Item = &amp;'a T;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        // 現在地が終了地点に達したら終了
+        if self.ptr == self.end {
+            return None;
+        }
+        // 現在のポインタが指す値を参照（&amp;）として取り出す
+        let value = unsafe { &amp;*self.ptr };
+        // ポインタを次に進める
+        self.ptr = unsafe { self.ptr.add(1) };
+        // 取り出した値を Some で包んで返す
+        Some(value)
+    }
+}
+<span class="boring">}</span></code></pre>
+<p>さらに, <code>DoubleEndedIterator</code>トレイトを実装することで、逆方向にもイテレーションを行うことができます。</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;'a, T&gt; DoubleEndedIterator for MyIterator&lt;'a, T&gt; {
+    fn next_back(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        if self.ptr == self.end {
+            return None;
+        }
+        self.end = unsafe { self.end.sub(1) };
+        let value = unsafe { &amp;*self.end };
+        Some(value)
+    }
+}
+<span class="boring">}</span></code></pre>
+<h3 id="イテレータの用途"><a class="header" href="#イテレータの用途">イテレータの用途</a></h3>
+<p>ここまで読んでfor文でよくね?って思ったかもしれません。ではどのようなときにイテレータを使うのでしょうか?</p>
+<p>イテレータは、特に大きなデータを扱う際に有用です。例えば、大きなファイルを一行ずつ読み込む場合、一度に全データをメモリに読み込むのではなく、一行ずつ読み込むことができます。また、イテレータは、データの構造を隠蔽することができます。例えば、データの構造を変更する必要がある場合、イテレータを介してアクセスするので、データの構造を変更する必要はありません。</p>
+<p>さらに手軽にコレクションを扱うことができます。例えば、配列を逆順に並び替えてから、要素をすべて2乗してn項目までの和の配列を作る際、for文では以下のように書く必要があります。</p>
+<pre class="playground"><code class="language-rust">fn main() {
+    let data = [1, 2, 3, 4, 5];
+    let mut reverse = [0; 5];
+    for i in 0..reverse.len() {
+        reverse[i] = data[data.len() - 1 - i];
+    }
+    let mut result = [0; 5];
+    for i in 0..reverse.len() {
+        if i == 0 {
+            result[i] = reverse[i] * reverse[i];
+        } else {
+            result[i] = result[i - 1] + reverse[i] * reverse[i];
+        }
+    }
+    println!("{:?}", result);
+}</code></pre>
+<p>これをイテレータを使って書くと</p>
+<pre class="playground"><code class="language-rust">fn main() {
+    let data = [1, 2, 3, 4, 5];
+    let result = data
+        .iter()
+        .rev()
+        .map(|x| x * x)
+        .scan(0, |acc, x| {
+            *acc += x;
+            Some(*acc)
+        })
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+    println!("{:?}", result);
+}</code></pre>
+<p>このように1文で書くことができます。1文になったところでその1文が長くなってるんだからそこまで変わらないじゃん!と思うかもしれませんが、ここで重要なのは記述量が少ないことではありません。<code>.rev()</code>(reverseの意味)や<code>.map(|x| x * x)</code>(mapは写像の意味)のように宣言的に記述をすることができ、</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>for i in 0..reverse.len() {
+    reverse[i] = data[data.len() - 1 - i];
+}
+<span class="boring">}</span></code></pre>
+<p>のように何をするのかを書くのではなく、どんな結果が欲しいのかを書くことができ、この抽象化によってコードの意味が分かりやすくなりますし、細かい処理を隠蔽することができ、コードの可読性が向上します。(関数型プログラミングの考え方)</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="int_in_python_3.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="OOP_2_14.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="variable_in_python_5.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -350,13 +460,10 @@ _, y = func()  # 使わない値
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="int_in_python_3.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="OOP_2_14.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="variable_in_python_5.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>
