@@ -38,10 +38,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-96b043fe.js";
+            window.path_to_searchindex_js = "searchindex-c0a77ef3.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-cd7e9fb9.js"></script>
+        <script src="toc-1d86c095.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -194,6 +194,7 @@
 <li><a href="#今日の豆知識13">オブジェクト指向:前半</a></li>
 <li><a href="#今日の豆知識14">オブジェクト指向:後半</a></li>
 <li><a href="#今日の豆知識15">イテレータ</a></li>
+<li><a href="#今日の豆知識16">遅延評価</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="豆知識集"><a href="#豆知識集" class="header">豆知識集</a></h1>
@@ -213,6 +214,7 @@
 <li><a href="#今日の豆知識13">オブジェクト指向:前半</a></li>
 <li><a href="#今日の豆知識14">オブジェクト指向:後半</a></li>
 <li><a href="#今日の豆知識15">イテレータ</a></li>
+<li><a href="#今日の豆知識16">遅延評価</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="今日の豆知識1"><a class="header" href="#今日の豆知識1">今日の豆知識.1</a></h1>
@@ -2997,6 +2999,167 @@ impl&lt;'a, T&gt; Iterator for MyIterator&lt;'a, T&gt; {
 }
 <span class="boring">}</span></code></pre>
 <p>のように何をするのかを書くのではなく、どんな結果が欲しいのかを書くことができ、この抽象化によってコードの意味が分かりやすくなりますし、細かい処理を隠蔽することができ、コードの可読性が向上します。(関数型プログラミングの考え方)</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識16"><a class="header" href="#今日の豆知識16">今日の豆知識.16</a></h1>
+<p>今日は遅延評価(lazy evaluation)についてです。</p>
+<p>簡単に言うと遅延評価とは、値が必要になったときに初めて評価するという意味です。つまり、値が必要になるまで評価を遅らせることを意味します。</p>
+<p>遅延評価は正格評価(即時評価)と対照的に呼ばれます。</p>
+<p>以下のように比較されることが多いです。</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>観点</th><th>遅延評価</th><th>正格評価</th></tr>
+</thead>
+<tbody>
+<tr><td>計算タイミング</td><td>必要になるまで</td><td>すぐ</td></tr>
+<tr><td>無限構造</td><td>可能</td><td>不可</td></tr>
+<tr><td>パフォーマンス</td><td>良い場合も悪い場合も</td><td>予測しやすい</td></tr>
+<tr><td>デバッグ</td><td>難しい</td><td>簡単</td></tr>
+<tr><td>副作用</td><td>扱いづらい</td><td>扱いやすい</td></tr>
+<tr><td>実装</td><td>複雑</td><td>単純</td></tr>
+</tbody>
+</table>
+</div>
+<p>では実際のコードで比較してみましょう。一応わかりやすくするために型注釈もつけておきます。</p>
+<p>正格評価</p>
+<pre class="playground"><code class="language-rust">fn add(a: i32, b: i32) -&gt; i32 {
+    a + b
+}
+fn main() {
+    let x:i32 = add(1, 2); // この時点で計算されて x = 3になっている
+    println!("{}", x); // 3
+}</code></pre>
+<p>遅延評価</p>
+<pre class="playground"><code class="language-rust">fn add(a: i32, b: i32) -&gt; i32 {
+    a + b
+}
+fn main() {
+    let x:Fn() -&gt; i32 = ||add(1,2); // この時点で計算されていない x = 1 + 2のまま
+    println!("{}", x()); // 3 ここで初めて計算されて x() = 3
+}</code></pre>
+<p>正格評価では<code>x</code>は最初から<code>i32</code>型の<code>3</code>という値になっているのに対して遅延評価では<code>x</code>は最初から<code>Fn() -&gt; i32</code>型(引数なし戻り値i32の関数型)の<code>add(1,2)</code>という式のままになっています。</p>
+<p>どうでしょう大体わかりましたか?</p>
+<p>ここで一応Rustの文法を説明しておくと</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let f = |x:i32| x + 1;
+<span class="boring">}</span></code></pre>
+<p>のようにしたとき<code>f</code>という関数を作ることができ,これは<code>f(x)</code>のように呼び,引数が<code>x</code>で戻り値が<code>x + 1</code>という関数になります。関数の中で複数の処理をしたいときとかは<code>{}</code>の中に書くことができます。</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let f = |x:i32| {
+    let y = x + 1;
+    y
+};
+<span class="boring">}</span></code></pre>
+<p>のように書くことができます。</p>
+<p><strong>本題に戻ります。</strong></p>
+<p>では遅延評価のメリットは何でしょうか?</p>
+<ol>
+<li>不要な計算をしなくて済む</li>
+<li>無限データ構造が扱える</li>
+<li>宣言的・合成的なコードが書ける</li>
+<li>モジュール性・再利用性が高い</li>
+</ol>
+<p>それぞれについて軽く見ていきましょう</p>
+<p>1についてはWapLでわかりやすい例があるのでそれを見てみましょう。WapLには標準で<code>?()</code>と<code>choose()</code>という非常に似た関数が用意されています。両方とも第1引数に<code>bool</code>型で条件式を受け取り,<code>true</code>の場合は第2引数を返し,<code>false</code>の場合は第3引数を返すという動作をします。
+例えば</p>
+<pre><code class="language-wapl">#=(x, ?(true, 3, 5), i64); // x = 3
+#=(y, ?(false, 3, 5), i64); // y = 5
+#=(z, choose(true, 3, 5), i64); // z = 3
+#=(w, choose(false, 3, 5), i64); // w = 5
+</code></pre>
+<p><code>?()</code>と<code>choose()</code>の違いは<code>?()</code>は遅延評価で<code>choose()</code>は正格評価であることです。</p>
+<pre><code class="language-wapl">use "./std/utility.wapl"
+
+fn l_eval():i32{
+    println("Left: evaluated!");
+    return 1s;
+}
+fn r_eval():i32{
+    println("Right: evaluated!");
+    return 0s;
+}
+fn main():i32{
+    printf("%d\n",choose(true,l_eval(),r_eval())); // chooseによる正格評価
+    return 0s;
+}
+</code></pre>
+<p>このようにしたとき</p>
+<pre><code>Left: evaluated!
+Right: evaluated!
+1
+</code></pre>
+<p>となるように正格評価では両方の引数の計算をしています。<code>true</code>なのだから<code>r_eval()</code>を評価する必要はないのに評価してしまっているのです。</p>
+<p>一方<code>?()</code>は遅延評価なので</p>
+<pre><code class="language-wapl">use "./std/utility.wapl"
+
+fn l_eval():i32{
+    println("Left: evaluated!");
+    return 1s;
+}
+fn r_eval():i32{
+    println("Right: evaluated!");
+    return 0s;
+}
+fn main():i32{
+    printf("%d\n",?(true,l_eval(),r_eval())); // ?による遅延評価
+    return 0s;
+}
+</code></pre>
+<pre><code>Left: evaluated!
+1
+</code></pre>
+<p>となります。ここでは先ほど評価されていた<code>r_eval()</code>を評価しないで済んでいます。</p>
+<p>このように遅延評価によって無駄な計算を避けられるのです。</p>
+<p>2については例えばフィボナッチ数列を考えてみましょう。フィボナッチ数列には上限はなく,無限に続きますが,コンピュータのメモリには上限があるため無限のサイズの配列を持つことはできません。そのようなときにはフィボナッチ数列を配列ではなく<strong>漸化式</strong>の形で表現して,遅延評価によって必要なときにだけ計算をするようにすれば無限のフィボナッチ数列を扱えます。
+Rustでは</p>
+<pre class="playground"><code class="language-rust">// フィボナッチ数列
+fn fibs() -&gt; impl Iterator&lt;Item = u128&gt; {
+    // 漸化式のイテレータで初項は(0,1)で(a_n, a_n+1) -&gt; (a_n+1, a_n + a_n+1 = a_n+2)のフィボナッチ数列の漸化式
+    // 2項セットにしているので返すときは.map(|(a,_)|a)で片方だけにしている
+    std::iter::successors(Some((0_u128, 1_u128)), |(a, b)| Some((*b, a + b))).map(|(a, _)| a)
+}
+
+fn main() {
+    let n = 80;
+    let m = 100;
+    println!(
+        "fibonacci[n..=m] = {:?}",
+        fibs().skip(n).take(m - n + 1).collect::&lt;Vec&lt;u128&gt;&gt;()
+    ); // collectでVec&lt;u128&gt;にされるときにはじめて評価される遅延評価
+}</code></pre>
+<p>ちなみにRustのイテレータチェーン(こんな感じにイテレータにメソッドをつなげていくやつ)は基本的に遅延評価で,<code>next()</code>が呼び出されたときにはじめて評価されます。ここでは<code>collect</code>が内部で<code>next()</code>を呼び出しているためそこで初めて評価されます。</p>
+<p>Haskellでは</p>
+<pre><code class="language-haskell">import Data.List (intercalate)
+
+-- 無限フィボナッチ数列の漸化式（遅延評価）
+{-
+fibs = [0,1,1,2,3,5,...]と
+drop 1 fibs = [1,1,2,3,5,...]を
+zipWith (+)で各要素を足し合わせたものを[0,1]の最後に追加
+つまり
+[0,1]&lt;-[1,2,3,5,8,...] = [0,1,1,2,3,5,8,...]
+-}
+fibs :: [Integer]
+fibs = 0 : 1 : zipWith (+) fibs (drop 1 fibs)
+
+-- n..=m 番目を ',' 区切りで表示
+showFibs :: Int -&gt; Int -&gt; String
+showFibs n m =
+  intercalate "," $
+  map show $
+  take (m - n + 1) $
+  drop n fibs
+
+main :: IO ()
+main = do
+  let n = 80
+  let m = 100
+  putStrLn $ showFibs n m -- ここで初めて評価
+</code></pre>
+<p>3,4についてもフィボナッチ数列の例から分かるように<strong>こういう漸化式のもの</strong>っていう感じで<strong>宣言的</strong>に書くことができ,さらにそれをつなげることで関数の合成みたいなことができ,また,そのためモジュール性も高いです。</p>
+<p>ここで<strong>宣言的</strong>に書くと言いましたが,これは,どういう処理をするのかではなく何が欲しいのかを書くということです。この辺は一応イテレータのとこで軽く解説してると思うので読み返してみてください。ここで追加で説明することとしては宣言的に書くことで中間状態が意味的に消えてより問題の本質に注目できるということです。数学で言うと<code>f(g(x))</code>としたとき一旦<code>y = g(x)</code>とでもして<code>f(y)</code>という中間状態を考えるのではなく<code>f∘g(x)</code>のように合成関数を書くようなものです。</p>
 
                     </main>
 
