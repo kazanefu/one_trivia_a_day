@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>セミコロンの意味 - 豆知識集</title>
+        <title>非同期処理について① - 豆知識集</title>
 
 
         <!-- Custom HTML head -->
@@ -176,86 +176,32 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="今日の豆知識2"><a class="header" href="#今日の豆知識2">今日の豆知識.2</a></h1>
-<p>セミコロン<code>;</code>の意味</p>
-<p>言語によるセミコロンの有無は文法の違いというより意味論の違いがあります</p>
-<p>セミコロンがある言語の代表例</p>
-<ul>
-<li>C/C++</li>
-<li>C#</li>
-<li>Java</li>
-<li>JavaScript</li>
-<li>Go（※自動挿入ありだが意味はある）</li>
-<li>Rust &lt;- セミコロンの意味が挙動にそのまま出るのでわかりやすい</li>
-</ul>
-<p>セミコロンがあまり意味を持たないorそもそもない言語の代表例</p>
-<ul>
-<li>Python</li>
-<li>Ruby</li>
-<li>Haskell</li>
-<li>Lua</li>
-</ul>
-<p>セミコロンが意味を持つ言語では</p>
-<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let x = 10;
-println!("{}",x);
-<span class="boring">}</span></code></pre>
-<p>や</p>
-<pre><code class="language-c">int x = 10;
-printf("%d\n",x);
+                        <h1 id="今日の豆知識17"><a class="header" href="#今日の豆知識17">今日の豆知識.17</a></h1>
+<p>非同期処理について①</p>
+<p>長くなりすぎるのもよくないと思ったので, 今日は非同期処理とはどういうものかだけ説明して, 具体的にどのようなときに使うのか, どうやって使うのかはいずれ次回説明します.</p>
+<p><strong>並行処理と並列処理の違い</strong></p>
+<p>並行処理はスレッドを占有せずに処理をしていないときは他のタスクにスレッドを譲る</p>
+<p>並列処理は複数のスレッドで同時に処理を行う</p>
+<p>task1 = 1, task2 = 2を同時にしたいとき
+並行処理:</p>
+<pre><code>|1|2|1|1|2|2|
 </code></pre>
-<p>のように<code>;</code>は<strong>ここで1つの文（statement）が終わる</strong> という意味的な区切りであり,「文」という概念が言語の中心にある
-また,Rustでは<code>;</code>の意味が特に分かりやすく</p>
-<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let x = {
-    1
-};
-<span class="boring">}</span></code></pre>
-<p>と</p>
-<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let x = {
-    1;
-};
-<span class="boring">}</span></code></pre>
-<p>では意味が異なり,前者は右辺の値は<code>1</code>であるが,後者では<code>()</code>つまり他の言語での<code>void</code>に相当する
-これは<code>;</code>の有無によって<strong>式</strong>であるか<strong>文</strong>であるかの意味付けをしているからであり,前者は<code>1</code>という<strong>式</strong>であり値を持つのに対して後者は**1;**という文であるため値は持たない</p>
-<p><code>;</code>があまり意味を持たない言語も二つに分けられる
-例えばPythonでは文の区切りは<strong>改行</strong>によって行われていてセミコロンは同一行上に複数の文を書くための構文上の糖衣になっている</p>
-<pre><code class="language-python">x = 1; y = 2 # 推奨はされていない
+<p>並列処理</p>
+<pre><code>|1| |1|1| |
+|2| | |2|2|
 </code></pre>
-<p>Pythonなどの言語では<code>;</code>はなくとも同じ働きをするもの(改行など)が存在する. ただし</p>
-<pre><code class="language-python">transform = transforms.Compose([
-    transforms.Grayscale(num_output_channels=1),
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-])
-</code></pre>
-<p>のように複数行にわたって一つの文を書くこともあるため改行が文の区切りとしての意味を持たないときもある.</p>
-<p>一方,Haskellのような**式(expression)**中心の言語ではそもそも分の区切りが不要だったりします(僕がHaskell,圏論ともにエアプなので詳しい説明はしないでおきます)
-簡単に言うと</p>
-<pre><code class="language-haskell">putStrLn "A" &gt;&gt; putStrLn "B"
-</code></pre>
-<p>はpythonでの</p>
-<pre><code class="language-python">print('A')
-print('B')
-</code></pre>
-<p>と同じ動作をしますが
-<code>putStrLn "A"</code>も<code>putStrLn "B"</code>も文ではなく式です(詳しくはちゃんと圏論を理解した後にいずれ説明します)</p>
+<p>こんな感じで, task1が止まっている間にそのスレッドでtask2を処理できるのが並行処理, task1とtask2を別スレッドで同時に処理するのが並列処理です.</p>
+<p>非同期処理はうまく使えば実行速度を大幅に向上させることができることもありますが, 無暗に意味のないところで使っても恩恵はありませんしむしろオーバーヘッドが発生するので, どのようなときに非同期処理を使う必要があるのかをよく考えて使いましょう.</p>
+<p>ちなみに, AtCoderなどでは並列処理をしたとしてもそれぞれのスレッドでの時間の合計が時間として計算されるため, 並列処理をしても意味のないです。またタスクが止まることがあるような処理もないので, 並行処理も意味がないです.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="for_1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="lazy_evaluation_16.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="int_in_python_3.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -263,13 +209,10 @@ print('B')
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="for_1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="lazy_evaluation_16.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="int_in_python_3.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>

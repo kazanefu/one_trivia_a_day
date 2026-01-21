@@ -38,10 +38,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c0a77ef3.js";
+            window.path_to_searchindex_js = "searchindex-7e92adfb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-1d86c095.js"></script>
+        <script src="toc-01d54b35.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -195,6 +195,7 @@
 <li><a href="#今日の豆知識14">オブジェクト指向:後半</a></li>
 <li><a href="#今日の豆知識15">イテレータ</a></li>
 <li><a href="#今日の豆知識16">遅延評価</a></li>
+<li><a href="#今日の豆知識17">非同期処理について①</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="豆知識集"><a href="#豆知識集" class="header">豆知識集</a></h1>
@@ -215,6 +216,7 @@
 <li><a href="#今日の豆知識14">オブジェクト指向:後半</a></li>
 <li><a href="#今日の豆知識15">イテレータ</a></li>
 <li><a href="#今日の豆知識16">遅延評価</a></li>
+<li><a href="#今日の豆知識17">非同期処理について①</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="今日の豆知識1"><a class="header" href="#今日の豆知識1">今日の豆知識.1</a></h1>
@@ -3160,6 +3162,24 @@ main = do
 </code></pre>
 <p>3,4についてもフィボナッチ数列の例から分かるように<strong>こういう漸化式のもの</strong>っていう感じで<strong>宣言的</strong>に書くことができ,さらにそれをつなげることで関数の合成みたいなことができ,また,そのためモジュール性も高いです。</p>
 <p>ここで<strong>宣言的</strong>に書くと言いましたが,これは,どういう処理をするのかではなく何が欲しいのかを書くということです。この辺は一応イテレータのとこで軽く解説してると思うので読み返してみてください。ここで追加で説明することとしては宣言的に書くことで中間状態が意味的に消えてより問題の本質に注目できるということです。数学で言うと<code>f(g(x))</code>としたとき一旦<code>y = g(x)</code>とでもして<code>f(y)</code>という中間状態を考えるのではなく<code>f∘g(x)</code>のように合成関数を書くようなものです。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識17"><a class="header" href="#今日の豆知識17">今日の豆知識.17</a></h1>
+<p>非同期処理について①</p>
+<p>長くなりすぎるのもよくないと思ったので, 今日は非同期処理とはどういうものかだけ説明して, 具体的にどのようなときに使うのか, どうやって使うのかはいずれ次回説明します.</p>
+<p><strong>並行処理と並列処理の違い</strong></p>
+<p>並行処理はスレッドを占有せずに処理をしていないときは他のタスクにスレッドを譲る</p>
+<p>並列処理は複数のスレッドで同時に処理を行う</p>
+<p>task1 = 1, task2 = 2を同時にしたいとき
+並行処理:</p>
+<pre><code>|1|2|1|1|2|2|
+</code></pre>
+<p>並列処理</p>
+<pre><code>|1| |1|1| |
+|2| | |2|2|
+</code></pre>
+<p>こんな感じで, task1が止まっている間にそのスレッドでtask2を処理できるのが並行処理, task1とtask2を別スレッドで同時に処理するのが並列処理です.</p>
+<p>非同期処理はうまく使えば実行速度を大幅に向上させることができることもありますが, 無暗に意味のないところで使っても恩恵はありませんしむしろオーバーヘッドが発生するので, どのようなときに非同期処理を使う必要があるのかをよく考えて使いましょう.</p>
+<p>ちなみに, AtCoderなどでは並列処理をしたとしてもそれぞれのスレッドでの時間の合計が時間として計算されるため, 並列処理をしても意味のないです。またタスクが止まることがあるような処理もないので, 並行処理も意味がないです.</p>
 
                     </main>
 
