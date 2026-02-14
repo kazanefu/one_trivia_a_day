@@ -38,10 +38,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-7e92adfb.js";
+            window.path_to_searchindex_js = "searchindex-9c21261a.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-01d54b35.js"></script>
+        <script src="toc-9ef265f2.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -196,6 +196,7 @@
 <li><a href="#今日の豆知識15">イテレータ</a></li>
 <li><a href="#今日の豆知識16">遅延評価</a></li>
 <li><a href="#今日の豆知識17">非同期処理について①</a></li>
+<li><a href="#今日の豆知識18">メモリについて</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="豆知識集"><a href="#豆知識集" class="header">豆知識集</a></h1>
@@ -217,6 +218,7 @@
 <li><a href="#今日の豆知識15">イテレータ</a></li>
 <li><a href="#今日の豆知識16">遅延評価</a></li>
 <li><a href="#今日の豆知識17">非同期処理について①</a></li>
+<li><a href="#今日の豆知識18">メモリについて</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="今日の豆知識1"><a class="header" href="#今日の豆知識1">今日の豆知識.1</a></h1>
@@ -3180,6 +3182,165 @@ main = do
 <p>こんな感じで, task1が止まっている間にそのスレッドでtask2を処理できるのが並行処理, task1とtask2を別スレッドで同時に処理するのが並列処理です.</p>
 <p>非同期処理はうまく使えば実行速度を大幅に向上させることができることもありますが, 無暗に意味のないところで使っても恩恵はありませんしむしろオーバーヘッドが発生するので, どのようなときに非同期処理を使う必要があるのかをよく考えて使いましょう.</p>
 <p>ちなみに, AtCoderなどでは並列処理をしたとしてもそれぞれのスレッドでの時間の合計が時間として計算されるため, 並列処理をしても意味のないです。またタスクが止まることがあるような処理もないので, 並行処理も意味がないです.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="今日の豆知識18"><a class="header" href="#今日の豆知識18">今日の豆知識.18</a></h1>
+<p>メモリについて説明します。まず、大前提としてすべてのデータは基本的にメモリ上に記憶されます。そして当然ながらメモリの容量は有限なので、上手く管理する必要があります。そのために様々な方法が考案されてきました。今日はそれらについて説明します。</p>
+<p>まずは、ポインタについてです。詳しくは第9回を見返してください。ポインタとはメモリ上のアドレスを記憶する変数です。例えば、
+C言語では</p>
+<pre><code class="language-c">int x = 10;
+int* ptr_of_x = &amp;x;
+</code></pre>
+<p>Rustでは</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x : i32 = 10;
+let ptr_of_x : &amp;i32 = &amp;x;
+<span class="boring">}</span></code></pre>
+<p>Rustでは後述する所有権による制約があるので厳密に生ポインタではありません。生ポインタは<code>*mut T</code>で表されます。</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut x: i32 = 10;
+let ptr_of_x: *mut i32 = &amp;mut x as *mut i32;
+<span class="boring">}</span></code></pre>
+<p>メモリは大きく分けてスタック領域とヒープ領域があります。これについての詳細は第10回を見返してください。簡単に説明するとスタック領域は関数に入ったときにメモリが確保されて,関数から抜けるときに自動で解放される領域で,ヒープ領域はメモリの確保と解放をプログラマが直接記述する領域です。</p>
+<p>例えば以下のようなプログラムでは</p>
+<pre class="playground"><code class="language-rust">fn f2(b: i32){
+    let c = 30;
+    println!("{}", b + c);
+}
+
+fn f1(a: i32){
+    let b = 20;
+    f2(b);
+    println!("{}", a + b);
+}
+
+fn main() {
+    let a = 10;
+    f1(a);
+}</code></pre>
+<p>このコードでは<code>main</code>関数が呼ばれたときにスタック領域に<code>a</code>が確保され,次に<code>f1</code>が呼ばれたときにスタック領域に<code>b</code>が確保され,次に<code>f2</code>が呼ばれたときにスタック領域に<code>c</code>が確保されます。そして<code>f2</code>が終わると<code>c</code>が解放され,<code>f1</code>が終わると<code>b</code>が解放され,<code>main</code>が終わると<code>a</code>が解放されます。スタック領域に確保されるのは数値や真偽値のような必要なメモリ領域のサイズが事前にわかっているかつ巨大すぎないものに限られます。また、スタック領域は関数から抜けるときに自動で解放されるので、上の例で<code>c</code>を<code>f1</code>で使ったりすることはできません。戻り値として値だけを返すことはできますが、この時メモリ上の<code>c</code>は解放されていて、<code>f1</code>で確保されたスタック領域に<code>c</code>のコピーが作られるだけです。そのため、関数間でデータを共有したいときはヒープ領域を使う必要があります。</p>
+<pre class="playground"><code class="language-rust">fn f2(b: i32)-&gt;&amp;i32{
+    let c = 30;
+    println!("{}", b + c);
+    &amp;c
+}
+
+fn f1(a: i32){
+    let b = 20;
+    let c = f2(b);
+    println!("{}", a + b + *c);
+}
+
+fn main() {
+    let a = 10;
+    f1(a);
+}</code></pre>
+<p>のようなコードを書くと<code>c</code>は<code>f2</code>関数内で確保されたスタック領域を指すポインタなので,<code>f2</code>関数から抜けた瞬間に<code>c</code>が指すメモリ領域は解放されてしまいます。そのため<code>f1</code>関数内で<code>c</code>を使うとすでに解放されてしまったメモリ領域を参照することになり,プログラムがクラッシュします。</p>
+<p>そこでヒープ領域の出番です。ヒープ領域はメモリの確保と解放をプログラマが直接記述する領域です。例えば、</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int* f2(){
+    int* ptr_of_x = (int*)malloc(sizeof(int));
+    *ptr_of_x = 10;
+    return ptr_of_x;
+}
+
+void f1() {
+    int* ptr_of_x = f2();
+    int x = *ptr_of_x;
+    printf("%d\n",x);
+}
+
+int main(){
+    f1();
+    return 0;
+}
+</code></pre>
+<p>のようなコードを書くと<code>f2</code>関数内で<code>malloc</code>によってヒープ領域にメモリが確保され,そのアドレスが<code>ptr_of_x</code>に代入されます。そして<code>f2</code>関数から抜けてもヒープ領域は解放されないので,<code>f1</code>関数内で<code>ptr_of_x</code>を使うことができます。しかし、ヒープ上に確保されたメモリはプログラマが明示的に解放しない限り解放されません。そのため、<code>f1</code>関数内で<code>ptr_of_x</code>を解放しないと<code>ptr_of_x</code>がスコープから外れてしまうと(ポインタ自体はスタック領域に確保される)その領域を解放できなくなってしまうので<code>f1</code>に以下のように<code>free(ptr_of_x);</code>を書いて解放する必要があります。これを忘れるとメモリリークとなってしまいます。また、逆に解放済みのメモリ領域を指すポインタを使い続けてしまうと重大なクラッシュの原因になりえます。</p>
+<pre><code class="language-c">void f1() {
+    int* ptr_of_x = f2();
+    int x = *ptr_of_x;
+    free(ptr_of_x);
+    printf("%d\n",x);
+}
+</code></pre>
+<p>また、動的配列などのサイズが確定していないものもヒープ領域に確保する必要があります。</p>
+<pre><code class="language-c">int main(){
+    int n;
+    scanf("%d",&amp;n);
+    
+    int* array = (int*)malloc(sizeof(int)*n); // ヒープ領域にメモリを確保
+    
+    for(int i = 0; i &lt; n; i++){
+        scanf("%d",array+i);
+    }
+    
+    free(array); // メモリを解放
+    return 0;
+}
+</code></pre>
+<p>ヒープは便利な反面,プログラマも人間でありミスをしてメモリリークを起こしてしまったり,解放したメモリ領域を指すポインタを使い続けてしまうといった問題が起こりがちです。</p>
+<p>そこで登場するのがガベージコレクション(以降GC)です。詳細なアルゴリズムはさておき,GCは<strong>実行時に</strong>ヒープ領域を走査してどこからも参照されていない領域を自動で解放します。そのため、プログラマはメモリの確保と解放を意識する必要がなくなります。JavaやPythonやC#やJavaScriptなどがGCを採用しています。これらの言語ではポインタを意識することもほとんどないでしょう。</p>
+<p>例えばC#で配列を扱うには</p>
+<pre><code class="language-csharp">class Program {
+    static void Main() {
+        int n = int.TryParse((Console.ReadLine()??throw new Exception("stdin closed")).Trim(), out var sizeResult) ? sizeResult:0;
+        
+        int[] array = new int[n]; // ここでヒープ領域にメモリが確保される
+        
+        for (int i = 0; i &lt; n; i++) {
+            array[i] = int.TryParse((Console.ReadLine()??throw new Exception("stdin closed")).Trim(), out var inputResult) ? inputResult:0;
+        }
+    }// ここでarrayがスコープから外れるのでヒープ領域が解放される
+}
+</code></pre>
+<p>のように書くことができます。このコードでは<code>array</code>がスコープから外れると自動で解放されます。エラー処理を書いたので複雑に見えてしまうかもしれませんが、それを除けばC言語で書くよりもずっとシンプルに書くことができています。</p>
+<p>GCの欠点としては、<strong>実行時に</strong>ヒープ領域を走査するため、その間プログラムの実行が停止してしまうことです。とはいえ最近のGCはさまざまなアルゴリズムを組み合わせたりアプリケーションと並行して停止時間を短縮しています。</p>
+<p>GCは今のところ最も人間に優しい選択肢と言えるでしょう。しかし、リアルタイム性が求められたり、実行リソースが限られていたり、より低レベルの制御が必要な場合はGCは採用できません。そこで登場するのが所有権という概念です。</p>
+<p>とりあえずCとC#で書いた動的配列のコードをRustで書き直してみましょう。</p>
+<pre class="playground"><code class="language-rust">use std::io::stdin;
+
+fn main(){
+    let mut input = String::new();
+    stdin().read_line(&amp;mut input).expect("stdin closed");
+    let n = input.trim().parse::&lt;usize&gt;().unwrap_or(0);
+    
+    let mut array = vec![0;n]; // ここでヒープ領域にメモリが確保される
+    for i in array.iter_mut() {
+        input.clear();
+        stdin().read_line(&amp;mut input).expect("stdin closed");
+        *i = input.trim().parse::&lt;i32&gt;().unwrap_or(0);
+    }
+} // ここで所有者であるarrayがスコープから外れるのでヒープ領域が解放される</code></pre>
+<p>見ての通り、GCを採用しているC#とほぼ同じようなコードで書くことができています。
+Rustの所有権規則は以下の通りです。</p>
+<ul>
+<li>Rustの各値には、所有者が存在する。</li>
+<li>いかなる時も所有者は一つである。</li>
+<li>所有者がスコープから外れたら、値は破棄される。</li>
+</ul>
+<p>ここで<strong>スコープ</strong>について一応説明しておきます。スコープとは、<strong>要素が有効になるプログラム内の範囲のことです</strong>。</p>
+<p>例えば</p>
+<pre class="playground"><code class="language-rust">fn main(){
+    let x = 10; // xが有効になる
+    {
+        let y = 20; // yが有効になる
+        println!("{}",x+y); // xとyが有効なので足し算ができる
+    } // yがスコープから外れる
+    println!("{}",x); // xは有効だがyはスコープから外れているので使えない
+} // xがスコープから外れる</code></pre>
+<p>のように、<code>{}</code>で囲まれた範囲がレキシカルスコープ(lexical scope)です。関数やif文やfor文などでもスコープが作られます。後で説明しますが、借用に関してはスコープが少し違います。</p>
+<p>話を戻してなぜ所有権によってメモリの安全を担保できるのかについて説明します。</p>
+<p>日本語にすると<strong>所有権</strong>って権利みたいですが、どちらかというと<strong>責任</strong>に近いです。ある値の所有権を持つということは、その値を<strong>解放する責任</strong>を持つということです。したがって値には所有者がただ一つ存在するので、解放を忘れることはなく、また二重解放をしてしまうこともありません。</p>
+<p>参照(借用)の規則は以下の通りです</p>
+<ul>
+<li>任意のタイミングで、一つの可変参照か不変な参照いくつでものどちらかを行える。</li>
+<li>参照は常に有効でなければならない。</li>
+</ul>
+<p>借用先は所有者よりも長いライフタイムを持つことは禁止されているので解放済みのメモリ領域にアクセスしてしまうこともありません。また、可変参照と不変参照を同時に存在させることも規制することでデータ競合を防いでいます。</p>
+<p>Rustの所有権/借用はコンパイル時にチェックされるだけで、生成される中間コードレベルではC言語などの生ポインタとほぼ同等であり、実行時のオーバーヘッドはほとんどありません。そのため、GCを採用している言語よりも高速に動作します。コンパイル時に安全が担保されて、実行速度も犠牲にしないという面ではとても魅力的ですが、これも銀の弾丸ではありません。所有権の概念はとても強力ですが、それをプログラマが常に意識する必要があり、習得難易度は高いと言われています(ただ他の言語に無い概念だから慣れてないだけでそんなことは無いと思うけど)。</p>
 
                     </main>
 
